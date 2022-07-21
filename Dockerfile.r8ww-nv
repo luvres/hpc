@@ -1,0 +1,20 @@
+FROM izone/hpc:r8ww
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+ARG NVIDIA_VERSION="515.57"
+
+RUN \
+  dnf install -y epel-release \
+  && dnf install -y \
+        kernel-devel kernel-headers dkms \
+        htop \
+  \
+  && curl -Lo /tmp/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
+        https://us.download.nvidia.com/XFree86/Linux-$(uname -m)/${NVIDIA_VERSION}/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
+  \
+  && bash /tmp/NVIDIA-Linux-*.run --accept-license \
+        --no-questions --ui=none --silent \
+        --run-nvidia-xconfig --dkms --disable-nouveau \
+  \
+  && rm -f /tmp/NVIDIA-Linux-*.run \
+  && dnf clean all
