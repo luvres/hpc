@@ -1,4 +1,4 @@
-FROM izone/hpc:r8ww
+FROM izone/hpc:r8ww-nv
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG \
