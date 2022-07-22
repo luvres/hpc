@@ -20,13 +20,13 @@ docker run --rm --name rocky -ti izone/hpc:r8ww bash
 docker build -t izone/hpc:r8ww -f ./Dockerfile.r8ww .
 ```
 ```
-docker build -t izone/hpc:r8ww-nv -f ./Dockerfile.r8ww-nv .
-```
-```
 docker build -t izone/hpc:r8ww-slurm -f ./Dockerfile.r8ww-slurm .
 ```
 ```
 docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .
+```
+```
+docker build -t izone/hpc:r8ww-nv -f ./Dockerfile.r8ww-nv .
 ```
 
 -----

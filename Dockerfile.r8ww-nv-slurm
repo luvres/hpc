@@ -1,24 +1,20 @@
-FROM izone/hpc:r8ww-nv
+FROM izone/hpc:r8ww-slurm
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-ARG \
-  APPTAINER_MAJOR="v1.0.3" \
-  APPTAINER_VERSION="1.0.3-1"
-  
+ARG NVIDIA_VERSION="515.57"
+
 RUN \
-  dnf -y install \
-      kernel-modules \
-      dnf-plugins-core \
-      http://repos.openhpc.community/OpenHPC/2/CentOS_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm \
+  dnf install -y epel-release \
+  && dnf install -y \
+        kernel-devel kernel-headers dkms \
+        htop \
   \
-  && dnf config-manager --set-enabled powertools \
-  && dnf -y install ohpc-base-compute ohpc-slurm-client slurm-libpmi-ohpc lmod-ohpc chrony \
+  && curl -Lo /tmp/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
+        https://us.download.nvidia.com/XFree86/Linux-$(uname -m)/${NVIDIA_VERSION}/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
   \
-  # Install Apptainer
-  && dnf -y install https://github.com/apptainer/apptainer/releases/download/${APPTAINER_MAJOR}/apptainer-${APPTAINER_VERSION}.x86_64.rpm \
+  && bash /tmp/NVIDIA-Linux-*.run --accept-license \
+        --no-questions --ui=none --silent \
+        --run-nvidia-xconfig --dkms --disable-nouveau \
   \
-  && dnf -y clean all \
-  \
-  && systemctl enable munge \
-  && systemctl enable slurmd 
-  
+  && rm -f /tmp/NVIDIA-Linux-*.run \
+  && dnf clean all

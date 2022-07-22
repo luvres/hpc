@@ -15,7 +15,7 @@ RUN \
   && dnf -y install ohpc-base-compute ohpc-slurm-client slurm-libpmi-ohpc lmod-ohpc chrony \
   \
   # Install Apptainer
-  && dnf -y install https://github.com/apptainer/apptainer/releases/download/${APPTAINER_MAJOR}/apptainer-${APPTAINER_VERSION}.x86_64.rpm \
+  && dnf -y install kernel-modules https://github.com/apptainer/apptainer/releases/download/${APPTAINER_MAJOR}/apptainer-${APPTAINER_VERSION}.x86_64.rpm \
   \
   && dnf -y clean all \
   \
