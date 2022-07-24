@@ -2,7 +2,7 @@ Warewulf provider HPC with Rocky linux base OS
 Slurm, NVIDIA Driver, Apptainer
 =================================
 
-### Pull image
+Pull image
 ```
 docker pull izone/hpc:r8ww
 ```
