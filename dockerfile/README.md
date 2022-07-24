@@ -1,6 +1,9 @@
-``docker build -t izone/hpc:r8ww -f ./Dockerfile.r8ww .``: build base
+Build base
+``docker build -t izone/hpc:r8ww -f ./Dockerfile.r8ww .``
 
-``docker build -t izone/hpc:r8ww-slurm -f ./Dockerfile.r8ww-slurm .``: build slurm
+Build Slurm
+``docker build -t izone/hpc:r8ww-slurm -f ./Dockerfile.r8ww-slurm .``
 
-``docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .``: build nvidia driver
+Build NVIDIA Driver with Slurm
+``docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .``
 
