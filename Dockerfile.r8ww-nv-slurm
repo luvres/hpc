@@ -17,4 +17,20 @@ RUN \
         --run-nvidia-xconfig --dkms --disable-nouveau \
   \
   && rm -f /tmp/NVIDIA-Linux-*.run \
-  && dnf clean all
+  && dnf clean all \
+  \
+  && {\
+    echo '[Unit]'; \
+    echo 'Description=NVIDIA Persistence Daemon'; \
+    echo 'Wants=syslog.target'; \
+    echo ''; \
+    echo '[Service]'; \
+    echo 'Type=forking'; \
+    echo 'ExecStart=/usr/bin/nvidia-persistenced';  \
+    echo 'ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced'; \
+    echo ''; \
+    echo '[Install]'; \
+    echo 'WantedBy=multi-user.target'; \
+  } > /usr/lib/systemd/system/nvidia-persistenced.service \
+  \
+  && systemctl enable nvidia-persistenced
