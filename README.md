@@ -1,7 +1,6 @@
-=================================
-Warewulf provider HPC with Rocky linux base OS
-Slurm, NVIDIA Driver, Apptainer
-=================================
+=======================
+StackHPC Image Elements
+=======================
 
 ### Pull image
 ```
