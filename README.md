@@ -1,39 +1,28 @@
+=================
+OpenStack Neutron
+=================
 
-=======================
-StackHPC Image Elements
-=======================
+.. image:: https://governance.openstack.org/tc/badges/neutron.svg
+    :target: https://governance.openstack.org/tc/reference/tags/index.html
 
-### Pull image
-```
-docker pull izone/hpc:r8ww
-```
+.. Change things from this point on
 
-### Run
-```
-docker run --rm --name rocky -ti izone/hpc:r8ww bash
-```
+Neutron is an OpenStack project to provide "network connectivity as a service"
+between interface devices (e.g., vNICs) managed by other OpenStack services
+(e.g., Nova).
 
------
-### Build
-```
-docker build -t izone/hpc:r8ww -f ./Dockerfile.r8ww .
-```
-```
-docker build -t izone/hpc:r8ww-slurm -f ./Dockerfile.r8ww-slurm .
-```
-```
-docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .
-```
+To learn more about neutron:
 
-Hello world MPI
-===============
+  * Documentation: https://docs.openstack.org/neutron/latest/
+  * Features: https://specs.openstack.org/openstack/neutron-specs
+  * Defects: https://launchpad.net/neutron
+  * Release notes: https://docs.openstack.org/releasenotes/neutron/index.html
+  * Source: https://opendev.org/openstack/neutron
 
-Reference: `https://www.youtube.com/watch?v=EpVDeesAq4c&t=3456s`
+If you would like to contribute to Neutron, please read the file
+`CONTRIBUTING.rst <CONTRIBUTING.rst>`__ or see the Neutron contributor guide:
 
-```
-docker build -t mpich-hello-world -f Containerfile .
-sudo apptainer build mpich-hello-world.sif docker-daemon://mpich-hello-world:latest
-```
-```
-srun --mpi=pmi2 --nodes=2 --ntasks-per-node=4 ./mpich-hello-world.sif; watch squeue
-```
+    https://docs.openstack.org/neutron/latest/contributor/contributing.html
+
+Get in touch via `email <mailto:openstack-discuss@lists.openstack.org>`_. Use
+[Neutron] in your subject.
