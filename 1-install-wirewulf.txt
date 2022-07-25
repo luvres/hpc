@@ -1,0 +1,60 @@
+#######################
+# 0) Install warewulf #
+#######################
+sudo dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
+
+# Config warewulf
+sudo cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
+# -----------
+ipaddr="40.6.18.90"; sudo sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
+netmask="255.255.255.240"; sudo sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
+network="40.6.18.80"; sudo sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
+range_start="40.6.18.91"; sudo sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
+range_end="40.6.18.94"; sudo sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
+# -----------
+sudo mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
+sudo bash -c 'echo >/etc/hosts'
+sudo wwctl configure --all
+# Start warewulf
+sudo systemctl enable --now warewulfd
+sudo wwctl configure --all
+sudo chmod 644 /etc/warewulf/nodes.conf
+
+
+
+
+
+####################
+# 1) Install Slurm #
+####################
+sudo dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
+
+sudo dnf install -y dnf-plugins-core 
+sudo dnf config-manager --set-enabled powertools 
+
+sudo dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
+
+sudo cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
+
+# slurm.conf
+curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/slurm.conf
+
+sms_name="$HOSTNAME";
+sudo perl -pi -e "s/ControlMachine=\S+/ControlMachine=${sms_name}/" /etc/slurm/slurm.conf
+
+
+# slurmctld.service
+curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/slurmctld.service
+
+sudo systemctl enable --now slurmctld
+sudo systemctl status slurmctld
+
+
+
+
+
+
+
+
+
+

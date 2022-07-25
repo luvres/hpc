@@ -1,0 +1,260 @@
+############################
+# Rocky Linux (Masternode) #
+############################
+VMID=22027;CLONE=85003;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
+BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/28";GW0="172.3.255.20";
+# -----------
+qm create ${VMID} \
+-name ${HOSTNAME} -ostype l26 \
+-sockets 1 -cores 2 -vcpus 2 -cpu cputype=kvm64 -kvm 1 -numa 1 \
+-memory 4096 -vga qxl -onboot 1 \
+-net0 virtio,bridge=${BRIDGE0} \
+-net1 virtio,bridge=${BRIDGE1}
+
+# Import the OpenStack disk image to Proxmox storage
+qm importdisk ${VMID} Rocky-8-GenericCloud-8.5-20211114.2.x86_64.qcow2 ${STORAGE}
+#qm importdisk ${VMID} Rocky-9-GenericCloud-9.0-20220706.0.x86_64.qcow2 ${STORAGE}
+
+qm set ${VMID} \
+-scsihw virtio-scsi-pci -virtio0 ${STORAGE}:vm-${VMID}-disk-0 \
+-ide2 ${STORAGE}:cloudinit -serial0 socket \
+-boot c -bootdisk virtio0 -agent 1 \
+-hotplug disk,network,usb,memory,cpu \
+-ipconfig0 ip=${IP0},gw=${GW0} \
+-ipconfig1 ip=${IP1} \
+-sshkey ~/hpc.pub
+qm resize ${VMID} virtio0 +${DISK}G
+qm start ${VMID}
+# Remove
+qm stop ${VMID};qm destroy ${VMID};
+# -----------
+ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.27
+# -----------
+# Hostname
+sudo hostnamectl set-hostname $(hostname -I | awk '{print $1}' | sed 's/\./-/g' | sed 's/^/ip-/')
+# Timezone
+sudo timedatectl set-timezone America/Sao_Paulo
+# Utils
+sudo dnf install -y nano pciutils net-tools colordiff
+
+# Docker
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf install -y docker-ce 
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
+sudo reboot
+
+# -----------
+tee ~/.ssh/id_rsa <<EoF
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACBrRPv8UAWLBXgnxMeHDLsvqdPBC3tyQzJOZNwzD37HLAAAAJBII60aSCOt
+GgAAAAtzc2gtZWQyNTUxOQAAACBrRPv8UAWLBXgnxMeHDLsvqdPBC3tyQzJOZNwzD37HLA
+AAAECqzSlvVDE1JzaBKfpNqRs1nL88lRuJOBf2c5pWQW9QlmtE+/xQBYsFeCfEx4cMuy+p
+08ELe3JDMk5k3DMPfscsAAAAC0NsdXN0ZXIgSFBDAQI=
+-----END OPENSSH PRIVATE KEY-----
+EoF
+# -----------
+chmod 0400 ~/.ssh/id_rsa
+# ssh
+sudo sed -i '/StrictHostKeyChecking/s/#   //' /etc/ssh/ssh_config
+sudo sed -i '/StrictHostKeyChecking/s/ask/no/' /etc/ssh/ssh_config
+sudo sed -i '/BatchMode/s/#   //' /etc/ssh/ssh_config
+sudo sed -i '/BatchMode/s/no/yes/' /etc/ssh/ssh_config
+
+
+
+
+
+##############
+# 2) Overlay #
+##############
+## Slurm
+sudo mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
+sudo bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
+## Gres
+sudo bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
+# -----------
+sudo wwctl overlay list slurm -l
+sudo wwctl overlay build
+
+## Munge
+sudo mv /etc/munge/munge.key{,.orig}
+sudo bash -c "dd if=/dev/urandom | base64| head -c 1024 > /etc/munge/munge.key"
+sudo bash -c "echo '' >> /etc/munge/munge.key"
+sudo chown munge. /etc/munge/munge.key
+sudo chmod 0400 /etc/munge/munge.key
+# -----------
+sudo systemctl enable --now munge
+sudo systemctl status munge
+# -----------
+sudo mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
+sudo bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
+sudo chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+sudo chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+# -----------
+sudo wwctl overlay list slurm -l
+sudo wwctl overlay build
+
+## Chrony
+#sudo cp /etc/chrony.conf /etc/chrony.conf.orig
+#sudo sed -i '/allow/s/#//' /etc/chrony.conf
+#sudo sed -i '/allow/s/192.168.0.0\/16/40.6.18.80\/28/' /etc/chrony.conf
+#sudo sed -i '/stratum/s/#//' /etc/chrony.conf
+#sudo sed -i '/stratum/s/10/8/' /etc/chrony.conf
+#sudo sed -i '/statistics/s/#//' /etc/chrony.conf
+#sudo bash -c "echo -e '\ninitstepslew 10 cn81 cn82 cn83 cn84 cn85 cn86' >>/etc/chrony.conf"
+# -----------
+# masternode
+sudo tee /etc/chrony.conf <<EoF
+pool 2.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+allow 40.6.18.80/28
+local stratum 8
+keyfile /etc/chrony.keys
+leapsectz right/UTC
+logdir /var/log/chrony
+log measurements statistics tracking
+initstepslew 10 cn81 cn82 cn83 cn84 cn85 cn86
+EoF
+# -----------
+# controlnodes
+sudo mkdir -p /var/lib/warewulf/overlays/chrony/etc
+# -----------
+sudo tee /var/lib/warewulf/overlays/chrony/etc/chrony.conf <<EoF
+server warewulf
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+allow 40.6.18.90
+local stratum 10
+keyfile /etc/chrony.keys
+leapsectz right/UTC
+logdir /var/log/chrony
+log measurements statistics tracking
+initstepslew 20 warewulf
+EoF
+# -----------
+#sudo wwctl node set cn81 -R generic,munge,chrony --yes
+
+systemctl status chronyd | grep -i "active" 
+
+chronyc tracking 
+chronyc sources
+chronyc sourcestats 
+
+## Localtime
+sudo bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
+
+
+#######################
+# 3) Inport container #
+#######################
+#sudo wwctl container import docker://izone/hpc:r8ww r8 # 1°
+#sudo wwctl container import docker://izone/hpc:r8ww-nv r8-nv # 1°
+sudo wwctl container import docker://izone/hpc:r8ww-slurm r8-slurm # 1°
+sudo wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm # 1°
+#sudo wwctl container delete r8 r8-nv r8-slurm r8-nv-slurm
+# -----------
+sudo wwctl node add cn81
+
+#sudo wwctl node delete cn81 --yes
+#sudo wwctl container delete r8-nv-slurm
+#sudo wwctl node delete cn{81..83} --yes
+# -----------
+sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
+
+# Overlays
+#sudo wwctl node set cn81 -R generic,chrony,slurm -C r8-nv
+# Containers
+#sudo wwctl node set cn81 -C r8-slurm --yes
+#sudo wwctl node set cn81 -C r8-nv-slurm --yes
+
+
+#################################
+#################################
+sudo wwctl profile list -a  # Profile list
+sudo wwctl container list   # Container list
+sudo sudo wwctl kernel list # Kernel list
+sudo wwctl profile list     # Profile list
+sudo wwctl node status      # Nodes status
+sudo wwctl node list -a     # Nodes list
+sudo wwctl node delete control03 --yes # Delete node
+
+
+################
+# Config nodes #
+################
+# Config container
+sudo wwctl container exec rocky-8 /bin/bash
+# -----------
+# -----------
+#BIOS="seabios|ovmf"
+VMID=18081;BIOS="seabios";HOSTNAME="cn81";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:81"
+# -----------
+qm create ${VMID} \
+-name ${HOSTNAME} -ostype l26 -bios ${BIOS} \
+-sockets 1 -cores 4 -vcpus 4 -memory 16384 -vga qxl -onboot 1 \
+-net0 virtio,bridge=${BRIDGE},macaddr=${MACADDR} \
+-ipconfig0 ip=${IP} \
+-sshkey ~/hpc.pub
+
+qm start ${VMID}
+
+# Remove
+qm stop ${VMID};qm destroy ${VMID};
+
+
+# GPU
+#BIOS="seabios|ovmf"
+VMID=18081;BIOS="ovmf";HOSTNAME="cn81";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:81";PCIe="04:00.0"
+# -----------
+qm create ${VMID} \
+-name ${HOSTNAME} -ostype l26 -bios ${BIOS} \
+-sockets 1 -cores 4 -vcpus 4 -memory 16384 -vga qxl -onboot 1 \
+-net0 virtio,bridge=${BRIDGE},macaddr=${MACADDR} \
+-ipconfig0 ip=${IP} \
+-hostpci0 ${PCIe} \
+-sshkey ~/hpc.pub
+
+qm start ${VMID}
+
+# Remove
+qm stop ${VMID};qm destroy ${VMID};
+
+
+
+##############
+# Test Slurm #
+##############
+sinfo
+sinfo -lNe
+srun -N1 hostname
+srun -N1 sleep 10 &
+squeue
+
+# CPU
+srun --mpi=pmi2 --nodes=1 --ntasks-per-node=4 ./mpich-hello-world.sif; watch squeue
+
+# GPU
+srun --gres=gpu:gtx1050:1 --mem=4G --cpus-per-gpu=1 --nodes=1 nvidia-smi ; watch squeue
+
+# ----------------------
+# ----------------------
+# 1) Configure
+/etc/slurm/gres.conf; /etc/slurm/slurm.conf
+# 2) Rebuild Overlays
+sudo wwctl overlay build
+# 3) Restart services
+sudo systemctl restart slurmctld
+sudo systemctl status slurmctld
+tail -f /var/log/slurmd.log
+slurmd -Dcvvv
+# -----------
+systemctl restart slurmd
+systemctl status slurmd
+# 4) reconfigure
+sudo scontrol reconfigure
+
