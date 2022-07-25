@@ -25,21 +25,22 @@ function install_warewulf() {
 	echo "Install warewulf"
 	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
 
-	echo "Config warewulf"
-	cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
+#	echo "Config warewulf"
+#	cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
 #	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
 #	sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
 #	sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
 #	sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
 #	sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
 
-#	mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
+	test -f /etc/cloud/templates/hosts.redhat.tmpl.ORIG \
+	|| mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
 #	bash -c 'echo >/etc/hosts'
 
-#	echo "Start warewulf"
-#	systemctl enable warewulfd
+	echo "Start warewulf"
+	systemctl enable --now warewulfd
 #	wwctl configure --all
-#	chmod 644 /etc/warewulf/nodes.conf
+	chmod 644 /etc/warewulf/nodes.conf
 
 #	echo "Add Chrony config file on headnode"
 #	cp /etc/chrony.conf /etc/chrony.conf.orig
@@ -60,27 +61,30 @@ function install_warewulf() {
 }
 
 function config_warewulf() {
-	echo "Config warewulf"
+#	echo "Install warewulf"
 #	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
 
 	echo "Config warewulf"
-	cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
+	curl -Lo /etc/warewulf/warewulf.conf https://raw.githubusercontent.com/luvres/hpc/master/config/warewulf.conf
+	test -f /etc/warewulf/warewulf.conf.ORIG \
+	|| cp /etc/warewulf/warewulf.conf{,.ORIG}
 	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
 	sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
 	sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
 	sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
 	sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
 
-	mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
+#	mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
 	bash -c 'echo >/etc/hosts'
 
-	echo "Start warewulf"
-	systemctl enable warewulfd
+#	echo "Start warewulf"
+#	systemctl enable warewulfd
+
 	wwctl configure --all
-	chmod 644 /etc/warewulf/nodes.conf
+#	chmod 644 /etc/warewulf/nodes.conf
 
 	echo "Add Chrony config file on headnode"
-	cp /etc/chrony.conf /etc/chrony.conf.orig
+	test -f /etc/chrony.conf.ORIG || cp /etc/chrony.conf{,.ORIG}
 	# -----------
 	{
 		echo "pool 2.pool.ntp.org iburst"
@@ -97,7 +101,7 @@ function config_warewulf() {
 	}> /etc/chrony.conf
 }
 
-function slurm() {
+function install_slurm() {
 	echo "Install Slurm"
 	dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
 	dnf install -y dnf-plugins-core 
@@ -105,20 +109,61 @@ function slurm() {
 
 	dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
 
+#	echo "Download slurm.conf"
+#	cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
+#	curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
+
+#	perl -pi -e "s/ControlMachine=\S+/ControlMachine=${HOSTNAME}/" /etc/slurm/slurm.conf
+
+	echo "Download slurmctld.service"
+	test -f /usr/lib/systemd/system/slurmctld.service.ORIG \
+	|| cp /usr/lib/systemd/system/slurmctld.service{,.ORIG}
+	
+	curl -Lo /usr/lib/systemd/system/slurmctld.service \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
+
+	systemctl enable --now slurmctld
+#	systemctl status slurmctld
+
+#	echo "Download gres.conf"
+#	curl -Lo /etc/slurm/gres.conf https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
+
+	echo "New Munge key"
+	test -f /etc/munge/munge.key.ORIG || mv /etc/munge/munge.key{,.ORIG}
+	bash -c "dd if=/dev/urandom | base64| head -c 1024 > /etc/munge/munge.key"
+	bash -c "echo  >> /etc/munge/munge.key"
+	chown munge. /etc/munge/munge.key
+	chmod 0400 /etc/munge/munge.key
+	# -----------
+	systemctl enable --now munge
+#	systemctl status munge
+	# -----------
+}
+
+function config_slurm() {
+#	echo "Install Slurm"
+#	dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
+#	dnf install -y dnf-plugins-core 
+#	dnf config-manager --set-enabled powertools 
+
+	dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
+
 	echo "Download slurm.conf"
-	cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
-	curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
+#	cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
+	curl -Lo /etc/slurm/slurm.conf \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
 
 	perl -pi -e "s/ControlMachine=\S+/ControlMachine=${HOSTNAME}/" /etc/slurm/slurm.conf
 
-	echo "Download slurmctld.service"
-	curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
+#	echo "Download slurmctld.service"
+#	curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
-	systemctl enable slurmctld
-	systemctl status slurmctld
+#	systemctl enable slurmctld
+#	systemctl status slurmctld
 
 	echo "Download gres.conf"
-	curl -Lo /etc/slurm/gres.conf https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
+	curl -Lo /etc/slurm/gres.conf \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 }
 
 function overlays() {
@@ -129,16 +174,16 @@ function overlays() {
 	echo "Gres overlay"
 	bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
 
-	echo "New Munge key"
-	mv /etc/munge/munge.key{,.orig}
-	bash -c "dd if=/dev/urandom | base64| head -c 1024 > /etc/munge/munge.key"
-	bash -c "echo  >> /etc/munge/munge.key"
-	chown munge. /etc/munge/munge.key
-	chmod 0400 /etc/munge/munge.key
-	# -----------
-	systemctl enable munge
-	systemctl status munge
-	# -----------
+#	echo "New Munge key"
+#	mv /etc/munge/munge.key{,.orig}
+#	bash -c "dd if=/dev/urandom | base64| head -c 1024 > /etc/munge/munge.key"
+#	bash -c "echo  >> /etc/munge/munge.key"
+#	chown munge. /etc/munge/munge.key
+#	chmod 0400 /etc/munge/munge.key
+#	# -----------
+#	systemctl enable --now munge
+##	systemctl status munge
+#	# -----------
 	echo "Munge overlay"
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
 	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
@@ -183,21 +228,32 @@ function addnodes() {
 	# Config nodes
 	#wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
 	
-	/usr/sbin/shutdown -r now
+	/usr/bin/sleep 6 && /usr/sbin/shutdown -r now
 }
 
 
 install() {
-  warewulf
-  slurm
-  overlays
-  addnodes
+	install_warewulf
+	install_slurm
+	config_warewulf
+	config_slurm
+	overlays
+	addnodes
+}
+
+config() {
+	config_warewulf
+	config_slurm
+	overlays
+	addnodes
 }
 
 
 # Start
 if [ $1 == 'install' ]; then
 	install;
+if [ $1 == 'config' ]; then
+	config;
 elif [ $1 == 'warewulf' ]; then
 	warewulf;
 elif [ $1 == 'slurm' ]; then
