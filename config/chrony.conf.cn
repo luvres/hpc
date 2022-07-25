@@ -1,0 +1,11 @@
+server warewulf
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+allow 40.6.18.90
+local stratum 10
+keyfile /etc/chrony.keys
+leapsectz right/UTC
+logdir /var/log/chrony
+log measurements statistics tracking
+initstepslew 20 warewulf
