@@ -7,11 +7,10 @@ ConditionPathExists=/etc/slurm/slurm.conf
 [Service]
 Type=simple
 EnvironmentFile=-/etc/sysconfig/slurmctld
-EnvironmentFile=-/etc/default/slurmctld
 ExecStart=/usr/sbin/slurmctld -D $SLURMCTLD_OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 LimitNOFILE=65536
-@SYSTEMD_TASKSMAX_OPTION@
+TasksMax=infinity
 
 [Install]
 WantedBy=multi-user.target
