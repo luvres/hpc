@@ -9,7 +9,7 @@ Slurm, NVIDIA Driver, Apptainer
 ### Install all
 ``sudo bash wwhpc.sh install $(<variables.txt)``
 
-### Confid node
+### Configure nodes
 ``sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes``
 
 ``sudo wwctl configure --all``
