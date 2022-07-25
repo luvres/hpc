@@ -21,9 +21,47 @@ read -ra no_l <<< "$nodes_list"
 
 
 # Functions
-function warewulf() {
+function install_warewulf() {
 	echo "Install warewulf"
 	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
+
+	echo "Config warewulf"
+	cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
+#	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
+#	sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
+#	sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
+#	sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
+#	sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
+
+#	mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
+#	bash -c 'echo >/etc/hosts'
+
+#	echo "Start warewulf"
+#	systemctl enable warewulfd
+#	wwctl configure --all
+#	chmod 644 /etc/warewulf/nodes.conf
+
+#	echo "Add Chrony config file on headnode"
+#	cp /etc/chrony.conf /etc/chrony.conf.orig
+#	# -----------
+#	{
+#		echo "pool 2.pool.ntp.org iburst"
+#		echo "driftfile /var/lib/chrony/drift"
+#		echo "makestep 1.0 3"
+#		echo "rtcsync"
+#		echo "allow $network/$netmask_bit"
+#		echo "local stratum 8"
+#		echo "keyfile /etc/chrony.keys"
+#		echo "leapsectz right/UTC"
+#		echo "logdir /var/log/chrony"
+#		echo "log measurements statistics tracking"
+#		echo "initstepslew 10 $nodes_list"
+#	}> /etc/chrony.conf
+}
+
+function config_warewulf() {
+	echo "Config warewulf"
+#	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
 
 	echo "Config warewulf"
 	cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
