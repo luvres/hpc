@@ -31,7 +31,7 @@ function warewulf() {
 	echo "Add Chrony config file on headnode"
 	cp /etc/chrony.conf /etc/chrony.conf.orig
 	# -----------
-	tee /etc/chrony.conf <<EoF
+	cat > /etc/chrony.conf <<EoF
 	pool 2.pool.ntp.org iburst
 	driftfile /var/lib/chrony/drift
 	makestep 1.0 3
@@ -98,17 +98,17 @@ function overlays() {
 	mkdir -p /var/lib/warewulf/overlays/chrony/etc
 	# -----------
 	tee /var/lib/warewulf/overlays/chrony/etc/chrony.conf <<EoF
-	server $HOSTNAME
-	driftfile /var/lib/chrony/drift
-	makestep 1.0 3
-	rtcsync
-	allow $ipaddr
-	local stratum 10
-	keyfile /etc/chrony.keys
-	leapsectz right/UTC
-	logdir /var/log/chrony
-	log measurements statistics tracking
-	initstepslew 20 $HOSTNAME
+		server $HOSTNAME
+		driftfile /var/lib/chrony/drift
+		makestep 1.0 3
+		rtcsync
+		allow $ipaddr
+		local stratum 10
+		keyfile /etc/chrony.keys
+		leapsectz right/UTC
+		logdir /var/log/chrony
+		log measurements statistics tracking
+		initstepslew 20 $HOSTNAME
 	EoF
 
 	echo "Localtime overlay"
