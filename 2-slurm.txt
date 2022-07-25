@@ -1,27 +1,26 @@
 ####################
 # 1) Install Slurm #
 ####################
-sudo dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
+dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
 
-sudo dnf install -y dnf-plugins-core 
-sudo dnf config-manager --set-enabled powertools 
+dnf install -y dnf-plugins-core 
+dnf config-manager --set-enabled powertools 
 
-sudo dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
+dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
 
-sudo cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
+cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
 
 # slurm.conf
 curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
 
-sms_name="$HOSTNAME";
-sudo perl -pi -e "s/ControlMachine=\S+/ControlMachine=${sms_name}/" /etc/slurm/slurm.conf
+perl -pi -e "s/ControlMachine=\S+/ControlMachine=${HOSTNAME}/" /etc/slurm/slurm.conf
 
 
 # slurmctld.service
 curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
-sudo systemctl enable --now slurmctld
-sudo systemctl status slurmctld
+systemctl enable --now slurmctld
+systemctl status slurmctld
 
 
 # gres.conf

@@ -1,40 +1,40 @@
 #######################
 # 0) Install warewulf #
 #######################
-sudo dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
+dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
 
 # Config warewulf
-sudo cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
+cp /etc/warewulf/warewulf.conf /etc/warewulf/warewulf.conf.orig
 # -----------
-ipaddr="40.6.18.90"; sudo sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
-netmask="255.255.255.240"; sudo sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
-network="40.6.18.80"; sudo sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
-range_start="40.6.18.91"; sudo sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
-range_end="40.6.18.94"; sudo sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
+ipaddr="40.6.18.90"; sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
+netmask="255.255.255.240"; sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
+network="40.6.18.80"; sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf
+range_start="40.6.18.91"; sed -i "s/192.168.200.50/$range_start/" /etc/warewulf/warewulf.conf
+range_end="40.6.18.94"; sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
 # -----------
-sudo mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
-sudo bash -c 'echo >/etc/hosts'
-sudo wwctl configure --all
+mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
+bash -c 'echo >/etc/hosts'
+wwctl configure --all
 # Start warewulf
-sudo systemctl enable --now warewulfd
-sudo wwctl configure --all
-sudo chmod 644 /etc/warewulf/nodes.conf
+systemctl enable --now warewulfd
+wwctl configure --all
+chmod 644 /etc/warewulf/nodes.conf
 
 # Chrony
-sudo cp /etc/chrony.conf /etc/chrony.conf.orig
+cp /etc/chrony.conf /etc/chrony.conf.orig
 # -----------
-sudo tee /etc/chrony.conf <<EoF
+tee chrony.conf <<EoF
 pool 2.pool.ntp.org iburst
 driftfile /var/lib/chrony/drift
 makestep 1.0 3
 rtcsync
-allow 40.6.18.80/28
+allow $network/$netmask_bit
 local stratum 8
 keyfile /etc/chrony.keys
 leapsectz right/UTC
 logdir /var/log/chrony
 log measurements statistics tracking
-initstepslew 10 cn81 cn82 cn83 cn84 cn85 cn86
+initstepslew 10 $nodes_list
 EoF
 
 
