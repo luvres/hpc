@@ -31,19 +31,19 @@ function warewulf() {
 	echo "Add Chrony config file on headnode"
 	cp /etc/chrony.conf /etc/chrony.conf.orig
 	# -----------
-	tee /etc/chrony.conf <<EoF
-	pool 2.pool.ntp.org iburst
-	driftfile /var/lib/chrony/drift
-	makestep 1.0 3
-	rtcsync
-	allow $network/$netmask_bit
-	local stratum 8
-	keyfile /etc/chrony.keys
-	leapsectz right/UTC
-	logdir /var/log/chrony
-	log measurements statistics tracking
-	initstepslew 10 $nodes_list
-	EoF
+	{
+		echo "pool 2.pool.ntp.org iburst"
+		echo "driftfile /var/lib/chrony/drift"
+		echo "makestep 1.0 3"
+		echo "rtcsync"
+		echo "allow $network/$netmask_bit"
+		echo "local stratum 8"
+		echo "keyfile /etc/chrony.keys"
+		echo "leapsectz right/UTC"
+		echo "logdir /var/log/chrony"
+		echo "log measurements statistics tracking"
+		echo "initstepslew 10 $nodes_list"
+	}> /etc/chrony.conf
 }
 
 function slurm() {
