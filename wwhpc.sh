@@ -152,6 +152,8 @@ if [ $1 == 'install' ]; then
 	install;
 elif [ $1 == 'warewulf' ]; then
 	warewulf;
+elif [ $1 == 'slurm' ]; then
+	slurm;
 elif [ $1 == 'overlays' ]; then
 	overlays;
 elif [ $1 == 'addnodes' ]; then

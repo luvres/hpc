@@ -6,4 +6,10 @@ curl -Lo variables.txt https://raw.githubusercontent.com/luvres/hpc/master/varia
 
 curl -Lo wwhpc.sh  https://raw.githubusercontent.com/luvres/hpc/master/wwhpc.sh
 
+sudo bash wwhpc.sh warewulf $(<variables.txt)
+
+
+
+
+
 

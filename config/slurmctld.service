@@ -8,7 +8,7 @@ ConditionPathExists=/etc/slurm/slurm.conf
 Type=simple
 EnvironmentFile=-/etc/sysconfig/slurmctld
 EnvironmentFile=-/etc/default/slurmctld
-ExecStart=/usr/sbin/slurmctld -D -s $SLURMCTLD_OPTIONS
+ExecStart=/usr/sbin/slurmctld -D $SLURMCTLD_OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
 LimitNOFILE=65536
 @SYSTEMD_TASKSMAX_OPTION@
