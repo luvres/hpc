@@ -44,5 +44,3 @@ EoF
 ## Localtime
 bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
 
-
-

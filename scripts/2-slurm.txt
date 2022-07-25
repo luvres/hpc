@@ -26,4 +26,3 @@ systemctl status slurmctld
 # gres.conf
 curl -Lo /etc/slurm/gres.conf https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 
-

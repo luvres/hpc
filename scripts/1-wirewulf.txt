@@ -23,7 +23,7 @@ chmod 644 /etc/warewulf/nodes.conf
 # Chrony
 cp /etc/chrony.conf /etc/chrony.conf.orig
 # -----------
-tee chrony.conf <<EoF
+tee /etc/chrony.conf <<EoF
 pool 2.pool.ntp.org iburst
 driftfile /var/lib/chrony/drift
 makestep 1.0 3
@@ -36,5 +36,4 @@ logdir /var/log/chrony
 log measurements statistics tracking
 initstepslew 10 $nodes_list
 EoF
-
 
