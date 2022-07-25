@@ -38,7 +38,7 @@ function warewulf() {
 	wwctl configure --all
 
 	echo "Start warewulf"
-	systemctl enable --now warewulfd
+	systemctl enable warewulfd
 	wwctl configure --all
 	chmod 644 /etc/warewulf/nodes.conf
 
@@ -77,7 +77,7 @@ function slurm() {
 	echo "Download slurmctld.service"
 	curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
-	systemctl enable --now slurmctld
+	systemctl enable slurmctld
 	systemctl status slurmctld
 
 	echo "Download gres.conf"
@@ -99,7 +99,7 @@ function overlays() {
 	chown munge. /etc/munge/munge.key
 	chmod 0400 /etc/munge/munge.key
 	# -----------
-	systemctl enable --now munge
+	systemctl enable munge
 	systemctl status munge
 	# -----------
 	echo "Munge overlay"
