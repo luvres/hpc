@@ -22,10 +22,10 @@ Start nodes
 
 sudo wwctl configure --all
 
-# Slurm info
+### Slurm info
 sinfo -lNe
 
-# GPU
+### GPU
 srun --gres=gpu:gtx1050:1 --mem=4G --cpus-per-gpu=1 --nodes=1 nvidia-smi ; watch squeue
 
 
