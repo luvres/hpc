@@ -35,7 +35,7 @@ function warewulf() {
 
 	mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
 	bash -c 'echo >/etc/hosts'
-	wwctl configure --all
+#	wwctl configure --all
 
 	echo "Start warewulf"
 	systemctl enable --now warewulfd
