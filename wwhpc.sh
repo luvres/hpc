@@ -97,19 +97,19 @@ function overlays() {
 	echo "Chrony overlay"
 	mkdir -p /var/lib/warewulf/overlays/chrony/etc
 	# -----------
-	tee /var/lib/warewulf/overlays/chrony/etc/chrony.conf <<EoF
-	server $HOSTNAME
-	driftfile /var/lib/chrony/drift
-	makestep 1.0 3
-	rtcsync
-	allow $ipaddr
-	local stratum 10
-	keyfile /etc/chrony.keys
-	leapsectz right/UTC
-	logdir /var/log/chrony
-	log measurements statistics tracking
-	initstepslew 20 $HOSTNAME
-	EoF
+	{
+		echo "server $HOSTNAME"
+		echo "driftfile /var/lib/chrony/drift"
+		echo "makestep 1.0 3"
+		echo "rtcsync"
+		echo "allow $ipaddr"
+		echo "local stratum 10"
+		echo "keyfile /etc/chrony.keys"
+		echo "leapsectz right/UTC"
+		echo "logdir /var/log/chrony"
+		echo "log measurements statistics tracking"
+		echo "initstepslew 20 $HOSTNAME"
+	}> /var/lib/warewulf/overlays/chrony/etc/chrony.conf
 
 	echo "Localtime overlay"
 	bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
