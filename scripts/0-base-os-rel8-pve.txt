@@ -81,9 +81,7 @@ qm create ${VMID} \
 -net0 virtio,bridge=${BRIDGE},macaddr=${MACADDR} \
 -ipconfig0 ip=${IP} \
 -hostpci0 ${PCIe} \
--sshkey ~/hpc.pub
-
-qm start ${VMID}
+-sshkey ~/hpc.pub; qm start ${VMID}
 
 # Remove
 VMID=18081;qm stop ${VMID};qm destroy ${VMID};
@@ -97,9 +95,7 @@ qm create ${VMID} \
 -sockets 1 -cores 4 -vcpus 4 -memory 16384 -vga qxl -onboot 1 \
 -net0 virtio,bridge=${BRIDGE},macaddr=${MACADDR} \
 -ipconfig0 ip=${IP} \
--sshkey ~/hpc.pub
-
-qm start ${VMID}
+-sshkey ~/hpc.pub; qm start ${VMID}
 
 # Remove
 VMID=18081;qm stop ${VMID};qm destroy ${VMID};

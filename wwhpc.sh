@@ -152,7 +152,7 @@ function addnodes() {
 	echo "Add nodes"
 	for arg in "${no_l[@]}"
 	do
-		wwctl node delete $arg --yes
+		wwctl node delete $arg --yes &>/dev/null
 		wwctl node add $arg
 	done
   
