@@ -252,7 +252,7 @@ config() {
 # Start
 if [ $1 == 'install' ]; then
 	install;
-if [ $1 == 'config' ]; then
+elif [ $1 == 'config' ]; then
 	config;
 elif [ $1 == 'warewulf' ]; then
 	warewulf;
