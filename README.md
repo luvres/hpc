@@ -14,7 +14,7 @@ Slurm, NVIDIA Driver, Apptainer
 
 ``sudo wwctl configure --all``
 
-* Start nodes and:
+* Start nodes and have fun! 
 
 ### Slurm info
 ``sinfo -lNe``
