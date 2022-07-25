@@ -20,41 +20,21 @@ sudo systemctl enable --now warewulfd
 sudo wwctl configure --all
 sudo chmod 644 /etc/warewulf/nodes.conf
 
-
-
-
-
-####################
-# 1) Install Slurm #
-####################
-sudo dnf -y install http://repos.openhpc.community/OpenHPC/2/EL_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm
-
-sudo dnf install -y dnf-plugins-core 
-sudo dnf config-manager --set-enabled powertools 
-
-sudo dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
-
-sudo cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
-
-# slurm.conf
-curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/slurm.conf
-
-sms_name="$HOSTNAME";
-sudo perl -pi -e "s/ControlMachine=\S+/ControlMachine=${sms_name}/" /etc/slurm/slurm.conf
-
-
-# slurmctld.service
-curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/slurmctld.service
-
-sudo systemctl enable --now slurmctld
-sudo systemctl status slurmctld
-
-
-
-
-
-
-
-
+# Chrony
+sudo cp /etc/chrony.conf /etc/chrony.conf.orig
+# -----------
+sudo tee /etc/chrony.conf <<EoF
+pool 2.pool.ntp.org iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+allow 40.6.18.80/28
+local stratum 8
+keyfile /etc/chrony.keys
+leapsectz right/UTC
+logdir /var/log/chrony
+log measurements statistics tracking
+initstepslew 10 cn81 cn82 cn83 cn84 cn85 cn86
+EoF
 
 

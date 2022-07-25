@@ -1,0 +1,48 @@
+##############
+# 3) Overlay #
+##############
+## Slurm
+sudo mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
+sudo bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
+## Gres
+sudo bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
+# -----------
+sudo wwctl overlay build
+## Munge
+sudo mv /etc/munge/munge.key{,.orig}
+sudo bash -c "dd if=/dev/urandom | base64| head -c 1024 > /etc/munge/munge.key"
+sudo bash -c "echo '' >> /etc/munge/munge.key"
+sudo chown munge. /etc/munge/munge.key
+sudo chmod 0400 /etc/munge/munge.key
+# -----------
+sudo systemctl enable --now munge
+sudo systemctl status munge
+# -----------
+sudo mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
+sudo bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
+sudo chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+sudo chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+# -----------
+sudo wwctl overlay build
+## Chrony
+sudo mkdir -p /var/lib/warewulf/overlays/chrony/etc
+# -----------
+sudo tee /var/lib/warewulf/overlays/chrony/etc/chrony.conf <<EoF
+server warewulf
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+allow 40.6.18.90
+local stratum 10
+keyfile /etc/chrony.keys
+leapsectz right/UTC
+logdir /var/log/chrony
+log measurements statistics tracking
+initstepslew 20 warewulf
+EoF
+# -----------
+## Localtime
+sudo bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
+
+
+

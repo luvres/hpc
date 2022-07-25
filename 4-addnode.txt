@@ -1,0 +1,12 @@
+#######################
+# 4) Inport container #
+#######################
+# Inport container
+sudo wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm # 1°
+# Add nodes
+sudo wwctl node add cn81
+# Config nodes
+sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
+
+
+
