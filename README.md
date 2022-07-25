@@ -10,17 +10,17 @@ Slurm, NVIDIA Driver, Apptainer
 ``sudo bash wwhpc.sh install $(<variables.txt)``
 
 ### Confid node
-sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
+``sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes``
 
-sudo wwctl configure --all
+``sudo wwctl configure --all``
 
 * Start nodes and:
 
 ### Slurm info
-sinfo -lNe
+``sinfo -lNe``
 
 ### GPU
-srun --gres=gpu:gtx1050:1 --mem=4G --cpus-per-gpu=1 --nodes=1 nvidia-smi ; watch squeue
+``srun --gres=gpu:gtx1050:1 --mem=4G --cpus-per-gpu=1 --nodes=1 nvidia-smi ; watch squeue``
 
 
 
