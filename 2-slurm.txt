@@ -11,17 +11,20 @@ sudo dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
 sudo cp /etc/slurm/slurm.conf.ohpc /etc/slurm/slurm.conf
 
 # slurm.conf
-curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/slurm.conf
+curl -Lo /etc/slurm/slurm.conf https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
 
 sms_name="$HOSTNAME";
 sudo perl -pi -e "s/ControlMachine=\S+/ControlMachine=${sms_name}/" /etc/slurm/slurm.conf
 
 
 # slurmctld.service
-curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/slurmctld.service
+curl -Lo /usr/lib/systemd/system/slurmctld.service https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
 sudo systemctl enable --now slurmctld
 sudo systemctl status slurmctld
 
+
+# gres.conf
+curl -Lo /etc/slurm/gres.conf https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 
 
