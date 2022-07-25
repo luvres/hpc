@@ -1,5 +1,6 @@
 #!/bin/bash
- 
+
+# Variables
 ipaddr=$2
 netmask=$3
 network=$4
@@ -7,6 +8,19 @@ range_start=$5
 range_end=$6
 netmask_bit=$7
 
+count=1
+for arg in "$@"
+do
+	if [ $count -ge 8 ]; then
+		nodes_list+="$arg "
+	fi
+	count=$(($count + 1))
+done
+
+read -ra no_l <<< "$nodes_list"
+
+
+# Functions
 function warewulf() {
 	echo "Install warewulf"
 	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
@@ -123,16 +137,10 @@ function addnodes() {
 	wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm
 
 	echo "Add nodes"
-	wwctl node add cn81
-
-	count=1
-	for arg in "$@"
+	for arg in "${no_l[@]}"
 	do
-		if [ $count -ge 8 ]; then
-			wwctl node delete $arg --yes
-			wwctl node add $arg
-		fi
-	count=$(($count + 1))
+		wwctl node delete $arg --yes
+		wwctl node add $arg
 	done
   
 	# Config nodes
@@ -148,6 +156,7 @@ install() {
 }
 
 
+# Start
 if [ $1 == 'install' ]; then
 	install;
 elif [ $1 == 'warewulf' ]; then
