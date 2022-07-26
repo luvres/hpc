@@ -1,0 +1,25 @@
+FROM rockylinux:8.6
+
+RUN dnf -y install \
+      dnf-plugins-core \
+      epel-release \
+      http://repos.openhpc.community/OpenHPC/2/CentOS_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm \
+  && dnf config-manager --set-enabled powertools \
+  && dnf -y install omb-gnu9-mpich-ohpc lmod-ohpc cmake-ohpc \
+  && dnf -y clean all \
+  && source /etc/profile.d/lmod.sh \
+  && module load cmake gnu9 mpich \
+  && curl -OL https://download.lammps.org/tars/lammps-23Jun2022.tar.gz \
+  && tar -xzf lammps-23Jun2022.tar.gz \
+  && ( \
+    cd lammps-23Jun2022 \
+    && mkdir build \
+    && cd build \
+    && cmake ../cmake -D CMAKE_INSTALL_PREFIX=/usr/local \
+    && cmake --build . \
+    && make install \
+  ) && rm -rf lammps-23Jun2022 lammps-23Jun2022.tar.gz
+	
+COPY --chmod=0755 ./lmp-wrapper.sh /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/lmp-wrapper.sh"]
