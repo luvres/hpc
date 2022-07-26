@@ -1,5 +1,5 @@
-Hello world MPI
-===============
+Lammps MPI
+==========
 
 Reference: <https://www.youtube.com/watch?v=EpVDeesAq4c&t=3456s>
 
