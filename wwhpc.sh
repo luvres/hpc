@@ -35,8 +35,7 @@ function install_warewulf() {
 
 function config_warewulf() {
 	echo "Config warewulf"
-	test -f /etc/warewulf/warewulf.conf.ORIG \
-	|| cp /etc/warewulf/warewulf.conf{,.ORIG}
+	test -f /etc/warewulf/warewulf.conf.ORIG || cp /etc/warewulf/warewulf.conf{,.ORIG}
 	
 	curl -Lo /etc/warewulf/warewulf.conf https://raw.githubusercontent.com/luvres/hpc/master/config/warewulf.conf
 	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
