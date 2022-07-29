@@ -35,9 +35,10 @@ function install_warewulf() {
 
 function config_warewulf() {
 	echo "Config warewulf"
-	curl -Lo /etc/warewulf/warewulf.conf https://raw.githubusercontent.com/luvres/hpc/master/config/warewulf.conf
 	test -f /etc/warewulf/warewulf.conf.ORIG \
 	|| cp /etc/warewulf/warewulf.conf{,.ORIG}
+	
+	curl -Lo /etc/warewulf/warewulf.conf https://raw.githubusercontent.com/luvres/hpc/master/config/warewulf.conf
 	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
 	sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
 	sed -i "s/192.168.200.0/$network/" /etc/warewulf/warewulf.conf

@@ -1,6 +1,6 @@
-############################
-# Rocky Linux (Masternode) #
-############################
+############################ # 
+# Rocky Linux (Masternode) # #
+############################ # 40.6.18.64/28
 VMID=22027;CLONE=85003;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/28";GW0="172.3.255.20";
 # -----------
@@ -29,8 +29,14 @@ qm start ${VMID}
 # Remove
 VMID=22027;qm stop ${VMID};qm destroy ${VMID};
 # -----------
+
+# Access VM
 ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.27
-# -----------
+
+
+###############
+# Congif Base #
+###############
 # Hostname
 sudo hostnamectl set-hostname $(hostname -I | awk '{print $1}' | sed 's/\./-/g' | sed 's/^/ip-/')
 # Timezone
