@@ -2,7 +2,7 @@
 # Rocky Linux (Masternode) # #
 ############################ # 40.6.18.64/28
 VMID=22027;CLONE=85003;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
-BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/28";GW0="172.3.255.20";
+BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/28";GW0="172.3.255.30";
 # -----------
 qm create ${VMID} \
 -name ${HOSTNAME} -ostype l26 \
@@ -12,7 +12,8 @@ qm create ${VMID} \
 -net1 virtio,bridge=${BRIDGE1}
 
 # Import the OpenStack disk image to Proxmox storage
-qm importdisk ${VMID} Rocky-8-GenericCloud-8.5-20211114.2.x86_64.qcow2 ${STORAGE}
+#qm importdisk ${VMID} Rocky-8-GenericCloud-8.5-20211114.2.x86_64.qcow2 ${STORAGE}
+qm importdisk ${VMID} Rocky-8-GenericCloud-8.6.20220702.0.x86_64.qcow2 ${STORAGE}
 #qm importdisk ${VMID} Rocky-9-GenericCloud-9.0-20220706.0.x86_64.qcow2 ${STORAGE}
 
 qm set ${VMID} \
@@ -78,7 +79,7 @@ sudo init 6
 ##############################
 # Rocky Linux (controlnodes) #
 ##############################
-### GPU ###
+### GPU (cn81) ###
 VMID=18081;BIOS="ovmf";HOSTNAME="cn81";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:81";PCIe="04:00.0"
 # -----------
 qm create ${VMID} \
@@ -88,11 +89,24 @@ qm create ${VMID} \
 -ipconfig0 ip=${IP} \
 -hostpci0 ${PCIe} \
 -sshkey ~/hpc.pub; qm start ${VMID}
-
-# Remove
+### Remove
 VMID=18081;qm stop ${VMID};qm destroy ${VMID};
-##############################
-##############################
+# ---------------------------------
+### GPU (cn82) ###
+VMID=18082;BIOS="ovmf";HOSTNAME="cn82";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:82";PCIe="04:00.0"
+# -----------
+qm create ${VMID} \
+-name ${HOSTNAME} -ostype l26 -bios ${BIOS} \
+-sockets 1 -cores 4 -vcpus 4 -memory 16384 -vga qxl -onboot 1 \
+-net0 virtio,bridge=${BRIDGE},macaddr=${MACADDR} \
+-ipconfig0 ip=${IP} \
+-hostpci0 ${PCIe} \
+-sshkey ~/hpc.pub; qm start ${VMID}
+### Remove
+VMID=18082;qm stop ${VMID};qm destroy ${VMID};
+
+
+
 ## CPU ###
 VMID=18081;BIOS="seabios";HOSTNAME="cn81";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:81"
 # -----------
@@ -105,6 +119,7 @@ qm create ${VMID} \
 
 # Remove
 VMID=18081;qm stop ${VMID};qm destroy ${VMID};
+
 
 
 
