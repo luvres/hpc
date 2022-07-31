@@ -24,7 +24,5 @@ Slurm, NVIDIA Driver, Apptainer
 ### GPU
 ``srun --gres=gpu:gtx1050:1 --mem=4G --cpus-per-gpu=1 --nodes=1 nvidia-smi ; watch squeue``
 
-
-
-
+``srun --gres=gpu:1 --mem=4G --cpus-per-gpu=1 --nodes=2 nvidia-smi``
 
