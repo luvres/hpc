@@ -1,8 +1,8 @@
 ############################ # 
-# Rocky Linux (Masternode) # #
-############################ # 40.6.18.64/28
+# Rocky Linux (Masternode) # # 40.6.18.64/27 | 65-94 BC: 95
+############################ # 40.6.18.64/28 | 65-78 BC: 79
 VMID=22027;CLONE=85003;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
-BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/28";GW0="172.3.255.30";
+BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
 qm create ${VMID} \
 -name ${HOSTNAME} -ostype l26 \
