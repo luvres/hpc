@@ -13,5 +13,5 @@ sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.81 -H 
 sudo wwctl node set cn82 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.82 -H fa:ce:40:06:18:82 -R generic,chrony,slurm -C r8-nv-slurm --yes
 
 
-
+sudo wwctl configure --all
 
