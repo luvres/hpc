@@ -1,7 +1,7 @@
 ############################ # 
 # Rocky Linux (Masternode) # # 40.6.18.64/27 | 65-94 BC: 95
 ############################ # 40.6.18.64/28 | 65-78 BC: 79
-VMID=22027;CLONE=85003;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
+VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
 qm create ${VMID} \
@@ -154,4 +154,38 @@ systemctl restart slurmd
 systemctl status slurmd
 # 4) reconfigure
 sudo scontrol reconfigure
+
+
+############################# # 
+# Rocky Linux (Open OnDemand) # 
+############################# # 
+VMID=18065;BIOS="ovmf";HOSTNAME="ood";BRIDGE0="vmbr1";IP0="dhcp";MACADDR="fa:ce:40:06:18:65";
+BRIDGE1="vmbr0";IP1="172.3.255.24/28";GW="172.3.255.30"
+# -----------
+qm create ${VMID} \
+-name ${HOSTNAME} -ostype l26 -bios ${BIOS} \
+-sockets 1 -cores 2 -vcpus 2 -memory 8162 -vga qxl -onboot 1 \
+-net0 virtio,bridge=${BRIDGE0},macaddr=${MACADDR} \
+-net1 virtio,bridge=${BRIDGE1} \
+-ipconfig0 ip=${IP0} \
+-ipconfig1 ip=${IP1},gw=${GW} \
+-sshkey ~/hpc.pub; qm start ${VMID}
+
+# Remove
+VMID=18065;qm stop ${VMID};qm destroy ${VMID};
+
+# Access VM
+ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.24
+
+
+
+# ----------------------
+sudo wwctl node add ood
+
+sudo wwctl container import docker://izone/hpc:ood ood
+#sudo wwctl container import docker://izone/hpc:r8ww-slurm r8-slurm
+
+sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood --yes
+
+
 

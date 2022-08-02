@@ -26,3 +26,13 @@ Slurm, NVIDIA Driver, Apptainer
 
 ``srun --gres=gpu:1 --mem=4G --cpus-per-gpu=1 --nodes=2 nvidia-smi``
 
+
+### Configure Open OnDemand node (beta)
+``sudo wwctl node add ood``
+
+``sudo wwctl container import docker://izone/hpc:ood ood``
+
+``sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood --yes``
+
+``sudo wwctl configure --all``
+
