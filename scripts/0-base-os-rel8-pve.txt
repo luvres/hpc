@@ -176,116 +176,13 @@ VMID=18065;qm stop ${VMID};qm destroy ${VMID};
 
 # Access VM
 ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.24
-# ----------------------
-# ----------------------
-sudo wwctl node delete ood --yes
-sudo wwctl node add ood
 
-sudo wwctl container list
-
-sudo wwctl container delete ood
-sudo wwctl container import docker://izone/hpc:ood ood
-
-sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C ood --yes
-
-# -----------
-# -----------
-# overlay
-
-#/etc/httpd/conf.d/ood-portal.conf
-mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
-
-curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
-# ----------------------
-#/etc/ood/config/clusters.d/cluster.yml
-mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
-
-curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
-
-
-su -
-
-echo 'rocky:aamu02' | chpasswd
-
-
-
-echo "Open OnDemand Apache overlay"
-	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
-	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
-  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
-  echo "Open OnDemand Cluster overlay"
-  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
-  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
-        
-        
 ###########################
 # 3.1) Authentication PAM #
 ###########################
-cat >> /etc/ood/config/ood_portal.yml <<EoF
-
-auth:
-  - 'AuthType Basic'
-  - 'AuthName "Open OnDemand"'
-  - 'AuthBasicProvider PAM'
-  - 'AuthPAMService ood'
-  - 'Require valid-user'
-# Capture system user name from authenticated user name
-user_map_match: '.*'
-EoF
-# -----------
-/opt/ood/ood-portal-generator/sbin/update_ood_portal
-
-systemctl try-restart httpd.service htcacheclean.service
-
-# ---------------------------------
-# ---------------------------------
 su -
 
 echo 'rocky:aamu02' | chpasswd
-
-cp /etc/httpd/conf.d/ood-portal.conf{,.ORIG}
-
-echo > /etc/httpd/conf.d/ood-portal.conf
-nano /etc/httpd/conf.d/ood-portal.conf
-
-systemctl try-restart httpd.service htcacheclean.service
-
-
-systemctl status httpd
-
-systemctl restart httpd
-
-
-sudo mkdir -p /etc/ood/config/clusters.d
-
-sudo tee /etc/ood/config/clusters.d/ixone.yml <<EoF
----
-v2:
-  metadata:
-    title: "ixone Cluster"
-  login:
-    host: "ip-172-3-255-27"
-  job:
-    adapter: "slurm"
-    cluster: "ixone"
-    bin: "/usr/bin"
-    conf: "/etc/slurm/slurm.conf"
-EoF
-
-
-
-
-# ---------------------------------
-# ---------------------------------
-
-
-
-
-
-
 
 
 ###########################
