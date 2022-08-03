@@ -16,7 +16,7 @@ Slurm, NVIDIA Driver, Apptainer
 
 ``sudo wwctl configure --all``
 
-* Start nodes and have fun! 
+* Start nodes. 
 
 ### Slurm info
 ``sinfo -lNe``
@@ -34,3 +34,4 @@ Slurm, NVIDIA Driver, Apptainer
 * Access node Open On Demand via ssh and set user password
 * Access the address and enter the password in the pop-up form
 
+* Start the Open OnDemand node and have fun! 
