@@ -10,4 +10,6 @@ RUN \
   && echo "LoadModule authnz_pam_module modules/mod_authnz_pam.so" \
                                         > /etc/httpd/conf.modules.d/55-authnz_pam.conf \
   \
-  && dnf -y clean all
+  && dnf -y clean all \
+  \
+  && systemctl enable httpd

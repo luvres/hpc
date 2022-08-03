@@ -140,6 +140,15 @@ function overlays() {
 
 	echo "Localtime overlay"
 	bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
+	
+	echo "Open OnDemand Apache overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
+  echo "Open OnDemand Cluster overlay"
+  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
+  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
+        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
 
 	echo "Build overlay"
 	wwctl overlay build

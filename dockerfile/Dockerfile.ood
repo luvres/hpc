@@ -1,0 +1,32 @@
+FROM izone/hpc:r8ww-slurm
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+ARG UID_SASLAUNTH=987 \
+    UID_ONDEMAND_NGINX=986 \
+    UID_ONDEMAND_DEX=985 
+
+RUN \
+  dnf install -y epel-release https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm \
+  && dnf module enable -y ruby:2.7 nodejs:12 \
+  \
+  && dnf install -y \
+       ondemand \
+       mod_authnz_pam \
+       ondemand-dex \
+       nano \
+  \
+  # Config PAM
+  && cp /etc/pam.d/sshd /etc/pam.d/ood \
+  && chmod 640 /etc/shadow && chgrp apache /etc/shadow \
+  && echo "LoadModule authnz_pam_module modules/mod_authnz_pam.so" \
+                                        > /etc/httpd/conf.modules.d/55-authnz_pam.conf \
+  \
+  && usermod -u $UID_SASLAUNTH saslauth \
+  && usermod -u $UID_ONDEMAND_NGINX ondemand-nginx \
+  && usermod -u $UID_ONDEMAND_DEX ondemand-dex \
+  \
+  && mkdir -p /etc/ood/config/clusters.d \
+  \
+  && dnf -y clean all \
+  \
+  && systemctl enable httpd

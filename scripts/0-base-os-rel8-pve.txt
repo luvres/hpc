@@ -183,21 +183,10 @@ sudo wwctl node add ood
 
 sudo wwctl container list
 
-#sudo wwctl container delete ood
-#sudo wwctl container import docker://izone/hpc:ood ood
+sudo wwctl container delete ood
+sudo wwctl container import docker://izone/hpc:ood ood
 
-#sudo wwctl container delete ood-base
-#sudo wwctl container import docker://izone/hpc:ood-base ood-base
-
-sudo wwctl container delete ood-pam
-sudo wwctl container import docker://izone/hpc:ood-pam ood-pam
-
-
-#sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood-base --yes
-
-sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood-pam --yes
-
-sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C ood-pam --yes
+sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C ood --yes
 
 # -----------
 # -----------
@@ -210,11 +199,15 @@ curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
         https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
 # ----------------------
 #/etc/ood/config/clusters.d/cluster.yml
-mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml
+mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
+
+curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
+        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
 
 
-bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
+su -
 
+echo 'rocky:aamu02' | chpasswd
 
 
 ###########################
