@@ -1,7 +1,7 @@
 ---
 v2:
   metadata:
-    title: "ixone Cluster"
+    title: "Cluster HPC"
   login:
     host: "headnode"
   job:
