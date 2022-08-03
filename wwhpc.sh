@@ -156,8 +156,11 @@ function overlays() {
 }
 
 function addnodes() {
-	echo "Inport container with Slurm and NVIDIA Driver"
+	echo "Import container with Slurm and NVIDIA Driver"
 	wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm
+	
+	echo "Import container from Open OnDemand"
+	wwctl container import docker://izone/hpc:r8ww-ood r8-ood
 
 	echo "Add nodes"
 	for arg in "${no_l[@]}"
@@ -165,6 +168,9 @@ function addnodes() {
 		wwctl node delete $arg --yes &>/dev/null
 		wwctl node add $arg
 	done
+	
+	wwctl node delete oondemand --yes &>/dev/null
+	wwctl node add oondemand
   
 	# Config nodes
 	#wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
