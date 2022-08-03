@@ -3,7 +3,7 @@ v2:
   metadata:
     title: "ixone Cluster"
   login:
-    host: "ip-172-3-255-27"
+    host: "headnode"
   job:
     adapter: "slurm"
     cluster: "ixone"

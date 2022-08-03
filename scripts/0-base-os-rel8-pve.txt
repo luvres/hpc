@@ -210,6 +210,17 @@ su -
 echo 'rocky:aamu02' | chpasswd
 
 
+
+echo "Open OnDemand Apache overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
+  echo "Open OnDemand Cluster overlay"
+  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
+  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
+        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
+        
+        
 ###########################
 # 3.1) Authentication PAM #
 ###########################
