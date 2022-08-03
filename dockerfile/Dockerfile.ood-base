@@ -7,13 +7,19 @@ ARG UID_SASLAUNTH=987 \
 RUN \
   dnf install -y epel-release https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm \
   && dnf module enable -y ruby:2.7 nodejs:12 \
-  && dnf install -y ondemand \
+  \
+  && dnf install -y \
+       ondemand \
+       nano \
   \
   && usermod -u $UID_SASLAUNTH saslauth \
   && usermod -u $UID_ONDEMAND_NGINX ondemand-nginx \
   \
-  && dnf -y clean all \
+  && mkdir -p /etc/ood/config/clusters.d \
   \
-  && systemctl enable httpd
+  && dnf -y clean all 
+#  \
+#  \
+#  && systemctl enable httpd
   
 

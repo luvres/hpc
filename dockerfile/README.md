@@ -10,3 +10,10 @@
 #### Build Open OnDemand
 ``docker build -t izone/hpc:ood -f ./Dockerfile.ood .``
 
+-----
+``docker build -t izone/hpc:ood -f ./Dockerfile.ood-base .``
+
+``docker build -t izone/hpc:ood -f ./Dockerfile.ood-pam .``
+
+``docker build -t izone/hpc:ood -f ./Dockerfile.ood-auth .``
+

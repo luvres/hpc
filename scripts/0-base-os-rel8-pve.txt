@@ -1,6 +1,6 @@
-############################ # 
-# Rocky Linux (Masternode) # # 40.6.18.64/27 | 65-94 BC: 95
-############################ # 40.6.18.64/28 | 65-78 BC: 79
+########################## # 
+# Rocky Linux (headnode) # # 40.6.18.64/27 | 65-94 BC: 95
+########################## # 40.6.18.64/28 | 65-78 BC: 79
 VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
@@ -156,9 +156,9 @@ systemctl status slurmd
 sudo scontrol reconfigure
 
 
-############################# # 
-# Rocky Linux (Open OnDemand) # 
-############################# # 
+###################################
+# Rocky Linux (OOD Open OnDemand) #
+###################################
 VMID=18065;BIOS="ovmf";HOSTNAME="ood";BRIDGE0="vmbr1";IP0="dhcp";MACADDR="fa:ce:40:06:18:65";
 BRIDGE1="vmbr0";IP1="172.3.255.24/28";GW="172.3.255.30"
 # -----------
@@ -176,16 +176,324 @@ VMID=18065;qm stop ${VMID};qm destroy ${VMID};
 
 # Access VM
 ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.24
-
-
-
 # ----------------------
+# ----------------------
+sudo wwctl node delete ood --yes
 sudo wwctl node add ood
 
-sudo wwctl container import docker://izone/hpc:ood ood
-#sudo wwctl container import docker://izone/hpc:r8ww-slurm r8-slurm
+sudo wwctl container list
 
-sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood --yes
+#sudo wwctl container delete ood
+#sudo wwctl container import docker://izone/hpc:ood ood
+
+sudo wwctl container delete ood-base
+sudo wwctl container import docker://izone/hpc:ood-base ood-base
+
+sudo wwctl container delete r8
+sudo wwctl container import docker://izone/hpc:r8ww r8
+
+
+sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood-base --yes
+
+# -----------
+# -----------
+sudo wwctl container delete ood-pam
+sudo wwctl container import docker://izone/hpc:ood-pam ood-pam
+
+sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood-pam --yes
+# -----------
+# -----------
+#sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -C ood-base --yes
+
+#sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C r8-slurm --yes
+
+#sudo wwctl node set ood -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm -C ood --yes
+
+
+###########################
+# 3.1) Authentication PAM #
+###########################
+cat >> /etc/ood/config/ood_portal.yml <<EoF
+
+auth:
+  - 'AuthType Basic'
+  - 'AuthName "Open OnDemand"'
+  - 'AuthBasicProvider PAM'
+  - 'AuthPAMService ood'
+  - 'Require valid-user'
+# Capture system user name from authenticated user name
+user_map_match: '.*'
+EoF
+# -----------
+/opt/ood/ood-portal-generator/sbin/update_ood_portal
+
+systemctl try-restart httpd.service htcacheclean.service
+
+# ---------------------------------
+# ---------------------------------
+su -
+
+echo 'rocky:aamu02' | chpasswd
+
+cp /etc/httpd/conf.d/ood-portal.conf{,.ORIG}
+
+echo > /etc/httpd/conf.d/ood-portal.conf
+nano /etc/httpd/conf.d/ood-portal.conf
+
+systemctl try-restart httpd.service htcacheclean.service
+
+
+systemctl status httpd
+
+systemctl restart httpd
+
+
+sudo mkdir -p /etc/ood/config/clusters.d
+
+sudo tee /etc/ood/config/clusters.d/ixone.yml <<EoF
+---
+v2:
+  metadata:
+    title: "ixone Cluster"
+  login:
+    host: "ip-172-3-255-27"
+  job:
+    adapter: "slurm"
+    cluster: "ixone"
+    bin: "/usr/bin"
+    conf: "/etc/slurm/slurm.conf"
+EoF
+
+
+
+
+# ---------------------------------
+# ---------------------------------
+
+
+
+
+
+
+
+
+###########################
+# 3.2) Authentication DEX #
+###########################
+sudo systemctl enable --now ondemand-dex
+
+# user
+sudo groupadd ood
+sudo useradd -d /home/ood -g ood -k /etc/skel -m ood
+
+# access
+http://oondemand/
+
+username: ood@localhoste 
+password: password
+
+
+################################
+# 3.3) Authentication Keycloak #
+################################
+VMID=22023;HOSTNAME="keycloak";STORAGE="local-lvm";DISK="8";MEMORY="2048";
+BRIDGE="vmbr0";IP="172.3.255.23/28";GW="172.3.255.30";
+# -----------
+#pveam list local
+pct create ${VMID} \
+-hostname ${HOSTNAME} \
+local:vztmpl/alpine-3.16-default_20220622_amd64.tar.xz \
+-cores 1 -memory ${MEMORY} -swap 0 \
+-rootfs ${STORAGE}:${DISK} \
+-net0 name=eth0,bridge=${BRIDGE},ip=${IP},gw=${GW} \
+-unprivileged 1 \
+-features nesting=1,keyctl=1 \
+-onboot 1 \
+-ssh-public-keys ~/key2.pub
+
+pct start ${VMID}
+# -----------
+# Remove
+VMID=22023;pct stop ${VMID};pct destroy ${VMID};
+
+
+#####################
+# Option 1) OpenJDK #
+#####################
+pct exec ${VMID} -- sh -c "apk add --no-cache openjdk11 bash"
+
+pct exec ${VMID} -- sh
+# ----------------------
+rm keycloak-* -fR
+
+VERSION_KEYCLOAK="16.1.1"
+VERSION_KEYCLOAK="18.0.2"
+
+wget -c https://github.com/keycloak/keycloak/releases/download/${VERSION_KEYCLOAK}/keycloak-${VERSION_KEYCLOAK}.zip
+
+unzip keycloak-${VERSION_KEYCLOAK}.zip
+
+ln -s /root/keycloak-${VERSION_KEYCLOAK}/bin/kc.sh /usr/bin/keycloak
+# -----------
+tee /etc/init.d/keycloak <<EoF
+#!/sbin/openrc-run
+
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+
+name="busybox keycloak"
+command="/usr/bin/keycloak"
+command_args="start-dev"
+pidfile="/var/run/keycloak.pid"
+command_background="yes"
+
+depend() {
+        need net
+}
+EoF
+# -----------
+chmod +x /etc/init.d/keycloak
+
+rc-update add keycloak
+
+service keycloak status
+
+
+
+
+
+# Secret: 23d8RnBE9JU9h71a3RH9JJFuahxyJKJf
+
+
+sudo sed -i '/auth:/s/#//' /etc/ood/config/ood_portal.yml
+sudo sed -i '/AuthType/s/#//' /etc/ood/config/ood_portal.yml
+sudo sed -i '/Require/s/#//' /etc/ood/config/ood_portal.yml
+
+logout_redirect
+
+oidc_uri: '/oidc'
+
+
+
+
+#######################
+# Option 2) Container #
+#######################
+#
+docker run --rm --name keycloak \
+-p 8080:8080 -p 8443:8443 \
+-e KEYCLOAK_USER=admin \
+-e KEYCLOAK_PASSWORD=admin \
+quay.io/keycloak/keycloak:16.1.1
+
+
+13.0.1
+
+#pct exec ${VMID} -- sh -c "apk add --no-cache openssh curl && echo 'PermitRootLogin yes' >>/etc/ssh/ssh_config && rc-update add sshd && service sshd restart"
+#
+pct exec ${VMID} -- sh -c "apk add --no-cache docker && rc-update add docker && reboot"
+
+#pct exec ${VMID} -- sh -c "docker run -d --name keycloak -p 8080:8080 -p 8443:8443 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev"
+
+pct exec ${VMID} -- sh -c "docker run --rm --name Keycloak -p 8080:8080 -p 8443:8443 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:16.1.1"
+
+pct exec ${VMID} -- sh -c "docker rm -f keycloak"
+
+
+# Access
+http://keycloak:8080/
+user: admin
+pass: admin
+
+
+# ---------------------------------
+# ---------------------------------
+
+https://keycloak:8443/
+# -----------
+Administration Console >
+	Username: admin
+	Password: admin
+
+Master
+	Add realm
+		Name*: oondemand
+		Create
+		
+	Realm Settings
+	  Login:
+	    Remember Me: ON
+	    Login with email: OFF
+	    Require SSL: none
+	    Save
+	    
+	Clients
+	  Create
+	    Client ID: oondemand
+	    Client Protocol: openid-connect
+	    Save
+	  Settings
+	 		 Access Type: confidential
+	     Direct Access Grants Enabled: OFF
+	     Valid Redirect URIs:
+	       http://ondemand
+	       http://ondemand/oidc
+	     Save
+		
+# ----------------------
+# /etc/ood/config/ood_portal.yml
+servername: oondemand
+
+# Use OIDC authentication
+auth:
+  - "AuthType openid-connect"
+  - "Require valid-user"
+
+# Use OIDC logout
+logout_redirect: "/oidc?logout=http%3A%2F%oondemand"
+
+# Capture system user name from authenticated user name
+user_map_cmd: "/opt/ood/ood_auth_map/bin/ood_auth_map.regex"
+
+oidc_uri: "/oidc"
+oidc_provider_metadata_url: "https://keycloak:8443/auth/realms/oondemand/.well-known/openid-configuration"
+oidc_client_id: "oondemand"
+oidc_client_secret: "cDtV8WYpoxtDJTsiWCFW6Kik9JzdXxeI"
+oidc_remote_user_claim: "preferred_username"
+#oidc_scope: "openid profile email groups"
+oidc_session_inactivity_timeout: 28800
+oidc_session_max_duration: 28800
+oidc_state_max_number_of_cookies: "10 true"
+oidc_settings:
+  OIDCPassIDTokenAs: "serialized"
+  OIDCPassRefreshToken: "On"
+  OIDCPassClaimsAs: "environment"
+  OIDCStripCookies: "mod_auth_openidc_session mod_auth_openidc_session_chunks mod_auth_openidc_session_0 mod_auth_openidc_session_1"
+
+
+
+
+
+############################
+# Config cluster (Overlay) #
+############################
+sudo mkdir -p /etc/ood/config/clusters.d
+
+sudo tee /etc/ood/config/clusters.d/ixone.yml <<EoF
+---
+v2:
+  metadata:
+    title: "ixone Cluster"
+  login:
+    host: "ip-172-3-255-27"
+  job:
+    adapter: "slurm"
+    cluster: "ixone"
+    bin: "/usr/bin"
+    conf: "/etc/slurm/slurm.conf"
+EoF
+# -----------
+
 
 
 
