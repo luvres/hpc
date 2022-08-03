@@ -149,6 +149,7 @@ function overlays() {
   mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
   curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
         https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
+  sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml
 
 	echo "Build overlay"
 	wwctl overlay build
