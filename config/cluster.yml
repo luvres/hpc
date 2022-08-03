@@ -1,0 +1,11 @@
+---
+v2:
+  metadata:
+    title: "ixone Cluster"
+  login:
+    host: "ip-172-3-255-27"
+  job:
+    adapter: "slurm"
+    cluster: "ixone"
+    bin: "/usr/bin"
+    conf: "/etc/slurm/slurm.conf"
