@@ -155,6 +155,7 @@ systemctl restart slurmd
 systemctl status slurmd
 # 4) reconfigure
 sudo scontrol reconfigure
+sudo scontrol update nodename=cn82 state=idle
 
 
 ###################################
