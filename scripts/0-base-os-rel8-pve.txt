@@ -1,13 +1,13 @@
 ########################## # 
 # Rocky Linux (headnode) # # 40.6.18.64/27 | 65-94 BC: 95
 ########################## # 40.6.18.64/28 | 65-78 BC: 79
-VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="24";
+VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="56";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
 qm create ${VMID} \
 -name ${HOSTNAME} -ostype l26 \
--sockets 1 -cores 2 -vcpus 2 -cpu cputype=kvm64 -kvm 1 -numa 1 \
--memory 4096 -vga qxl -onboot 1 \
+-sockets 1 -cores 4 -vcpus 4 -cpu cputype=kvm64 -kvm 1 -numa 1 \
+-memory 8192 -vga qxl -onboot 1 \
 -net0 virtio,bridge=${BRIDGE0} \
 -net1 virtio,bridge=${BRIDGE1}
 
@@ -42,8 +42,6 @@ ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.25
 sudo hostnamectl set-hostname $(hostname -I | awk '{print $1}' | sed 's/\./-/g' | sed 's/^/ip-/')
 # Timezone
 sudo timedatectl set-timezone America/Sao_Paulo
-# Utils
-sudo dnf install -y nano pciutils net-tools #colordiff
 
 # Docker
 sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
@@ -74,6 +72,9 @@ sudo sed -i '/BatchMode/s/#   //' /etc/ssh/ssh_config
 sudo sed -i '/BatchMode/s/no/yes/' /etc/ssh/ssh_config
 
 sudo init 6
+
+# Utils
+#sudo dnf install -y nano pciutils net-tools colordiff htop
 
 
 ##############################
@@ -164,7 +165,7 @@ BRIDGE1="vmbr0";IP1="172.3.255.24/28";GW="172.3.255.30"
 # -----------
 qm create ${VMID} \
 -name ${HOSTNAME} -ostype l26 -bios ${BIOS} \
--sockets 1 -cores 2 -vcpus 2 -memory 16384 -vga qxl -onboot 1 \
+-sockets 1 -cores 4 -vcpus 4 -memory 12288 -vga qxl -onboot 1 \
 -net0 virtio,bridge=${BRIDGE0},macaddr=${MACADDR} \
 -net1 virtio,bridge=${BRIDGE1} \
 -ipconfig0 ip=${IP0} \
