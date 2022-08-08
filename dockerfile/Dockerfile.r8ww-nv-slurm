@@ -1,7 +1,9 @@
 FROM izone/hpc:r8ww-slurm
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-ARG NVIDIA_VERSION="515.57"
+ARG NVIDIA_VERSION="515.65.01"
+#ARG NVIDIA_VERSION="515.57"
+#ARG NVIDIA_VERSION="515.48.07"
 
 RUN \
   dnf install -y epel-release \
