@@ -14,7 +14,7 @@ Reference: <https://www.youtube.com/watch?v=EpVDeesAq4c&t=3456s>
 ``apptainer build mpich-hello-world.sif docker-daemon://mpich-hello-world:latest``
 
 #### Shoot slurm and follow the queue
-``srun --mpi=pmi2 --nodes=1 --ntasks-per-node=4 ./mpich-hello-world.sif; watch squeue``
+``srun --mpi=pmi2 --nodes=2 --ntasks-per-node=4 ./mpich-hello-world.sif; watch squeue``
 
 #### Runs with sbatch job
 ``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/mpich-hello-world/mpi_hello_world.slurm``
