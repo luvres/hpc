@@ -39,21 +39,13 @@
 #
 
 
-# Redirect all http traffic to the https Open OnDemand portal URI
-#     http://*:443
-#     #=> https://localhost:443
-#
-<VirtualHost *:80>
-  RewriteEngine On
-  RewriteRule ^(.*) https://%{SERVER_NAME}:443$1 [R=301,NE,L]
-</VirtualHost>
 
 # The Open OnDemand portal VirtualHost
 #
-<VirtualHost *:443>
+<VirtualHost *:80>
 
-  ErrorLog  "logs/error_ssl.log"
-  CustomLog "logs/access_ssl.log" combined
+  ErrorLog  "logs/error.log"
+  CustomLog "logs/access.log" combined
 
 
   # Support maintenance page during outages of OnDemand
@@ -65,13 +57,7 @@
   ErrorDocument 503 /public/maintenance/index.html
   Header Set Cache-Control "max-age=0, no-store"
 
-  Header always set Content-Security-Policy "frame-ancestors https://oondemand;"
-  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-
-  SSLEngine On
-  SSLCertificateFile "/etc/pki/tls/oondemand.pem"
-  SSLCertificateKeyFile "/etc/pki/tls/oondemand-key.pem"
-  SSLCertificateChainFile "/etc/pki/tls/oondemand.csr"
+  Header always set Content-Security-Policy "frame-ancestors http://ood-default;"
 
   # Lua configuration
   #
@@ -96,7 +82,7 @@
 
   # Serve up publicly available assets from local file system:
   #
-  #     https://localhost:443/public/favicon.ico
+  #     http://localhost:80/public/favicon.ico
   #     #=> /var/www/ood/public/favicon.ico
   #
   Alias "/public" "/var/www/ood/public"
@@ -110,7 +96,7 @@
 
   # Reverse proxy traffic to backend PUNs through Unix domain sockets:
   #
-  #     https://localhost:443/pun/dev/app/simulations/1
+  #     http://localhost:80/pun/dev/app/simulations/1
   #     #=> unix:/path/to/socket|http://localhost/pun/dev/app/simulations/1
   #
   SetEnv OOD_PUN_URI "/pun"
@@ -138,7 +124,7 @@
   # Control backend PUN for authenticated user:
   # NB: See mod_ood_proxy for more details.
   #
-  #    https://localhost:443/nginx/stop
+  #    http://localhost:80/nginx/stop
   #    #=> stops the authenticated user's PUN
   #
   SetEnv OOD_NGINX_URI "/nginx"
@@ -154,15 +140,15 @@
 
   # Redirect root URI to specified URI
   #
-  #     https://localhost:443/
-  #     #=> https://localhost:443/pun/sys/dashboard
+  #     http://localhost:80/
+  #     #=> http://localhost:80/pun/sys/dashboard
   #
   RedirectMatch ^/$ "/pun/sys/dashboard"
 
   # Redirect logout URI to specified redirect URI
   #
-  #     https://localhost:443/logout
-  #     #=> https://localhost:443/pun/sys/dashboard/logout
+  #     http://localhost:80/logout
+  #     #=> http://localhost:80/pun/sys/dashboard/logout
   #
   Redirect "/logout" "/pun/sys/dashboard/logout"
 

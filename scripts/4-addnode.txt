@@ -9,14 +9,14 @@ sudo wwctl container import docker://izone/hpc:r8ww-ood r8-ood # 1°
 # Add nodes
 sudo wwctl node add cn[81-82]
 #sudo wwctl node delete cn83 --yes
-sudo wwctl node add oondemand
+sudo wwctl node add ood65
 
 # Config nodes
 sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
 
 sudo wwctl node set cn82 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.82 -H fa:ce:40:06:18:82 -R generic,chrony,slurm -C r8-nv-slurm --yes
 
-sudo wwctl node set oondemand -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C r8-ood --yes
+sudo wwctl node set ood65 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C r8-ood --yes
 
 
 sudo wwctl configure --all
