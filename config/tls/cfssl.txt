@@ -106,7 +106,7 @@ tls
     └── cfssl-csr.json
 
 
-cat tls/certs/cert.pem
-cat tls/certs/cert-key.pem
-cat tls/certs/cert.csr
+cat ./certs/cert.pem
+cat ./certs/cert-key.pem
+cat ./certs/cert.csr
 

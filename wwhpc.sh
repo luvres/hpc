@@ -141,19 +141,14 @@ function overlays() {
 	echo "Localtime overlay"
 	bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
 
-#	echo "Open OnDemand TLS overlay"
-#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/pki/tls
-
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cfssl.pem \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/cfssl.pem
-
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cfssl-key.pem \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/cfssl-key.pem
-
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cfssl.csr \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/cfssl.csr
-
-  						
+	echo "Open OnDemand TLS overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/pki/tls
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.pem \
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert-key.pem \
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.csr \
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.csr
   echo "Open OnDemand Apache overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
