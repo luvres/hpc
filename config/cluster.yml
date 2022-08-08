@@ -6,6 +6,5 @@ v2:
     host: "headnode"
   job:
     adapter: "slurm"
-    cluster: "ixone"
     bin: "/usr/bin"
     conf: "/etc/slurm/slurm.conf"
