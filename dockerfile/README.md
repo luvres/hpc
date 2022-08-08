@@ -14,5 +14,5 @@
 ``docker build -t izone/hpc:r8ww-515.48.07-slurm -f ./Dockerfile.r8ww-nv-slurm .``
 
 #### Build Open OnDemand
-``docker build -t izone/hpc:ood -f ./Dockerfile.ood .``
+``docker build -t izone/hpc:ood -f ./Dockerfile.r8ww-ood .``
 
