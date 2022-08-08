@@ -177,8 +177,8 @@ function addnodes() {
 		wwctl node add $arg
 	done
 
-	wwctl node delete oondemand --yes &>/dev/null
-	wwctl node add oondemand
+	wwctl node delete ood65 --yes &>/dev/null
+	wwctl node add ood65
 
 	# Config nodes
 	#wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
