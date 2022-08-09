@@ -155,10 +155,15 @@ function overlays() {
   						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
   echo "Open OnDemand Cluster overlay"
   mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
-  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster.yml
-  sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/cluster.yml
+  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml \
+        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
+  sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml
 
+  echo "Open OnDemand Pinned apps overlay"
+  mkdir -p   cat /etc/ood/config/ondemand.d
+  curl -Lo /etc/ood/config/ondemand.d/ondemand.yml \
+        https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
+  
 	echo "Build overlay"
 	wwctl overlay build
 }

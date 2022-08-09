@@ -1,0 +1,11 @@
+pinned_apps:
+#  - 'sys/*'
+  - sys/files
+  - sys/shell
+  - sys/myjobs
+  - sys/activejobs
+
+  - sys/jupyter
+
+#pinned_apps_menu_length: 6
+#pinned_apps_group_by: 'category'
