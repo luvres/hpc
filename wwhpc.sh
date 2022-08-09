@@ -213,7 +213,6 @@ config() {
 	config_warewulf
 	config_slurm
 	overlays
-	addnodes
 }
 
 
