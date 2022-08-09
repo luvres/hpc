@@ -195,7 +195,7 @@ function addnodes() {
 
 function restart() {
 	echo "Reboot"
-	/usr/bin/sleep 6 && /usr/sbin/shutdown -r now
+	/usr/bin/sleep 3 && /usr/sbin/shutdown -r now
 }
 
 
@@ -223,7 +223,7 @@ elif [ $1 == 'warewulf' ]; then warewulf;
 elif [ $1 == 'slurm' ];    then slurm;
 elif [ $1 == 'overlays' ]; then overlays;
 elif [ $1 == 'addnodes' ]; then addnodes;
-elif [ $1 == 'restart' ]; then restart;
+elif [ $1 == 'restart' ];  then restart;
 fi
 
 
