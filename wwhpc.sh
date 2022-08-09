@@ -220,7 +220,7 @@ config() {
 if   [ $1 == 'install' ];  then install;
 elif [ $1 == 'config' ];   then config;
 elif [ $1 == 'warewulf' ]; then warewulf;
-elif [ $1 == 'slurm' ];    then slurm;
+elif [ $1 == 'slurm' ];    then config_slurm;
 elif [ $1 == 'overlays' ]; then overlays;
 elif [ $1 == 'addnodes' ]; then addnodes;
 elif [ $1 == 'restart' ];  then restart;
