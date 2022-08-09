@@ -5,7 +5,7 @@ pinned_apps:
   - sys/myjobs
   - sys/activejobs
 
-  - sys/jupyter
+  - sys/bc_jupyter
 
 #pinned_apps_menu_length: 6
 #pinned_apps_group_by: 'category'

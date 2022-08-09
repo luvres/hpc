@@ -160,9 +160,13 @@ function overlays() {
   sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml
 
   echo "Open OnDemand Pinned apps overlay"
-  mkdir -p   cat /etc/ood/config/ondemand.d
-  curl -Lo /etc/ood/config/ondemand.d/ondemand.yml \
+  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
+  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
         https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
+  echo "Open OnDemand Jupyter overlay"
+  mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+  curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
+        | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
   
 	echo "Build overlay"
 	wwctl overlay build
