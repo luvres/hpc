@@ -6,6 +6,6 @@ v2:
     host: "headnode"
   job:
     adapter: "slurm"
-    cluster: "hpc"
+#    cluster: "hpc"
     bin: "/usr/bin"
     conf: "/etc/slurm/slurm.conf"
