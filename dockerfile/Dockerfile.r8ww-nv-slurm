@@ -2,8 +2,9 @@ FROM izone/hpc:r8ww-slurm
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG NVIDIA_VERSION="515.65.01"
-#ARG NVIDIA_VERSION="515.57"
-#ARG NVIDIA_VERSION="515.48.07"
+#ARG NVIDIA_VERSION="510.85.02"
+#ARG NVIDIA_VERSION="470.141.03"
+#ARG NVIDIA_VERSION="390.154"
 
 RUN \
   dnf install -y epel-release \
@@ -17,6 +18,7 @@ RUN \
   && bash /tmp/NVIDIA-Linux-*.run --accept-license \
         --no-questions --ui=none --silent \
         --run-nvidia-xconfig --dkms --disable-nouveau \
+        --no-drm \
   \
   && rm -f /tmp/NVIDIA-Linux-*.run \
   && dnf clean all \
