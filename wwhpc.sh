@@ -325,7 +325,7 @@ config_auth_pam() {
 
 # Start
 if   [ $1 == 'install' ];  then install;
-if   [ $1 == 'install_auth_pam' ];  then install_auth_pam;
+elif   [ $1 == 'install_auth_pam' ];  then install_auth_pam;
 elif [ $1 == 'config' ];   then config;
 elif [ $1 == 'config_auth_pam' ];   then config_auth_pam;
 elif [ $1 == 'warewulf' ]; then warewulf;
@@ -338,5 +338,4 @@ elif [ $1 == 'overlays_build' ]; then overlays_build;
 elif [ $1 == 'addnodes' ]; then addnodes;
 elif [ $1 == 'restart' ];  then restart;
 fi
-
 
