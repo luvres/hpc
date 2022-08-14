@@ -1,5 +1,5 @@
 Warewulf provider HPC with Rocky linux base OS
-Slurm, NVIDIA Driver, Apptainer
+Slurm, NVIDIA Driver, Apptainer, Keycloak
 =====
 
 ``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/variables.txt``
