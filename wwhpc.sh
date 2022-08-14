@@ -107,71 +107,6 @@ function config_slurm() {
 	systemctl restart slurmctld
 }
 
-#function overlays() {
-#	echo "Slurm overlay"
-#	mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
-#	bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
-
-#	echo "Gres overlay"
-#	bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
-
-#	echo "Munge overlay"
-#	mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
-#	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
-#	chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
-#	chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
-
-#	echo "Chrony overlay"
-#	mkdir -p /var/lib/warewulf/overlays/chrony/etc
-#	# -----------
-#	{
-#		echo "server $HOSTNAME"
-#		echo "driftfile /var/lib/chrony/drift"
-#		echo "makestep 1.0 3"
-#		echo "rtcsync"
-#		echo "allow $ipaddr"
-#		echo "local stratum 10"
-#		echo "keyfile /etc/chrony.keys"
-#		echo "leapsectz right/UTC"
-#		echo "logdir /var/log/chrony"
-#		echo "log measurements statistics tracking"
-#		echo "initstepslew 20 $HOSTNAME"
-#	}> /var/lib/warewulf/overlays/chrony/etc/chrony.conf
-
-#	echo "Localtime overlay"
-#	bash -c "echo '{{Include \"/etc/localtime\"}}' >/var/lib/warewulf/overlays/chrony/etc/localtime.ww"
-
-#	echo "Open OnDemand TLS overlay"
-#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/pki/tls
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.crt \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.key \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
-##	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.csr \
-##  						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.csr
-#  echo "Open OnDemand Apache overlay"
-#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
-#  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal.conf
-#  echo "Open OnDemand Cluster overlay"
-#  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
-#  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml \
-#        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
-#  sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml
-
-#  echo "Open OnDemand Pinned apps overlay"
-#  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
-#  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
-#        https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
-#  echo "Open OnDemand Jupyter overlay"
-#  mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-#  curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
-#        | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-#  
-#	echo "Build overlay"
-#	wwctl overlay build
-#}
-
 function overlays_slurm() {
 	echo "Slurm overlay"
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
@@ -229,6 +164,10 @@ function overlays_oondemand() {
   echo "Open OnDemand Jupyter overlay"
   mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
   curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
+        | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+  echo "Open OnDemand RStudio overlay"
+  mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+  curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \
         | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 }
 
