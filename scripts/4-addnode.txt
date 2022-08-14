@@ -2,9 +2,9 @@
 # 4) Inport container #
 #######################
 # Inport container
-sudo wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm # 1°
+sudo wwctl container import docker://izone/hpc:r8ww-515.65.01-slurm r8-nv-slurm # 1°
 
-sudo wwctl container import docker://izone/hpc:r8ww-ood r8-ood # 1°
+sudo wwctl container import docker://izone/hpc:r8ww-ood-2.0.28 r8-ood # 1°
 
 # Add nodes
 sudo wwctl node add cn[81-82]
