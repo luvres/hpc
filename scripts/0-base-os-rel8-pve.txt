@@ -1,6 +1,6 @@
-########################## # 
-# Rocky Linux (headnode) # # 40.6.18.64/27 | 65-94 BC: 95
-########################## # 40.6.18.64/28 | 65-78 BC: 79
+############################# # 
+# 0) Rocky Linux (headnode) # # 40.6.18.64/27 | 65-94 BC: 95
+############################# # 40.6.18.64/28 | 65-78 BC: 79
 VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="56";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
@@ -77,9 +77,9 @@ sudo init 6
 #sudo dnf install -y nano pciutils net-tools colordiff htop
 
 
-##############################
-# Rocky Linux (controlnodes) #
-##############################
+#################################
+# 1) Rocky Linux (controlnodes) #
+#################################
 ### GPU (cn81) ###
 VMID=18081;BIOS="ovmf";HOSTNAME="cn81";BRIDGE="vmbr1";IP="dhcp";MACADDR="fa:ce:40:06:18:81";PCIe="04:00.0"
 # -----------
@@ -158,9 +158,116 @@ sudo scontrol reconfigure
 sudo scontrol update nodename=cn82 state=idle
 
 
-###################################
-# Rocky Linux (OOD Open OnDemand) #
-###################################
+
+####################
+# 2) Keycloak OIDC #
+####################
+# 1) Alpine LXC
+VMID=22023;HOSTNAME="keycloak";STORAGE="local-lvm";DISK="8";MEMORY="2048";
+BRIDGE="vmbr0";IP="172.3.255.23/28";GW="172.3.255.20";
+# -----------
+#pveam list local
+pct create ${VMID} \
+-hostname ${HOSTNAME} \
+local:vztmpl/alpine-3.16-default_20220622_amd64.tar.xz \
+-cores 1 -memory ${MEMORY} -swap 0 \
+-rootfs ${STORAGE}:${DISK} \
+-net0 name=eth0,bridge=${BRIDGE},ip=${IP},gw=${GW} \
+-unprivileged 1 \
+-features nesting=1,keyctl=1 \
+-onboot 1 \
+-ssh-public-keys ~/key2.pub
+
+pct start ${VMID} # 8.9M
+# ----------------------
+# ----------------------
+# Destroy
+VMID=22023;pct stop ${VMID};pct destroy ${VMID}
+
+# 2) Inslall Base tools
+pct exec ${VMID} -- sh -c "apk add --no-cache bash openjdk11-jre-headless curl nano" # 168.5M
+
+# 3) install Keycloak
+VMID=22023;pct exec ${VMID} -- bash
+
+KC_VERSION=18.0.2;wget -c https://github.com/keycloak/keycloak/releases/download/$KC_VERSION/keycloak-$KC_VERSION.zip
+unzip keycloak-$KC_VERSION.zip && rm keycloak-$KC_VERSION.zip
+mv keycloak-$KC_VERSION /opt/keycloak
+
+# 4) Config Keycloak
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+
+/opt/keycloak/bin/kc.sh start-dev
+/opt/keycloak/bin/kc.sh --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true start-dev
+
+
+curl -Lo /opt/keycloak/providers/keycloak-metrics-spi-2.5.3.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/2.5.3/keycloak-metrics-spi-2.5.3.jar
+# -----------
+tee /etc/init.d/keycloak <<EoF
+#!/sbin/openrc-run
+
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=admin
+
+name="busybox keycloak"
+command="/opt/keycloak/bin/kc.sh"
+command_args="start-dev"
+pidfile="/var/run/keycloak.pid"
+command_background="yes"
+
+depend() {
+  need net
+}
+EoF
+# -----------
+#keytool -genkeypair -alias localhost -keyalg RSA -keysize 2048 -validity 365 -keystore /opt/keycloak/conf/keystore.jks -dname "CN=localhost" -storepass secret
+
+#/opt/keycloak/bin/kc.sh build
+#/opt/keycloak/bin/kc.sh start --optimized
+# -----------
+# Access
+http://keycloak:8080/
+https://keycloak:8443/
+user: admin
+pass: admin
+
+# Config Helm
+Administration Console >
+	Username: admin
+	Password: admin
+
+Master
+	Add realm
+		Name*: oondemand
+		Create
+		
+Realm Settings
+	Login
+		Remember Me: ON
+		Login with email: OFF
+#		Require SSL:
+		Save
+		
+Clients
+	Create
+	  Client ID*: oondemand
+	  Save
+	Settings
+		Access Type: confidential
+		Direct Access Grants Enabled: off
+		* Valid Redirect URIs
+			https://oondemand
+			https://oondemand/oidc
+		Save
+		
+	Credentials
+	  Secret: x69QP39eRFuowwh4eqFXZkpwFU1mJuOQ
+
+
+######################################
+# 3) Rocky Linux (OOD Open OnDemand) #
+######################################
 VMID=18065;BIOS="ovmf";HOSTNAME="ood";BRIDGE0="vmbr1";IP0="dhcp";MACADDR="fa:ce:40:06:18:65";
 BRIDGE1="vmbr0";IP1="172.3.255.24/28";GW="172.3.255.30"
 # -----------
