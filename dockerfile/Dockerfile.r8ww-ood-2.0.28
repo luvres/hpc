@@ -10,6 +10,7 @@ RUN \
   \
   && dnf install -y \
        ondemand \
+       mod_auth_openidc \
        mod_authnz_pam \
        nano \
   \
