@@ -18,7 +18,7 @@ References in [CUDA Installation Guide Linux](https://docs.nvidia.com/cuda/pdf/C
 ``docker build -t izone/hpc:r8ww-390.154-slurm -f ./Dockerfile.r8ww-nv-slurm .``: 
 
 #### Build Open OnDemand
-``docker build -t izone/hpc:ood -f ./Dockerfile.r8ww-ood .``
-
 ``docker build -t izone/hpc:ood-2.0.28 -f ./Dockerfile.r8ww-ood-2.0.28 .``
+
+``docker build -t izone/hpc:ood -f ./Dockerfile.r8ww-ood .``
 
