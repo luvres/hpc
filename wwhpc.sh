@@ -210,9 +210,9 @@ function overlays_slurm() {
 function overlays_oondemand() {
 	echo "Open OnDemand TLS overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/pki/tls
-	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.pem \
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.crt \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
-	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert-key.pem \
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.key \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.csr \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.csr
@@ -233,14 +233,14 @@ function overlays_oondemand() {
 }
 
 function overlay_httpd_auth_pam() {
-  echo "Open OnDemand Apache overlay"
+  echo "Open OnDemand Apache PAM overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal-pam.conf
 }
 
 function overlay_httpd_auth_keycloak() {
-  echo "Open OnDemand Apache overlay"
+  echo "Open OnDemand Apache OIDC Keycloak overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal-keycloak.conf
