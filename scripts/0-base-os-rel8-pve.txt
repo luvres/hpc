@@ -1,7 +1,7 @@
 ############################# # 
 # 0) Rocky Linux (headnode) # # 40.6.18.64/27 | 65-94 BC: 95
 ############################# # 40.6.18.64/28 | 65-78 BC: 79
-VMID=22027;HOSTNAME="warewulf";STORAGE="local-lvm";DISK="56";
+VMID=22027;HOSTNAME="headnode";STORAGE="local-lvm";DISK="56";
 BRIDGE0="vmbr0";BRIDGE1="vmbr1";IP0="172.3.255.27/28";IP1="40.6.18.90/27";GW0="172.3.255.30";
 # -----------
 qm create ${VMID} \
@@ -12,8 +12,7 @@ qm create ${VMID} \
 -net1 virtio,bridge=${BRIDGE1}
 
 # Import the OpenStack disk image to Proxmox storage
-#qm importdisk ${VMID} Rocky-8-GenericCloud-8.5-20211114.2.x86_64.qcow2 ${STORAGE}
-qm importdisk ${VMID} Rocky-8-GenericCloud-8.6.20220702.0.x86_64.qcow2 ${STORAGE}
+qm importdisk ${VMID} Rocky-8-GenericCloud-8.6-20220515.x86_64.qcow2 ${STORAGE}
 #qm importdisk ${VMID} Rocky-9-GenericCloud-9.0-20220706.0.x86_64.qcow2 ${STORAGE}
 
 qm set ${VMID} \
@@ -39,7 +38,8 @@ ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.25
 # Congif Base #
 ###############
 # Hostname
-sudo hostnamectl set-hostname $(hostname -I | awk '{print $1}' | sed 's/\./-/g' | sed 's/^/ip-/')
+#sudo hostnamectl set-hostname $(hostname -I | awk '{print $1}' | sed 's/\./-/g' | sed 's/^/ip-/')
+sudo hostnamectl set-hostname headnode
 # Timezone
 sudo timedatectl set-timezone America/Sao_Paulo
 
@@ -156,14 +156,16 @@ systemctl status slurmd
 # 4) reconfigure
 sudo scontrol reconfigure
 sudo scontrol update nodename=cn82 state=idle
-
+# Node "completing"
+sudo scontrol update nodename=cn82 state=down reason=cg
+sudo scontrol update nodename=cn82 state=idle
 
 
 ####################
 # 2) Keycloak OIDC #
 ####################
 # 1) Alpine LXC
-VMID=22023;HOSTNAME="keycloak";STORAGE="local-lvm";DISK="8";MEMORY="2048";
+VMID=22023;HOSTNAME="oidc";STORAGE="local-lvm";DISK="8";MEMORY="2048";
 BRIDGE="vmbr0";IP="172.3.255.23/28";GW="172.3.255.20";
 # -----------
 #pveam list local
@@ -177,7 +179,6 @@ local:vztmpl/alpine-3.16-default_20220622_amd64.tar.xz \
 -features nesting=1,keyctl=1 \
 -onboot 1 \
 -ssh-public-keys ~/key2.pub
-
 pct start ${VMID} # 8.9M
 # ----------------------
 # ----------------------
@@ -195,11 +196,11 @@ unzip keycloak-$KC_VERSION.zip && rm keycloak-$KC_VERSION.zip
 mv keycloak-$KC_VERSION /opt/keycloak
 
 # 4) Config Keycloak
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=admin
+#export KEYCLOAK_ADMIN=admin
+#export KEYCLOAK_ADMIN_PASSWORD=admin
 
-/opt/keycloak/bin/kc.sh start-dev
-/opt/keycloak/bin/kc.sh --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true start-dev
+#/opt/keycloak/bin/kc.sh start-dev
+#/opt/keycloak/bin/kc.sh --spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true start-dev
 
 
 curl -Lo /opt/keycloak/providers/keycloak-metrics-spi-2.5.3.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/2.5.3/keycloak-metrics-spi-2.5.3.jar
@@ -220,6 +221,10 @@ depend() {
   need net
 }
 EoF
+# -----------
+chmod +x /etc/init.d/keycloak
+
+rc-update add keycloak
 # -----------
 #keytool -genkeypair -alias localhost -keyalg RSA -keysize 2048 -validity 365 -keystore /opt/keycloak/conf/keystore.jks -dname "CN=localhost" -storepass secret
 
@@ -285,136 +290,6 @@ VMID=18065;qm stop ${VMID};qm destroy ${VMID};
 
 # Access VM
 ssh -i ~/hpc-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes rocky@172.3.255.24
-
-###########################
-# 3.1) Authentication PAM #
-###########################
-su -
-
-echo 'rocky:aamu02' | chpasswd
-
-
-###########################
-# 3.2) Authentication DEX #
-###########################
-sudo systemctl enable --now ondemand-dex
-
-# user
-sudo groupadd ood
-sudo useradd -d /home/ood -g ood -k /etc/skel -m ood
-
-# access
-http://oondemand/
-
-username: ood@localhoste 
-password: password
-
-
-################################
-# 3.3) Authentication Keycloak #
-################################
-VMID=22023;HOSTNAME="keycloak";STORAGE="local-lvm";DISK="8";MEMORY="2048";
-BRIDGE="vmbr0";IP="172.3.255.23/28";GW="172.3.255.30";
-# -----------
-#pveam list local
-pct create ${VMID} \
--hostname ${HOSTNAME} \
-local:vztmpl/alpine-3.16-default_20220622_amd64.tar.xz \
--cores 1 -memory ${MEMORY} -swap 0 \
--rootfs ${STORAGE}:${DISK} \
--net0 name=eth0,bridge=${BRIDGE},ip=${IP},gw=${GW} \
--unprivileged 1 \
--features nesting=1,keyctl=1 \
--onboot 1 \
--ssh-public-keys ~/key2.pub
-
-pct start ${VMID}
-# -----------
-# Remove
-VMID=22023;pct stop ${VMID};pct destroy ${VMID};
-
-
-#####################
-# Option 1) OpenJDK #
-#####################
-pct exec ${VMID} -- sh -c "apk add --no-cache openjdk11 bash"
-
-pct exec ${VMID} -- sh
-# ----------------------
-rm keycloak-* -fR
-
-VERSION_KEYCLOAK="16.1.1"
-VERSION_KEYCLOAK="18.0.2"
-
-wget -c https://github.com/keycloak/keycloak/releases/download/${VERSION_KEYCLOAK}/keycloak-${VERSION_KEYCLOAK}.zip
-
-unzip keycloak-${VERSION_KEYCLOAK}.zip
-
-ln -s /root/keycloak-${VERSION_KEYCLOAK}/bin/kc.sh /usr/bin/keycloak
-# -----------
-tee /etc/init.d/keycloak <<EoF
-#!/sbin/openrc-run
-
-export KEYCLOAK_ADMIN=admin
-export KEYCLOAK_ADMIN_PASSWORD=admin
-
-name="busybox keycloak"
-command="/usr/bin/keycloak"
-command_args="start-dev"
-pidfile="/var/run/keycloak.pid"
-command_background="yes"
-
-depend() {
-        need net
-}
-EoF
-# -----------
-chmod +x /etc/init.d/keycloak
-
-rc-update add keycloak
-
-service keycloak status
-
-
-
-
-
-# Secret: 23d8RnBE9JU9h71a3RH9JJFuahxyJKJf
-
-
-sudo sed -i '/auth:/s/#//' /etc/ood/config/ood_portal.yml
-sudo sed -i '/AuthType/s/#//' /etc/ood/config/ood_portal.yml
-sudo sed -i '/Require/s/#//' /etc/ood/config/ood_portal.yml
-
-logout_redirect
-
-oidc_uri: '/oidc'
-
-
-
-
-#######################
-# Option 2) Container #
-#######################
-#
-docker run --rm --name keycloak \
--p 8080:8080 -p 8443:8443 \
--e KEYCLOAK_USER=admin \
--e KEYCLOAK_PASSWORD=admin \
-quay.io/keycloak/keycloak:16.1.1
-
-
-13.0.1
-
-#pct exec ${VMID} -- sh -c "apk add --no-cache openssh curl && echo 'PermitRootLogin yes' >>/etc/ssh/ssh_config && rc-update add sshd && service sshd restart"
-#
-pct exec ${VMID} -- sh -c "apk add --no-cache docker && rc-update add docker && reboot"
-
-#pct exec ${VMID} -- sh -c "docker run -d --name keycloak -p 8080:8080 -p 8443:8443 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:18.0.2 start-dev"
-
-pct exec ${VMID} -- sh -c "docker run --rm --name Keycloak -p 8080:8080 -p 8443:8443 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:16.1.1"
-
-pct exec ${VMID} -- sh -c "docker rm -f keycloak"
 
 
 # Access
