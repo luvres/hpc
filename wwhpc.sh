@@ -7,11 +7,12 @@ network=$4
 range_start=$5
 range_end=$6
 netmask_bit=$7
+ood=$8
 
 count=1
 for arg in "$@"
 do
-	if [ $count -ge 8 ]; then
+	if [ $count -ge 9 ]; then
 		nodes_list+="$arg "
 	fi
 	count=$(($count + 1))
@@ -204,8 +205,8 @@ function addnodes() {
 		wwctl node add $arg
 	done
 
-	wwctl node delete ood65 --yes &>/dev/null
-	wwctl node add ood65
+	wwctl node delete $ood --yes &>/dev/null
+	wwctl node add $ood
 
 	# Config nodes
 	#wwctl node set cn81 -n default -N eth0 -M 255.255.255.240 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes
