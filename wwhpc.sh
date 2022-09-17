@@ -151,24 +151,24 @@ function overlays_oondemand() {
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.csr \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.csr
-  echo "Open OnDemand Cluster overlay"
-  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
-  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
-  sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml
+	echo "Open OnDemand Cluster overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
+	sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpc.yml
 
-  echo "Open OnDemand Pinned apps overlay"
-  mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
-  curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
-        https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
-  echo "Open OnDemand Jupyter overlay"
-  mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-  curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
-        | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-  echo "Open OnDemand RStudio overlay"
-  mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-  curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \
-        | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+	echo "Open OnDemand Pinned apps overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
+	echo "Open OnDemand Jupyter overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+	echo "Open OnDemand RStudio overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 }
 
 function overlay_httpd_auth_pam() {
