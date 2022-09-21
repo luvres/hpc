@@ -12,7 +12,7 @@ qm create ${VMID} \
 -net1 virtio,bridge=${BRIDGE1}
 
 # Import the OpenStack disk image to Proxmox storage
-qm importdisk ${VMID} Rocky-8-GenericCloud-8.6-20220515.x86_64.qcow2 ${STORAGE}
+qm importdisk ${VMID} Rocky-8-GenericCloud-8.6.20220702.0.x86_64.qcow2 ${STORAGE}
 #qm importdisk ${VMID} Rocky-9-GenericCloud-9.0-20220706.0.x86_64.qcow2 ${STORAGE}
 
 qm set ${VMID} \
