@@ -164,11 +164,15 @@ function overlays_oondemand() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
 	echo "Open OnDemand Jupyter overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/bc_osc_jupyter.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 	echo "Open OnDemand RStudio overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/bc_osc_rstudio.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+	echo "Open OnDemand CodeServer overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/bc_codeserver.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 }
 
