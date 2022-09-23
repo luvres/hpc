@@ -109,7 +109,7 @@ function config_slurm() {
 }
 
 function overlays_slurm() {
-  echo "Slurmd overlay"
+	echo "Slurmd overlay"
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/sysconfig/
 	bash -c 'echo "SLURMD_OPTIONS=\"-M --conf-server $(hostname):6817\""' \
                                  >/var/lib/warewulf/overlays/slurm/etc/sysconfig/slurmd
