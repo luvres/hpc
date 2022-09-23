@@ -37,7 +37,7 @@ function install_warewulf() {
 function config_warewulf() {
 	echo "Config warewulf"
 	test -f /etc/warewulf/warewulf.conf.ORIG || cp /etc/warewulf/warewulf.conf{,.ORIG}
-	
+
 	curl -Lo /etc/warewulf/warewulf.conf https://raw.githubusercontent.com/luvres/hpc/master/config/warewulf.conf
 	sed -i "s/192.168.200.1/$ipaddr/" /etc/warewulf/warewulf.conf
 	sed -i "s/255.255.255.0/$netmask/" /etc/warewulf/warewulf.conf
@@ -78,7 +78,7 @@ function install_slurm() {
 	echo "Download slurmctld.service"
 	test -f /usr/lib/systemd/system/slurmctld.service.ORIG \
 	|| cp /usr/lib/systemd/system/slurmctld.service{,.ORIG}
-	
+
 	curl -Lo /usr/lib/systemd/system/slurmctld.service \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
@@ -104,7 +104,7 @@ function config_slurm() {
 	echo "Download gres.conf"
 	curl -Lo /etc/slurm/gres.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
-		
+
 	systemctl restart slurmctld
 }
 
