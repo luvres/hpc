@@ -8,4 +8,4 @@ v2:
     adapter: "slurm"
 #    cluster: "hpcc"
     bin: "/usr/bin"
-    conf: "/etc/slurm/slurm.conf"
+#    conf: "/etc/slurm/slurm.conf"

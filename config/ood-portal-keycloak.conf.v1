@@ -127,49 +127,7 @@
     Require all granted
   </Directory>
 
-  # Reverse proxy traffic to backend webserver through IP sockets:
-  #
-  #     https://hpcc.exacta.eu.org:443/node/HOST/PORT/index.html
-  #     #=> http://HOST:PORT/node/HOST/PORT/index.html
-  #
-  <LocationMatch "^/node/(?<host>[\w.-]+\.exacta\.eu\.org)/(?<port>\d+)">
-    AuthType openid-connect
-    Require valid-user
 
-    # ProxyPassReverse implementation
-    Header edit Location "^[^/]+//[^/]+" ""
-
-    # ProxyPassReverseCookieDomain implemenation
-    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
-
-    # ProxyPassReverseCookiePath implementation
-    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
-    Header edit  Set-Cookie "^([^;]+)" "$1; Path=/node/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    LuaHookFixups node_proxy.lua node_proxy_handler
-  </LocationMatch>
-
-  # Reverse "relative" proxy traffic to backend webserver through IP sockets:
-  #
-  #     https://hpcc.exacta.eu.org:443/rnode/HOST/PORT/index.html
-  #     #=> http://HOST:PORT/index.html
-  #
-  <LocationMatch "^/rnode/(?<host>[\w.-]+\.exacta\.eu\.org)/(?<port>\d+)(?<uri>/.*|)">
-    AuthType openid-connect
-    Require valid-user
-
-    # ProxyPassReverse implementation
-    Header edit Location "^([^/]+//[^/]+)|(?=/)|^([\./]{1,}(?<!/))" "/rnode/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    # ProxyPassReverseCookieDomain implemenation
-    Header edit* Set-Cookie ";\s*(?i)Domain[^;]*" ""
-
-    # ProxyPassReverseCookiePath implementation
-    Header edit* Set-Cookie ";\s*(?i)Path[^;]*" ""
-    Header edit  Set-Cookie "^([^;]+)" "$1; Path=/rnode/%{MATCH_HOST}e/%{MATCH_PORT}e"
-
-    LuaHookFixups node_proxy.lua node_proxy_handler
-  </LocationMatch>
 
   # Reverse proxy traffic to backend PUNs through Unix domain sockets:
   #
