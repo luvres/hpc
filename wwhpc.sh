@@ -161,7 +161,7 @@ function overlays_oondemand() {
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
 	sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml
-
+  # ----------------------
 	echo "Open OnDemand Pinned apps overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
