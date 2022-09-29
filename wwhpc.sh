@@ -189,8 +189,8 @@ function overlays_oondemand() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/PUC_logo1.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_dashboard.png \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-T1200.png
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
-#		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
 }
 
 function overlay_httpd_auth_pam() {
