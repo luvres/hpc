@@ -184,6 +184,7 @@ function overlays_oondemand() {
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/ood.rb \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_navbar.rb
 	echo "Open OnDemand LOGO"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/public
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_header.png \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/PUC_logo1.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_dashboard.png \
