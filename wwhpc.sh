@@ -178,6 +178,11 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/bc_codeserver.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+	# ----------------------
+	echo "Open OnDemand Dashboard Navbar"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/ood.rb \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_navbar.rb
 }
 
 function overlay_httpd_auth_pam() {
