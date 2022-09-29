@@ -1,0 +1,4 @@
+pun_custom_env:
+   OOD_DASHBOARD_HEADER_IMG_LOGO: "/public/logo_header.png"
+   OOD_BRAND_BG_COLOR: "#BFBFBF"
+   OOD_DASHBOARD_LOGO: "/public/logo_dashboard.png"
