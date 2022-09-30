@@ -48,7 +48,7 @@ en:
 
     welcome_html: |
       %{logo_img_tag}
-      <p class="lead">OnDemand provides an integrated, single access point for all of your HPC resources.</p>
+#      <p class="lead">OnDemand provides an integrated, single access point for all of your HPC resources.</p>
 
     # General translations
     apps_setup_failure_html: |
