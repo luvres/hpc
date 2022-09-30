@@ -195,6 +195,7 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/rc.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/rc.local
+	chmod +x /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local
 }
 
 function overlay_httpd_auth_pam() {
