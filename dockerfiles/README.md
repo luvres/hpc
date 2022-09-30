@@ -9,7 +9,7 @@ References in [CUDA Installation Guide Linux](https://docs.nvidia.com/cuda/pdf/C
 
 ``docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .``
 
-``docker build -t izone/hpc:r8ww-515.65.01-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 11.7
+``docker build -t izone/hpc:r8ww-515.76-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 11.7
 
 ``docker build -t izone/hpc:r8ww-510.85.02-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 11.6
 

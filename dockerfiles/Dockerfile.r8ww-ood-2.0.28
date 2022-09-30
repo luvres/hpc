@@ -27,4 +27,8 @@ RUN \
   \
   && dnf -y clean all \
   \
-  && systemctl enable httpd
+  && systemctl enable httpd \
+  \
+  # Enable file for run scripts at startup
+  && chmod +x /etc/rc.d/rc.local \
+  && systemctl enable rc-local.service
