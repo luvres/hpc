@@ -1,5 +1,5 @@
 #!/bin/bash
 
-sleep 10
-sed '/pinned_apps_title/s/Pinned Apps//' /var/www/ood/apps/sys/dashboard/config/locales/en.yml
-sed '/pinned_apps_caption_html/s/A[^\']*'/Pinned Apps/g' /var/www/ood/apps/sys/dashboard/config/locales/en.yml
+#sleep 10
+#sed '/pinned_apps_title/s/Pinned Apps//' /var/www/ood/apps/sys/dashboard/config/locales/en.yml
+#sed '/pinned_apps_caption_html/s/A[^\']*'/Pinned Apps/g' /var/www/ood/apps/sys/dashboard/config/locales/en.yml

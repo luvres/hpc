@@ -191,11 +191,15 @@ function overlays_oondemand() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-T1200.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
-	echo "Open OnDemand File for run scripts at startup"
-	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/rc.d
-	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/rc.local
-	chmod +x /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local
+	echo "Open OnDemand locales"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales
+	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales/en.yml \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/en.yml
+#	echo "Open OnDemand File for run scripts at startup"
+#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/rc.d
+#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local \
+#		    https://raw.githubusercontent.com/luvres/hpc/master/config/rc.local
+#	chmod +x /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local
 }
 
 function overlay_httpd_auth_pam() {
