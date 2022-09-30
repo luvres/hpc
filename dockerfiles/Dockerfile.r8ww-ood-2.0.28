@@ -27,10 +27,10 @@ RUN \
   \
   && dnf -y clean all \
   \
-  && systemctl enable httpd \
-  \
-  # Enable file for run scripts at startup
-  && echo -e '\n[Install]' >> /usr/lib/systemd/system/rc-local.service \
-  && echo 'WantedBy=multi-user.target' >> /usr/lib/systemd/system/rc-local.service \
-  && chmod +x /etc/rc.d/rc.local \
-  && systemctl enable rc-local.service
+  && systemctl enable httpd 
+#  \
+#  # Enable file for run scripts at startup
+#  && echo -e '\n[Install]' >> /usr/lib/systemd/system/rc-local.service \
+#  && echo 'WantedBy=multi-user.target' >> /usr/lib/systemd/system/rc-local.service \
+#  && chmod +x /etc/rc.d/rc.local \
+#  && systemctl enable rc-local.service
