@@ -1,0 +1,2 @@
+MOTD_PATH="/etc/motd"  # this supports both file and RSS feed URIs
+MOTD_FORMAT="markdown" # markdown, txt, rss, markdown_erb, txt_erb

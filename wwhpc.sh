@@ -195,6 +195,15 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales/en.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/en.yml
+	echo "Open OnDemand widgets"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets/_wellcome.html \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/_wellcome.html
+	echo "Open OnDemand motd"
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/motd \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/motd
+	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/env \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/motd_env
 		    
 #	echo "Open OnDemand File for run scripts at startup"
 #	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/rc.d

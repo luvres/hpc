@@ -104,7 +104,7 @@ pun_custom_env:
 
 # Max file upload size in bytes (e.g., 10737420000)
 #
-#nginx_file_upload_max: '10737420000'
+nginx_file_upload_max: '10737420000'
 
 # Root location of per-user NGINX configs
 #
