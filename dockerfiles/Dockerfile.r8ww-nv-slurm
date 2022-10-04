@@ -12,4 +12,6 @@ RUN \
   && dnf install -y nvidia-driver nvidia-settings \
   && dnf install -y cuda-driver \
   \
+  && dnf -y clean all \
+  \
   && usermod -u $UID_NVIDIA_PERSISTENCED nvidia-persistenced
