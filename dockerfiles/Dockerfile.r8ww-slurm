@@ -2,8 +2,8 @@ FROM izone/hpc:r8ww
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG \
-  APPTAINER_MAJOR="v1.0.3" \
-  APPTAINER_VERSION="1.0.3-1"
+  APPTAINER_MAJOR="v1.1.0" \
+  APPTAINER_VERSION="1.1.0-1"
   
 RUN \
   dnf -y install \
@@ -20,5 +20,4 @@ RUN \
   && dnf -y clean all \
   \
   && systemctl enable munge \
-  && systemctl enable slurmd 
-  
+  && systemctl enable slurmd

@@ -2,7 +2,8 @@ FROM izone/hpc:r8ww-slurm
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG UID_SASLAUNTH=987 \
-    UID_ONDEMAND_NGINX=986
+    UID_ONDEMAND_NGINX=986 \
+    UID_ONDEMAND_DEX=985 
 
 RUN \
   dnf install -y epel-release https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm \
@@ -10,8 +11,8 @@ RUN \
   \
   && dnf install -y \
        ondemand \
-       mod_auth_openidc \
        mod_authnz_pam \
+       ondemand-dex \
        nano \
   \
   # Config PAM
@@ -22,15 +23,10 @@ RUN \
   \
   && usermod -u $UID_SASLAUNTH saslauth \
   && usermod -u $UID_ONDEMAND_NGINX ondemand-nginx \
+  && usermod -u $UID_ONDEMAND_DEX ondemand-dex \
   \
   && mkdir -p /etc/ood/config/clusters.d \
   \
   && dnf -y clean all \
   \
-  && systemctl enable httpd 
-#  \
-#  # Enable file for run scripts at startup
-#  && echo -e '\n[Install]' >> /usr/lib/systemd/system/rc-local.service \
-#  && echo 'WantedBy=multi-user.target' >> /usr/lib/systemd/system/rc-local.service \
-#  && chmod +x /etc/rc.d/rc.local \
-#  && systemctl enable rc-local.service
+  && systemctl enable httpd

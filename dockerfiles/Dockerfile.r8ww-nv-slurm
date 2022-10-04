@@ -1,41 +1,15 @@
 FROM izone/hpc:r8ww-slurm
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-ARG NVIDIA_VERSION="515.76"
-#ARG NVIDIA_VERSION="515.65.01"
-#ARG NVIDIA_VERSION="510.85.02"
-#ARG NVIDIA_VERSION="470.141.03"
-#ARG NVIDIA_VERSION="390.154"
-
+ARG UID_NVIDIA_PERSISTENCED=987
+  
 RUN \
   dnf install -y epel-release \
-  && dnf install -y \
-        kernel-devel kernel-headers dkms \
-        htop \
+  # NVIDIA Driver
+  && dnf config-manager --add-repo \
+          https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo \
+  && dnf install -y kernel-devel-$(uname -r) kernel-headers-$(uname -r) \
+  && dnf install -y nvidia-driver nvidia-settings \
+  && dnf install -y cuda-driver \
   \
-  && curl -Lo /tmp/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
-        https://us.download.nvidia.com/XFree86/Linux-$(uname -m)/${NVIDIA_VERSION}/NVIDIA-Linux-$(uname -m)-${NVIDIA_VERSION}.run \
-  \
-  && bash /tmp/NVIDIA-Linux-*.run --accept-license \
-        --no-questions --ui=none --silent \
-        --run-nvidia-xconfig --dkms --disable-nouveau \
-        --no-drm \
-  \
-  && rm -f /tmp/NVIDIA-Linux-*.run \
-  && dnf clean all \
-  \
-  && {\
-    echo '[Unit]'; \
-    echo 'Description=NVIDIA Persistence Daemon'; \
-    echo 'Wants=syslog.target'; \
-    echo ''; \
-    echo '[Service]'; \
-    echo 'Type=forking'; \
-    echo 'ExecStart=/usr/bin/nvidia-persistenced';  \
-    echo 'ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced'; \
-    echo ''; \
-    echo '[Install]'; \
-    echo 'WantedBy=multi-user.target'; \
-  } > /usr/lib/systemd/system/nvidia-persistenced.service \
-  \
-  && systemctl enable nvidia-persistenced
+  && usermod -u $UID_NVIDIA_PERSISTENCED nvidia-persistenced
