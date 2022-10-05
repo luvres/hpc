@@ -116,7 +116,6 @@ function overlays_slurm() {
 #	echo "Slurm overlay"
 #	mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
 #	bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
-
 #	echo "Gres overlay"
 #	bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
 
