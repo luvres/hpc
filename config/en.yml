@@ -127,7 +127,8 @@ en:
     nav_logout: "Log Out"
     nav_restart_server: "Restart Web Server"
     nav_restart_server: "Restart Web Server"
-    nav_sessions: "My Interactive Sessions"  # Note duplication with breadcrumbs_my_sessions
+#    nav_sessions: "My Interactive Sessions"  # Note duplication with breadcrumbs_my_sessions
+    nav_sessions: ""
     nav_user: "Logged in as %{username}"
 
     quota_block: "Using %{used} of quota %{available}"
