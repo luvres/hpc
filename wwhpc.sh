@@ -155,11 +155,15 @@ function overlays_oondemand() {
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/pki/tls/cert.csr \
   						https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.csr
-	echo "Open OnDemand Cluster overlay"
+	echo "Open OnDemand Cluster HPCC overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-config.yml
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-hpcc.yml
 	sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml
+#	echo "Open OnDemand Cluster Kubernetes overlay"
+#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
+#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/kubernetes.yml \
+#		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-kubernetes.yml
   # ----------------------
 	echo "Open OnDemand Pinned apps overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
@@ -169,6 +173,12 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+	
+#	echo "Open OnDemand Jupyter k8s overlay"
+#	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+#	curl -L https://github.com/luvres/hpc/raw/master/config/bc_k8s_jupyter.tar.gz \
+#		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+		    
 	echo "Open OnDemand RStudio overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \

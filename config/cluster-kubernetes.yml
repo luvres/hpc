@@ -1,0 +1,28 @@
+---
+v2:
+  metadata:
+    title: "Kubernetes"
+  # you may not want a login section. There may not be a login node
+  # for your kuberenetes cluster
+#  login:
+#    host: "ood33"
+  job:
+    adapter: "kubernetes"
+#    config_file: "~/.kube/config"
+    cluster: "kubernetes"
+#    context: "default"
+    bin: "/usr/local/bin/kubectl"
+    username_prefix: "user-"
+    namespace_prefix: "ns-"
+#    all_namespaces: true
+    all_namespaces: false
+    auto_supplemental_groups: false
+    server:
+      endpoint: "https://puc-rio.eu.org:6443"
+      cert_authority_file: "/etc/pki/tls/certs/kubernetes-ca.crt"
+    auth:
+#      type: "oidc"
+      type: "managed"
+    mounts: []
+  batch_connect:
+    ssh_allow: false
