@@ -27,7 +27,11 @@ RUN \
   \
   && dnf -y clean all \
   \
-  && systemctl enable httpd 
+  && systemctl enable httpd \
+  \
+  # Hide desktop app
+  && /var/www/ood/apps/sys/bc_desktop.tar.gz /var/www/ood/apps/sys/bc_desktop \
+  && rm -fR /var/www/ood/apps/sys/bc_desktop
 #  \
 #  # Enable file for run scripts at startup
 #  && echo -e '\n[Install]' >> /usr/lib/systemd/system/rc-local.service \
