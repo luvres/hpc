@@ -243,6 +243,9 @@ function overlays_build() {
 function addnodes() {
 	echo "Import container with Slurm and NVIDIA Driver"
 	wwctl container import docker://izone/hpc:r8ww-nv-slurm r8-nv-slurm
+	
+	echo "Import container with Slurm"
+	wwctl container import docker://izone/hpc:r8ww-slurm r8-slurm
 
 	echo "Import container from Open OnDemand"
 	wwctl container import docker://izone/hpc:r8ww-ood r8-ood
