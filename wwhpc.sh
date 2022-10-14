@@ -8,11 +8,12 @@ range_start=$5
 range_end=$6
 netmask_bit=$7
 ood=$8
+nfs_server=$9
 
 count=1
 for arg in "$@"
 do
-	if [ $count -ge 9 ]; then
+	if [ $count -ge 10 ]; then
 		nodes_list+="$arg "
 	fi
 	count=$(($count + 1))
@@ -46,6 +47,11 @@ function config_warewulf() {
 	sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
 
 	bash -c 'echo >/etc/hosts'
+	
+	echo "external nfs server in computenodes fstab to mount /home"
+	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
+	sed -i "s/nfs_server/$nfs_server/" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 
 	wwctl configure --all
 
