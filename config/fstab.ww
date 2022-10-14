@@ -15,4 +15,4 @@ proc /proc proc defaults 0 0
 #{{- end }}
 #{{- end }}
 #{{- end }}
-nfs_server:/home /home nfs defaults 0 0
+nfs_server:/var/nfs/headnode/home /home nfs defaults 0 0
