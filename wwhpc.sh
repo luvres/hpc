@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Variables
-nfs_server="ip_nfs_server"
 ipaddr=$2
 netmask=$3
 network=$4
@@ -48,10 +47,10 @@ function config_warewulf() {
 
 	bash -c 'echo >/etc/hosts'
 	
-	echo "external nfs server in computenodes fstab to mount /home"
-	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
-		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
-	sed -i "s/nfs_server/$nfs_server/" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
+#	echo "external nfs server in computenodes fstab to mount /home"
+#	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
+#		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
+#	sed -i "s/nfs_server/$nfs_server/" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 
 	wwctl configure --all
 
