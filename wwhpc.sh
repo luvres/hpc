@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Variables
+nfs_server="ip_nfs_server"
 ipaddr=$2
 netmask=$3
 network=$4
@@ -8,12 +9,11 @@ range_start=$5
 range_end=$6
 netmask_bit=$7
 ood=$8
-nfs_server=$9
 
 count=1
 for arg in "$@"
 do
-	if [ $count -ge 10 ]; then
+	if [ $count -ge 9 ]; then
 		nodes_list+="$arg "
 	fi
 	count=$(($count + 1))
