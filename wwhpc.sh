@@ -198,6 +198,10 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/ood.rb \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_navbar.rb
+	echo "Open OnDemand Dashboard 'System Installed App'"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/app/apps
+	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/app/apps/sys_router.rb \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_sys_router.rb
 	echo "Open OnDemand LOGO"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/public
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_header.png \
