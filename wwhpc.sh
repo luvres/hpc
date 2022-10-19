@@ -71,6 +71,11 @@ function config_warewulf() {
 		echo "log measurements statistics tracking"
 		echo "initstepslew 10 $nodes_list"
 	}> /etc/chrony.conf
+	
+	echo "Restrict su Access"
+	bash -c "sed -i '/pam_wheel.so use_uid/s/#//' /etc/pam.d/su"
+	mkdir -p /var/lib/warewulf/overlays/generic/etc/pam.d/
+	bash -c "echo '{{Include \"/etc/pam.d/su\"}}' >/var/lib/warewulf/overlays/generic/etc/pam.d/su.ww"
 }
 
 function install_slurm() {
