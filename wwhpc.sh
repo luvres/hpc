@@ -212,9 +212,12 @@ function overlays_oondemand() {
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_header.png \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/PUC_logo1.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_dashboard.png \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-T1200.png
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-roboto.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
+	echo"Open OnDemand Backgrount Image"
+	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/background.png \
+	      https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/bg_ood.png
 	echo "Open OnDemand locales"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales/en.yml \
