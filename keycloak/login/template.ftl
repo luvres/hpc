@@ -46,9 +46,6 @@
         <header class="${properties.kcFormHeaderClass!}">
         
             <img src="${url.resourcesPath}/img/logo_Exacta.svg">
-            <br><br>
-            <p style="font-size:20px;font-weight:bold;color:#2F4261;">Sign in</p>
-            <p style="font-size:14px;font-weight:normal;color:#2F4261">Bem vindo! Logue para continuar</p>
             
             <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
                 <div class="${properties.kcLocaleMainClass!}" id="kc-locale">
@@ -112,6 +109,10 @@
             </#if>
         </#if>
       </header>
+      
+      <p class="sign-in" style="font-size:24px;font-weight:bold;color:#2F4261;">Sign in</p>
+      <p class="sign-in" style="font-size:16px;font-weight:normal;color:#2F4261">Bem vindo! Por vafor logue para continuar</p>
+      
       <div id="kc-content">
         <div id="kc-content-wrapper">
 

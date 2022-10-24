@@ -13,8 +13,8 @@
 
 /*IE compatibility*/
 .pf-c-form-control {
-    font-size: 14px;
-    font-size: var(--pf-global--FontSize--sm);
+    font-size: 16px;
+    box-shadow: 0px 0px 10px #2c282833;
     border-width: 1px;
     border-width: var(--pf-global--BorderWidth--sm);;
     border-color: #EDEDED #EDEDED #8A8D90 #EDEDED;
@@ -25,6 +25,24 @@
     height: calc(var(--pf-c-form-control--FontSize) * var(--pf-c-form-control--LineHeight) + var(--pf-c-form-control--BorderWidth) * 2 + var(--pf-c-form-control--PaddingTop) + var(--pf-c-form-control--PaddingBottom));
     padding: 5px 0.5rem;
     padding: var(--pf-c-form-control--PaddingTop) var(--pf-c-form-control--PaddingRight) var(--pf-c-form-control--PaddingBottom) var(--pf-c-form-control--PaddingLeft);
+}
+
+input#username {
+    background: url('../img/ico_mail.svg') 4% 50% no-repeat padding-box;
+    background-color: #FFFFFF;
+    text-indent: 40px;
+    border-radius: 4px;
+    height: 42px;
+    padding: 5px 0.5rem;
+}
+input#password {
+    background: url('../img/ico_lock.svg') 4% 50% no-repeat padding-box;
+    background-color: #FFFFFF;
+    text-indent: 40px;
+    border-radius: 4px;
+    height: 42px;
+    padding: 5px 0.5rem;
+    margin-top: 10px;
 }
 
 textarea.pf-c-form-control {
@@ -147,7 +165,8 @@ textarea.pf-c-form-control {
     background-color: #007ba7;
     width: 80%;
     margin-left: 30px;
-    height: 38px;
+    margin-top: 33px;
+    height: 42px;
     border-radius: 4px;
 }
 
@@ -303,6 +322,7 @@ div.kc-logo-text span {
 
 #kc-content-wrapper {
     margin-top: 20px;
+    margin-top: 36px;
 }
 
 #kc-form-wrapper {
@@ -324,8 +344,9 @@ div.kc-logo-text span {
 }
 
 #kc-form-options .checkbox {
-    margin-top: 0;
-    color: #72767b;
+    margin-top: 10px;
+    color: #2F4261;
+    font-size: 13px;
 }
 
 #kc-terms-text {
@@ -687,6 +708,11 @@ ul#kc-totp-supported-apps {
     margin-left: 33px;
     margin-right: 33px;
     text-align: center;
+}
+
+.sign-in {
+    text-align: center;
+    margin: 0;
 }
 
 /*phone*/
