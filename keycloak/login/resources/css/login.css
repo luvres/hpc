@@ -141,6 +141,16 @@ textarea.pf-c-form-control {
     padding: var(--pf-c-alert__title--PaddingTop) var(--pf-c-alert__title--PaddingRight) var(--pf-c-alert__title--PaddingBottom) var(--pf-c-alert__title--PaddingLeft);
 }
 
+.pf-c-button.pf-m-primary {
+    color: #fff;
+    font-weight: bold;
+    background-color: #007ba7;
+    width: 80%;
+    margin-left: 30px;
+    height: 38px;
+    border-radius: 4px;
+}
+
 .pf-c-button{
     padding:0.375rem 1rem;
     padding: var(--pf-global--spacer--form-element) var(--pf-global--spacer--md);
@@ -661,9 +671,22 @@ ul#kc-totp-supported-apps {
     box-shadow: var(--pf-global--BoxShadow--lg);
     padding: 0 20px;
     max-width: 400px;
-    border-top: 4px solid;
+    height: 480px;
+    border-radius: 4px;
+    border-top: 0px solid;
+    border-bottom: 0px solid;
+    border-left: 0px solid;
+    border-right: 0px solid;
     border-color: #0066CC; /* default - IE compatibility */
     border-color: var(--pf-global--primary-color--100);
+}
+
+.login-pf-page .login-pf-header {
+    margin-top: 15px;
+    margin-botton: 20px;
+    margin-left: 33px;
+    margin-right: 33px;
+    text-align: center;
 }
 
 /*phone*/

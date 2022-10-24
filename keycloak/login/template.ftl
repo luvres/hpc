@@ -40,10 +40,16 @@
 <div class="${properties.kcLoginClass!}">
     <div id="kc-header" class="${properties.kcHeaderClass!}">
         <div id="kc-header-wrapper"
-             class="${properties.kcHeaderWrapperClass!}">${kcSanitize(msg("loginTitleHtml",(realm.displayNameHtml!'')))?no_esc}</div>
+             class="${properties.kcHeaderWrapperClass!}"> </div>
     </div>
     <div class="${properties.kcFormCardClass!}">
         <header class="${properties.kcFormHeaderClass!}">
+        
+            <img src="${url.resourcesPath}/img/logo_Exacta.svg">
+            <br><br>
+            <p style="font-size:20px;font-weight:bold;color:#2F4261;">Sign in</p>
+            <p style="font-size:14px;font-weight:normal;color:#2F4261">Bem vindo! Logue para continuar</p>
+            
             <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
                 <div class="${properties.kcLocaleMainClass!}" id="kc-locale">
                     <div id="kc-locale-wrapper" class="${properties.kcLocaleWrapperClass!}">
@@ -67,11 +73,11 @@
                         <span class="subtitle"><span class="required">*</span> ${msg("requiredFields")}</span>
                     </div>
                     <div class="col-md-10">
-                        <h1 id="kc-page-title"><#nested "header"></h1>
+                        <h1 id="kc-page-title"></h1>
                     </div>
                 </div>
             <#else>
-                <h1 id="kc-page-title"><#nested "header"></h1>
+                <h1 id="kc-page-title"></h1>
             </#if>
         <#else>
             <#if displayRequiredFields>
