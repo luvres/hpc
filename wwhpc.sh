@@ -215,6 +215,9 @@ function overlays_oondemand() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-roboto.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
+	echo "Open OnDemand Favicon"
+	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/favicon.ico \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/favicon-puc.ico
 	echo"Open OnDemand Backgrount Image"
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/background.png \
 	      https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/bg_ood.png
