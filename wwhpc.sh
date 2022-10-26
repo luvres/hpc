@@ -112,8 +112,10 @@ function config_slurm() {
 	echo "Download slurmdbd.conf"
 	curl -Lo /etc/slurm/slurmdbd.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmdbd.conf
+	chown slurm:slurm /etc/slurm/slurmdbd.conf
+	chmod 600 /etc/slurm/slurmdbd.conf
 
-	perl -pi -e "s/ControlMachine=\S+/ControlMachine=${HOSTNAME}/" /etc/slurm/slurm.conf
+	perl -pi -e "s/SlurmctldHost=\S+/SlurmctldHost=${HOSTNAME}/" /etc/slurm/slurm.conf
 
 	echo "Download gres.conf"
 	curl -Lo /etc/slurm/gres.conf \
