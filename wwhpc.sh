@@ -109,6 +109,9 @@ function config_slurm() {
 	echo "Download slurm.conf"
 	curl -Lo /etc/slurm/slurm.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
+	echo "Download slurmdbd.conf"
+	curl -Lo /etc/slurm/slurmdbd.conf \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmdbd.conf
 
 	perl -pi -e "s/ControlMachine=\S+/ControlMachine=${HOSTNAME}/" /etc/slurm/slurm.conf
 
