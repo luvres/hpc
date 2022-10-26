@@ -10,7 +10,7 @@
 #
 ClusterName=hpcc
 #ControlMachine=warewulf
-SlurmctldHost=ip-172-3-255-27
+ControlMachine=ip-172-3-255-27
 #ControlAddr=
 #BackupController=
 #BackupAddr=
