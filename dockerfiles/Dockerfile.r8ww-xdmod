@@ -1,0 +1,21 @@
+FROM izone/hpc:r8ww
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+ARG UID_XDMOD=987 \
+    UID_NGINX=986
+    
+RUN \
+  dnf -y install epel-release \
+  && dnf -y install \
+      NetworkManager bash-completion nano \
+      https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
+  \
+  && dnf -y clean all \
+  \
+  && usermod -u $UID_XDMOD xdmod \
+  && usermod -u $UID_NGINX nginx \
+  \
+  # Apache
+  && cp /usr/share/xdmod/templates/apache.conf /etc/httpd/conf.d/xdmod.conf \
+  && sed -i 's/ServerName localhost/ServerName xdmod/' /etc/httpd/conf.d/xdmod.conf \
+  && systemctl enable httpd

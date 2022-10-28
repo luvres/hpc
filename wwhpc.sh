@@ -230,6 +230,9 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales/en.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/en.yml
+	echo "Open OnDemand appication HTML"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/public/assets
+	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/public/assets/application-2fde447313952cf2d4f0c8cf0b2f0549ed7eac0e3aaf162a376b4fbe0589ac7e.css
 	echo "Open OnDemand widgets"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets/_wellcome.html \
