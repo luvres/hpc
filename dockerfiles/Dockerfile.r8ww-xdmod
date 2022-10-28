@@ -16,6 +16,4 @@ RUN \
   && usermod -u $UID_NGINX nginx \
   \
   # Apache
-  && cp /usr/share/xdmod/templates/apache.conf /etc/httpd/conf.d/xdmod.conf \
-  && sed -i 's/ServerName localhost/ServerName xdmod/' /etc/httpd/conf.d/xdmod.conf \
   && systemctl enable httpd
