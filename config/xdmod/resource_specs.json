@@ -1,0 +1,9 @@
+[
+    {
+        "resource": "hpcc",
+        "processors": 32,
+        "nodes": 4,
+        "ppn": 8
+    }
+]
+

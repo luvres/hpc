@@ -256,6 +256,19 @@ function overlays_xdmod() {
   mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/httpd/conf.d
   curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/httpd/conf.d/xdmod.conf \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/xdmod.conf
+	echo "Open XDMoD Portal Settings"
+	mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/xdmod
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/portal_settings.ini \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/portal_settings.ini
+	echo "Open XDMoD Portal Organization"
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/organization.json \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/organization.json
+	echo "Open XDMoD Portal Resources"
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/resources.json \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/resources.json
+	echo "Open XDMoD Portal Resources Specs"
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/resource_specs.json \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/resource_specs.json
 }
 
 function overlay_httpd_auth_pam() {

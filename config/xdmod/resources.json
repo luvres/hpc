@@ -1,0 +1,8 @@
+[
+    {
+        "resource": "hpcc",
+        "resource_type": "HPC",
+        "name": "HPC"
+    }
+]
+
