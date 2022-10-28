@@ -116,7 +116,9 @@ en:
     breadcrumbs_home: "Home"
     breadcrumbs_my_sessions: "My Interactive Sessions"
 
-    motd_title: "Messagem do Dia"
+#    motd_title: "Login Message"
+#    motd_title: "Messagem do Dia"
+    motd_title: ""
 
     nav_all_apps: "All Apps"
     nav_develop_docs: "Developer Documentation"
@@ -125,7 +127,6 @@ en:
     nav_develop_title: "Develop"
     nav_help_title: "Help"
     nav_logout: "Log Out"
-    nav_restart_server: "Restart Web Server"
     nav_restart_server: "Restart Web Server"
 #    nav_sessions: "My Interactive Sessions"  # Note duplication with breadcrumbs_my_sessions
     nav_sessions: ""
