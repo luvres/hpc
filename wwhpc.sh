@@ -251,6 +251,13 @@ function overlays_oondemand() {
 #	chmod +x /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local
 }
 
+function overlays_xdmod() {
+  echo "Open XDMoD Apache"
+  mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/httpd/conf.d
+  curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/httpd/conf.d/xdmod.conf \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/xdmod.conf
+}
+
 function overlay_httpd_auth_pam() {
   echo "Open OnDemand Apache PAM overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
@@ -307,6 +314,7 @@ install() {
 	config_slurm
 	overlays_slurm
 	overlays_oondemand
+	overlays_xdmod
 	overlay_httpd_auth_keycloak
 	overlays_build
 	addnodes
