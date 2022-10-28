@@ -2,8 +2,8 @@ FROM izone/hpc:r8ww
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG \
-  APPTAINER_MAJOR="v1.1.2" \
-  APPTAINER_VERSION="1.1.2-1"
+  APPTAINER_MAJOR="v1.1.3" \
+  APPTAINER_VERSION="1.1.3-1"
   
 RUN \
   dnf -y install \
