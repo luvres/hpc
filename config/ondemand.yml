@@ -13,20 +13,6 @@ pinned_apps:
 #pinned_apps_menu_length: 6
 #pinned_apps_group_by: 'category'
 
-#dashboard_layout:
-#  rows:
-#  - columns:
-#    - width: 12
-#      widgets:
-#      - wellcome
-#  - columns:
-#    - width: 4
-#      widgets:
-#      - motd
-#    - width: 8
-#      widgets:
-#      - pinned_apps
-
 dashboard_layout:
   rows:
   - columns:
