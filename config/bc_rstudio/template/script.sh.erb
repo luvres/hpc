@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Create directory for necessary mount points
+WORKDIR=${HOME}/.rstudio
+mkdir -p -m 700 ${WORKDIR}/{run,rstudio-server,rstudio,}
+
+# Config load workspace
+cat > ${WORKDIR}/rstudio-prefs.json  <<EoF
+{
+    "load_workspace": false,
+    "initial_working_directory": "~",
+    "posix_terminal_shell": "bash"
+}
+EoF
+
+# [Rstudio 1.4] database is required
+cat > ${WORKDIR}/database.conf <<EoF
+provider=sqlite
+directory=/var/lib/rstudio-server
+EoF
+
+# Load the required environment
+export APPTAINER_BIND="\
+${WORKDIR}/run:/run,\
+${WORKDIR}/rstudio-server:/var/lib/rstudio-server,\
+${WORKDIR}/rstudio:${HOME}/.local/share/rstudio,\
+${WORKDIR}/database.conf:/etc/rstudio/database.conf, \
+${WORKDIR}/rstudio-prefs.json:${HOME}/.config/rstudio/rstudio-prefs.json \
+"
+#
+# Start RStudio Server
+#
+set -x
+# Launch the RStudio Server
+echo "Starting up rserver..."
+
+apptainer exec --cleanenv /home/rstudio.sif sh -c "USER=${USER} \
+rserver \
+--server-user ${USER} \
+--www-port ${port} \
+"
+
