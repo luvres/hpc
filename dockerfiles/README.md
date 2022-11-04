@@ -17,6 +17,8 @@
 #### Build NVIDIA proprietary driver
 References in [CUDA Installation Guide Linux](https://docs.nvidia.com/cuda/pdf/CUDA_Installation_Guide_Linux.pdf) for more information.
 
+``docker build -t izone/hpc:r8ww-520.56.06-slurm -f ./Dockerfile.r8ww-nvidia-slurm .``: CUDA Version: 11.7
+
 ``docker build -t izone/hpc:r8ww-515.76-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 11.7
 
 ``docker build -t izone/hpc:r8ww-510.85.02-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 11.6
