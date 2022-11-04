@@ -10,6 +10,9 @@
 #### Build Open OnDemand
 ``docker build -t izone/hpc:r8ww-ood -f ./Dockerfile.r8ww-ood .``
 
+#### Build Open XDMoD (in progress..)
+``docker build -t izone/hpc:r8ww-xdmod -f ./Dockerfile.r8ww-xdmod .``
+
 -----
 #### Build NVIDIA proprietary driver
 References in [CUDA Installation Guide Linux](https://docs.nvidia.com/cuda/pdf/CUDA_Installation_Guide_Linux.pdf) for more information.
