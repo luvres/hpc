@@ -93,7 +93,7 @@ function install_slurm() {
 	curl -Lo /usr/lib/systemd/system/slurmctld.service \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmctld.service
 
-	systemctl enable slurmctld
+	systemctl enable --now slurmctld
 
 	echo "New Munge key"
 	test -f /etc/munge/munge.key.ORIG || mv /etc/munge/munge.key{,.ORIG}
