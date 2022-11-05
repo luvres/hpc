@@ -123,7 +123,7 @@ function config_slurm() {
 	curl -Lo /etc/slurm/gres.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 
-	systemctl restart slurmctld
+#	systemctl restart slurmctld
 }
 
 function overlays_slurm() {
@@ -320,6 +320,8 @@ function addnodes() {
 }
 
 function restart() {
+  echo "Restart Slurmctld"  
+  systemctl restart slurmctld
 	echo "Reboot"
 	/usr/bin/sleep 3 && /usr/sbin/shutdown -r now
 }
