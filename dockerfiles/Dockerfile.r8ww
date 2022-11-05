@@ -9,7 +9,7 @@ RUN \
     e2fsprogs ethtool \
     findutils \
     initscripts ipmitool iproute \
-    kernel-core \
+    kernel-core-$(uname -r) \
     net-tools network-scripts nfs-utils \
     openssh-clients openssh-server \
     pciutils psmisc \

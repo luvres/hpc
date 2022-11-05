@@ -7,7 +7,7 @@ ARG \
   
 RUN \
   dnf -y install \
-      kernel-modules \
+      kernel-modules-$(uname -r) \
       dnf-plugins-core \
       http://repos.openhpc.community/OpenHPC/2/CentOS_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm \
   \
@@ -15,7 +15,7 @@ RUN \
   && dnf -y install ohpc-base-compute ohpc-slurm-client slurm-libpmi-ohpc lmod-ohpc chrony \
   \
   # Install Apptainer
-  && dnf -y install kernel-modules https://github.com/apptainer/apptainer/releases/download/${APPTAINER_MAJOR}/apptainer-${APPTAINER_VERSION}.x86_64.rpm \
+  && dnf -y install https://github.com/apptainer/apptainer/releases/download/${APPTAINER_MAJOR}/apptainer-${APPTAINER_VERSION}.x86_64.rpm \
   \
   && dnf -y clean all \
   \

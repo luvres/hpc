@@ -123,7 +123,7 @@ function config_slurm() {
 	curl -Lo /etc/slurm/gres.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 
-#	systemctl restart slurmctld
+	systemctl restart slurmctld
 }
 
 function overlays_slurm() {
