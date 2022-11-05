@@ -114,6 +114,8 @@ function config_slurm() {
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmdbd.conf
 	chown slurm:slurm /etc/slurm/slurmdbd.conf
 	chmod 600 /etc/slurm/slurmdbd.conf
+	
+	systemctl enable slurmdbd
 
 	perl -pi -e "s/SlurmctldHost=\S+/SlurmctldHost=${HOSTNAME}/" /etc/slurm/slurm.conf
 
@@ -121,7 +123,7 @@ function config_slurm() {
 	curl -Lo /etc/slurm/gres.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
 
-	systemctl restart slurmctld
+#	systemctl restart slurmctld
 }
 
 function overlays_slurm() {
@@ -299,6 +301,9 @@ function addnodes() {
 
 	echo "Import container from Open OnDemand"
 	wwctl container import docker://izone/hpc:r8ww-ood r8-ood
+	
+	echo "Import container from Open XDMoD"
+	wwctl container import docker://izone/hpc:r8ww-xdmod r8-xdmod
 
 	echo "Add nodes"
 	for arg in "${no_l[@]}"
