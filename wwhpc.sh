@@ -102,7 +102,7 @@ function install_slurm() {
 	chown munge. /etc/munge/munge.key
 	chmod 0400 /etc/munge/munge.key
 
-	systemctl enable munge
+	systemctl enable --now munge
 }
 
 function config_slurm() {
@@ -115,7 +115,7 @@ function config_slurm() {
 	chown slurm:slurm /etc/slurm/slurmdbd.conf
 	chmod 600 /etc/slurm/slurmdbd.conf
 	
-	systemctl enable slurmdbd
+	systemctl enable --now slurmdbd
 
 	perl -pi -e "s/SlurmctldHost=\S+/SlurmctldHost=${HOSTNAME}/" /etc/slurm/slurm.conf
 
