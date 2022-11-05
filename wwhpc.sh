@@ -102,7 +102,7 @@ function install_slurm() {
 	chown munge. /etc/munge/munge.key
 	chmod 0400 /etc/munge/munge.key
 
-	systemctl enable --now munge
+	systemctl enable munge
 }
 
 function config_slurm() {
