@@ -7,6 +7,4 @@
 #SBATCH --output=./logs/slurm.log  # Standard output and error log
 #SBATCH --error=./logs/slurm.log
 
-export PYTHONUNBUFFERED=1
-
 apptainer run --nv $HOME/huggingsound.sif python -u finetune_cv.py
