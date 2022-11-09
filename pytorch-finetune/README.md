@@ -8,7 +8,7 @@ docker push izone/hpc:huggingsound
 apptainer pull huggingsound.sif docker://izone/hpc:huggingsound
 
 # Run
-mkdir cache output out err
+mkdir cache output logs
 
 sbatch script.slurm
 

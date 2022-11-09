@@ -37,7 +37,7 @@ pun_custom_env:
    OOD_BRAND_BG_COLOR: "#007BA7"
 #   OOD_BRAND_LINK_ACTIVE_BG_COLOR: "#fff"
    OOD_DASHBOARD_LOGO: "/public/logo_dashboard.png"
-   OOD_XDMOD_HOST: "https://xdmod.exacta.eu.org/"
+   OOD_XDMOD_HOST: "https://xdmod.exacta.eu.org"
 
 # List of environment variables to pass onto PUN environment
 # from /etc/ood/profile. Example below shows some default

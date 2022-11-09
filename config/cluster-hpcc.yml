@@ -9,3 +9,6 @@ v2:
 #    cluster: "hpcc"
     bin: "/usr/bin"
 #    conf: "/etc/slurm/slurm.conf"
+  custom:
+   xdmod:
+     resource_id: 1

@@ -88,42 +88,47 @@ def get_filtered_data(dataset):
 
     return filtered_data
 
+def loading_data():
+    LOGGER.info("Loading data")
+    dataset = load_dataset("common_voice", "pt", cache_dir=DATASET_CACHE_DIR)
+    token_set = get_token_set(dataset["train"]["sentence"])
+    filtered_data = get_filtered_data(dataset["train"])
 
-LOGGER.info("Loading data")
+def setting_configs():
+    LOGGER.info("Setting configs")
 
-dataset = load_dataset("common_voice", "pt", cache_dir=DATASET_CACHE_DIR)
+#training_args = TrainingArguments(
+#    max_steps=TRAIN_STEPS,
+#    per_device_train_batch_size=TRAIN_BATCH_SIZE,
+#    pad_to_multiple_of=8,
+#    show_dataset_stats=False,
+#)
+#model_args = ModelArguments(
+#    freeze_feature_extractor = True,
+#    ctc_zero_infinity = True,
+#    ctc_loss_reduction = "mean",
+#)
 
-token_set = get_token_set(dataset["train"]["sentence"])
+def loading_model():
+    LOGGER.info("Loading model")
 
-filtered_data = get_filtered_data(dataset["train"])
+#model = SpeechRecognitionModel(PRETRAINED_MODEL, device=DEVICE)
 
-LOGGER.info("Setting configs")
+#LOGGER.info("Fine-tuning")
 
-training_args = TrainingArguments(
-    max_steps=TRAIN_STEPS,
-    per_device_train_batch_size=TRAIN_BATCH_SIZE,
-    pad_to_multiple_of=8,
-    show_dataset_stats=False,
-)
-model_args = ModelArguments(
-    freeze_feature_extractor = True,
-    ctc_zero_infinity = True,
-    ctc_loss_reduction = "mean",
-)
+#model.finetune(
+#    MODEL_OUTPUT_DIR,
+#    train_data=filtered_data,
+#    token_set=token_set,
+#    training_args=training_args,
+#    model_args=model_args,
+#    num_workers=4
+#)
+def fine_tuning_finished():
+    LOGGER.info("Fine-tuning Finished!")
 
-LOGGER.info("Loading model")
-
-model = SpeechRecognitionModel(PRETRAINED_MODEL, device=DEVICE)
-
-LOGGER.info("Fine-tuning")
-
-model.finetune(
-    MODEL_OUTPUT_DIR,
-    train_data=filtered_data,
-    token_set=token_set,
-    training_args=training_args,
-    model_args=model_args,
-    num_workers=4
-)
-
-LOGGER.info("Fine-tuning Finished!")
+if __name__ == "__main__":
+    loading_data()
+    setting_configs()
+    loading_model()
+    fine_tuning_finished()
