@@ -12,6 +12,8 @@ RUN \
       \
       mariadb-server \
   \
+  && echo "sql_mode=" >>/etc/my.cnf.d/mariadb-server.cnf \
+  \
   && dnf -y clean all \
   \
   && usermod -u $UID_XDMOD xdmod \

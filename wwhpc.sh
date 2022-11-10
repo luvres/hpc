@@ -271,6 +271,20 @@ function overlays_xdmod() {
 	echo "Open XDMoD Portal Resources Specs"
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/resource_specs.json \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/resource_specs.json
+	echo "Open XDMoD SimpleSAMLphp"
+	mkdir -p /etc/xdmod/simplesamlphp/config
+	mkdir -p /etc/xdmod/simplesamlphp/metadata
+	mkdir -p /etc/xdmod/simplesamlphp/cert
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config/config.php \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/config.php
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config/authsources.php \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/authsources.php
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/saml20-idp-remote.php \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/saml20-idp-remote.php
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/cert/xdmod.crt \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/cert/xdmod.key \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
 }
 
 function overlay_httpd_auth_pam() {
