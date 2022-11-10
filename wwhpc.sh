@@ -272,9 +272,9 @@ function overlays_xdmod() {
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/resource_specs.json \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/resource_specs.json
 	echo "Open XDMoD SimpleSAMLphp"
-	mkdir -p /etc/xdmod/simplesamlphp/config
-	mkdir -p /etc/xdmod/simplesamlphp/metadata
-	mkdir -p /etc/xdmod/simplesamlphp/cert
+	mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config
+	mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/metadata
+	mkdir -p /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/cert
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config/config.php \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/config.php
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config/authsources.php \
