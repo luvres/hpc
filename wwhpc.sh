@@ -279,7 +279,7 @@ function overlays_xdmod() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/config.php
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/config/authsources.php \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/authsources.php
-	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/saml20-idp-remote.php \
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/metadata/saml20-idp-remote.php \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/saml20-idp-remote.php
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/cert/xdmod.crt \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
