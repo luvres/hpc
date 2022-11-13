@@ -122,8 +122,6 @@ function config_slurm() {
 	echo "Download gres.conf"
 	curl -Lo /etc/slurm/gres.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/gres.conf
-
-#	systemctl restart slurmctld
 }
 
 function overlays_slurm() {
@@ -131,12 +129,6 @@ function overlays_slurm() {
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/sysconfig/
 	bash -c 'echo "SLURMD_OPTIONS=\"-M --conf-server $(hostname):6817\""' \
                                  >/var/lib/warewulf/overlays/slurm/etc/sysconfig/slurmd
-#	echo "Slurm overlay"
-#	mkdir -p /var/lib/warewulf/overlays/slurm/etc/slurm/
-#	bash -c "echo '{{Include \"/etc/slurm/slurm.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/slurm.conf.ww"
-#	echo "Gres overlay"
-#	bash -c "echo '{{Include \"/etc/slurm/gres.conf\"}}' >/var/lib/warewulf/overlays/slurm/etc/slurm/gres.conf.ww"
-
 	echo "Munge overlay"
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
 	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
@@ -176,44 +168,44 @@ function overlays_oondemand() {
 	echo "Open OnDemand Cluster HPCC overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-hpcc.yml
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/cluster-hpcc.yml
 	sed -i "s/headnode/$HOSTNAME/" /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/hpcc.yml
 #	echo "Open OnDemand Cluster Kubernetes overlay"
 #	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d
 #	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/clusters.d/kubernetes.yml \
-#		    https://raw.githubusercontent.com/luvres/hpc/master/config/cluster-kubernetes.yml
+#		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/cluster-kubernetes.yml
   # ----------------------
 	echo "Open OnDemand Pinned apps overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/ondemand.yml
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/ondemand.yml
 	echo "Open OnDemand Jupyter overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/bc_jupyter.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_jupyter.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 	
 #	echo "Open OnDemand Jupyter k8s overlay"
 #	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-#	curl -L https://github.com/luvres/hpc/raw/master/config/bc_k8s_jupyter.tar.gz \
+#	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_k8s_jupyter.tar.gz \
 #		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    
 	echo "Open OnDemand RStudio overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/bc_rstudio.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_rstudio.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 	echo "Open OnDemand CodeServer overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/bc_codeserver.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_codeserver.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 	# ----------------------
 	echo "Open OnDemand Dashboard Navbar"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/initializers/ood.rb \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_navbar.rb
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/dashboard_navbar.rb
 	echo "Open OnDemand Dashboard 'System Installed App'"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/app/apps
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/app/apps/sys_router.rb \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/dashboard_sys_router.rb
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/dashboard_sys_router.rb
 	echo "Open OnDemand LOGO"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/public
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_header.png \
@@ -221,7 +213,7 @@ function overlays_oondemand() {
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/logo_dashboard.png \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/logo_FULL-roboto.png
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/nginx_stage.yml \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/nginx_stage.yml
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/nginx_stage.yml
 	echo "Open OnDemand Favicon"
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/favicon.ico \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/favicon-puc.ico
@@ -231,26 +223,20 @@ function overlays_oondemand() {
 	echo "Open OnDemand locales"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/config/locales/en.yml \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/en.yml
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/en.yml
 	echo "Open OnDemand appication HTML"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/public/assets
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/dashboard/public/assets/application-2fde447313952cf2d4f0c8cf0b2f0549ed7eac0e3aaf162a376b4fbe0589ac7e.css \
-	      https://raw.githubusercontent.com/luvres/hpc/master/config/application-2fde447313952cf2d4f0c8cf0b2f0549ed7eac0e3aaf162a376b4fbe0589ac7e.css
+	      https://raw.githubusercontent.com/luvres/hpc/master/config/ood/application-2fde447313952cf2d4f0c8cf0b2f0549ed7eac0e3aaf162a376b4fbe0589ac7e.css
 	echo "Open OnDemand widgets"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/views/widgets/_wellcome.html \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/_wellcome.html
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/_wellcome.html
 	echo "Open OnDemand motd"
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/motd \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/motd
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/motd
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/apps/dashboard/env \
-		    https://raw.githubusercontent.com/luvres/hpc/master/config/motd_env
-		    
-#	echo "Open OnDemand File for run scripts at startup"
-#	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/rc.d
-#	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local \
-#		    https://raw.githubusercontent.com/luvres/hpc/master/config/rc.local
-#	chmod +x /var/lib/warewulf/overlays/oondemand/etc/rc.d/rc.local
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/motd_env
 }
 
 function overlays_xdmod() {
@@ -291,14 +277,14 @@ function overlay_httpd_auth_pam() {
   echo "Open OnDemand Apache PAM overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
-  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal-pam.conf
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood/ood-portal-pam.conf
 }
 
 function overlay_httpd_auth_keycloak() {
   echo "Open OnDemand Apache OIDC Keycloak overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/httpd/conf.d/ood-portal.conf \
-  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood-portal-keycloak.conf
+  						https://raw.githubusercontent.com/luvres/hpc/master/config/ood/ood-portal-keycloak.conf
 }
 
 function overlays_build() {
