@@ -4,9 +4,9 @@ Lammps MPI
 Reference: <https://www.youtube.com/watch?v=EpVDeesAq4c&t=3456s>
 
 #### Create base container with docker
-``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/mpich-lammps/Containerfile``
+``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/projects/mpich-lammps/Containerfile``
 
-``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/mpich-lammps/lmp-wrapper.sh``
+``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/projects/mpich-lammps/lmp-wrapper.sh``
 
 ``DOCKER_BUILDKIT=1 docker build -t mpich-lammps -f Containerfile .``
 
