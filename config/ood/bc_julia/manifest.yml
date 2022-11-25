@@ -1,7 +1,7 @@
 ---
-name: Jupyter
+name: IJulia
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-  This app will launch a Jupyter server on a compute node.
+  This app will launch a IJulia on a compute node.

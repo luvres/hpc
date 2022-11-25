@@ -188,7 +188,12 @@ function overlays_oondemand() {
 #	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 #	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_k8s_jupyter.tar.gz \
 #		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-		    
+
+	echo "Open OnDemand IJulia overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_julia.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+		    	    
 	echo "Open OnDemand RStudio overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_rstudio.tar.gz \
