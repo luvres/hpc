@@ -1,14 +1,15 @@
 pinned_apps:
 #  - 'sys/*'
   - sys/files
-#  - sys/shell
   - sys/myjobs
-#  - sys/activejobs
+  - sys/activejobs
+  - sys/shell
 
   - sys/bc_codeserver
   - sys/bc_jupyter
 #  - sys/bc_k8s_jupyter
-#  - sys/bc_rstudio
+  - sys/bc_rstudio
+  - sys/bc_julia
 
 #pinned_apps_menu_length: 6
 #pinned_apps_group_by: 'category'
@@ -26,5 +27,5 @@ dashboard_layout:
       - motd
     - width: 4
       widgets:
-      - xdmod_widget_job_efficiency
+#      - xdmod_widget_job_efficiency
       - xdmod_widget_jobs

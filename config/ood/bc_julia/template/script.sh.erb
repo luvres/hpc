@@ -30,3 +30,4 @@ set -x
 apptainer exec /home/ijulia.sif \
 jupyter <%= context.jupyterlab_switch == "1" ? "lab" : "notebook" %> \
 --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+

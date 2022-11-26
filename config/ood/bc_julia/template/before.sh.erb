@@ -60,3 +60,6 @@ c.NotebookApp.notebook_dir = '${NOTEBOOK_DIR}'
 c.NotebookApp.disable_check_xsrf = True
 EOL
 )
+
+# Install IJulia in the user's home
+apptainer exec /home/ijulia.sif julia -e 'using Pkg ; Pkg.add("IJulia")'
