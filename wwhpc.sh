@@ -109,6 +109,8 @@ function config_slurm() {
 	echo "Download slurm.conf"
 	curl -Lo /etc/slurm/slurm.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurm.conf
+	curl -Lo /etc/slurm/cgroup.conf \
+		https://raw.githubusercontent.com/luvres/hpc/master/config/cgroup.conf
 	echo "Download slurmdbd.conf"
 	curl -Lo /etc/slurm/slurmdbd.conf \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/slurmdbd.conf
@@ -132,7 +134,8 @@ function overlays_slurm() {
 	echo "Munge overlay"
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
 	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
-	chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+#	chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+	chown 997:994 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 	chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 
 	echo "Chrony overlay"
