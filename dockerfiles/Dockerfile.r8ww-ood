@@ -6,7 +6,7 @@ ARG UID_SASLAUNTH=987 \
 
 RUN \
   dnf install -y epel-release https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm \
-  && dnf module enable -y ruby:2.7 nodejs:12 \
+  && dnf module enable -y ruby:2.7 nodejs:14 \
   \
   && dnf install -y \
        ondemand \
