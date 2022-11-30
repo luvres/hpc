@@ -1,0 +1,13 @@
+FROM python:3.10-slim
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+RUN \
+  pip --no-cache-dir install --upgrade pip \
+  \
+  && pip --no-cache-dir install \
+       notebook \
+       matplotlib \
+       dask \
+       pandas \
+       numpy \
+       scikit-learn
