@@ -29,14 +29,14 @@ attributes:
 
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
-  extra_jupyter_args: ""
+#  extra_jupyter_args: ""
   
-  jupyterlab_switch:
-    widget: "check_box"
-    label: "Start JupyterLab"
-    value: 0
-    help: |
-      Use JupyterLab Instead of Jupyter Notebook
+#  jupyterlab_switch:
+#    widget: "check_box"
+#    label: "Start JupyterLab"
+#    value: 0
+#    help: |
+#      Use JupyterLab Instead of Jupyter Notebook
 
   bc_num_hours:
     widget: "number_field"
@@ -46,7 +46,13 @@ attributes:
     max: 8
     step: 1
     help: |
-      - Choose the amount of time up to a maximum of 8 hours
+    - "Choose the amount of time up to a maximum of 8 hours"
+      
+  bc_logdir:
+    label: "Tensorboard logdir"
+    required: true
+    help: |
+    - "The directory that contains data to visualize."
 
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB
@@ -59,10 +65,11 @@ attributes:
 #   Dashboard
 form:
   - modules
-  - extra_jupyter_args
+#  - extra_jupyter_args
 #  - bc_account
 #  - bc_queue
-  - jupyterlab_switch
+#  - jupyterlab_switch
   - bc_num_hours
+  - bc_logdir
 #  - bc_num_slots
 #  - bc_email_on_started
