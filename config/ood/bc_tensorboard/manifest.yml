@@ -1,7 +1,7 @@
 ---
-name: Jupyter
+name: Tensorboard
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: |
-  This app will launch a Jupyter server on a compute node.
+  This app will launch a Tensorboard on a compute node.

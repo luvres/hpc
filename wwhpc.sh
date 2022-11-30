@@ -189,8 +189,8 @@ function overlays_oondemand() {
 		    
 	echo "Open OnDemand Tensorboard overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.gz \
-		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.gz \
+	    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 	
 #	echo "Open OnDemand Jupyter k8s overlay"
 #	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
