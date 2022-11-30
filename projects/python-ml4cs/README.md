@@ -1,7 +1,7 @@
 ## Build
-```docker build -t izone/hpc:ml4cs-py311 -f Dockerfile.py310 .```
-
 ```docker build -t izone/hpc:ml4cs-py311 -f Dockerfile.py311 .```
+
+```docker build -t izone/hpc:ml4cs-py311 -f Dockerfile.py310 .```
 
 ## Push
 ```docker push izone/hpc:ml4cs-py311```
