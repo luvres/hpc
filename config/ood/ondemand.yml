@@ -9,7 +9,7 @@ pinned_apps:
   - sys/bc_jupyter
 #  - sys/bc_k8s_jupyter
   - sys/bc_rstudio
-  - sys/bc_julia
+  - sys/bc_ijulia
 
 #pinned_apps_menu_length: 6
 #pinned_apps_group_by: 'category'
