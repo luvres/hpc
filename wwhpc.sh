@@ -182,20 +182,20 @@ function overlays_oondemand() {
 	mkdir -p /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/ondemand.yml
+		    
 	echo "Open OnDemand Jupyter overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_jupyter.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+#	echo "Open OnDemand Jupyter k8s overlay"
+#	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+#	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_k8s_jupyter.tar.gz \
+#		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    
 	echo "Open OnDemand Tensorboard overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.gz \
 	    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-	
-#	echo "Open OnDemand Jupyter k8s overlay"
-#	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-#	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_k8s_jupyter.tar.gz \
-#		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 
 	echo "Open OnDemand IJulia overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
@@ -206,6 +206,7 @@ curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.g
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_rstudio.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+		    
 	echo "Open OnDemand CodeServer overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_codeserver.tar.gz \
