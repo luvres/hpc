@@ -1,11 +1,11 @@
-**30-09-2022 - Hello World**
+**30-09-2022 - Hello PUC-Rio**
 
-Bem vindo ao Cluster HPC ExACTa PUC-Rio. Um ambiente para acesso unico de recursos computacionais.
+Bem vindo ao Cluster HPC ExACTa PUC-Rio.
 
+Um ambiente para acesso único de recursos computacionais.
 
 **Recursos**
-
-* Infraestrutura hierconvergente
-* Nos de computacao com GPUs
+* Infraestrutura hiperconvergente
+* Nós de computação com GPUs
 * Gerenciador de recursos com filas de trabalhos
 * Acesso via web
