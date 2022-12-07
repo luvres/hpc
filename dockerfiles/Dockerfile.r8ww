@@ -51,4 +51,7 @@ RUN \
   && sed -i '/StrictHostKeyChecking/s/#   //' /etc/ssh/ssh_config \
   && sed -i '/StrictHostKeyChecking/s/ask/no/' /etc/ssh/ssh_config \
   && sed -i '/BatchMode/s/#   //' /etc/ssh/ssh_config \
-  && sed -i '/BatchMode/s/no/yes/' /etc/ssh/ssh_config
+  && sed -i '/BatchMode/s/no/yes/' /etc/ssh/ssh_config \
+  \
+  # Create /scratch directory
+  && mkdir -p /scratch
