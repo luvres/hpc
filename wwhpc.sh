@@ -86,6 +86,8 @@ function install_slurm() {
 	dnf config-manager --set-enabled powertools 
 
 	dnf install -y ohpc-base ohpc-slurm-server nhc-ohpc
+	
+	mkdir -p /var/spool/slurm/ctld && chown -R slurm. /var/spool/slurm/ctld
 
 	echo "Download slurmctld.service"
 	test -f /usr/lib/systemd/system/slurmctld.service.ORIG \
