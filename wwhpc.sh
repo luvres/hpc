@@ -232,7 +232,7 @@ function overlays_oondemand() {
 	echo "Open OnDemand Favicon"
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/favicon.ico \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/favicon-puc.ico
-	echo"Open OnDemand Backgrount Image"
+	echo "Open OnDemand Backgrount Image"
 	curl -Lo /var/lib/warewulf/overlays/oondemand/var/www/ood/public/background.png \
 	      https://raw.githubusercontent.com/luvres/hpc/master/config/logo_PUC/bg_ood.png
 	echo "Open OnDemand locales"
