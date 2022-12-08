@@ -51,7 +51,7 @@ function config_warewulf() {
 	echo "external nfs server in computenodes fstab to mount /home"
 	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
-	sed -i "s/nfs_server/$nfs_server/" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
+	sed -i "s/nfs_server/$nfs_server/g" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 	echo "${HOSTNAME}:/opt /opt xfs defaults 0 0" >>/var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 
 	wwctl configure --all

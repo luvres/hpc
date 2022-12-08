@@ -54,4 +54,4 @@ RUN \
   && sed -i '/BatchMode/s/no/yes/' /etc/ssh/ssh_config \
   \
   # Create /scratch directory
-  && mkdir -p /scratch
+  && mkdir /scratch
