@@ -57,7 +57,7 @@ function config_warewulf() {
 	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
 	sed -i "s/nfs_server/$nfs_server/g" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
-#	echo "${HOSTNAME}:/opt /opt nfs defaults 0 0" >>/var/lib/warewulf/overlays/wwinit/etc/fstab.ww
+	echo "${HOSTNAME}:/opt /opt nfs defaults 0 0" >>/var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 
 	wwctl configure --all
 
