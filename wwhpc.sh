@@ -48,11 +48,16 @@ function config_warewulf() {
 
 	bash -c 'echo >/etc/hosts'
 	
+	echo "copy fstab before including external mounts"
+	cp -a /var/lib/warewulf/overlays/wwinit{,.ood}
+	echo "$nfs_server:/var/nfs/headnode/home /home nfs defaults 0 0" \
+	                              >>/var/lib/warewulf/overlays/wwinit.ood/etc/fstab.ww
+	# -----------
 	echo "external nfs server in computenodes fstab to mount /home"
 	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ww
 	sed -i "s/nfs_server/$nfs_server/g" /var/lib/warewulf/overlays/wwinit/etc/fstab.ww
-	echo "${HOSTNAME}:/opt /opt nfs defaults 0 0" >>/var/lib/warewulf/overlays/wwinit/etc/fstab.ww
+#	echo "${HOSTNAME}:/opt /opt nfs defaults 0 0" >>/var/lib/warewulf/overlays/wwinit/etc/fstab.ww
 
 	wwctl configure --all
 
@@ -140,6 +145,11 @@ function overlays_slurm() {
 #	chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 	chown 997:994 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 	chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
+	# -----------
+#	mkdir -p /var/lib/warewulf/overlays/munge/etc/munge/
+#	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/munge/etc/munge/munge.key.ww"
+#	chown 994:992 /var/lib/warewulf/overlays/munge/etc/munge/munge.key.ww
+#	chmod 0400 /var/lib/warewulf/overlays/munge/etc/munge/munge.key.ww
 
 	echo "Chrony overlay"
 	mkdir -p /var/lib/warewulf/overlays/chrony/etc

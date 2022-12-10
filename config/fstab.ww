@@ -17,3 +17,4 @@ proc /proc proc defaults 0 0
 #{{- end }}
 nfs_server:/var/nfs/headnode/home /home nfs defaults 0 0
 nfs_server:/var/nfs/headnode/scratch /scratch nfs defaults 0 0
+nfs_server:/var/nfs/headnode/opt /opt nfs defaults 0 0

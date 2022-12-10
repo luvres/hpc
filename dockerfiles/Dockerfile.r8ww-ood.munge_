@@ -1,0 +1,44 @@
+FROM izone/hpc:r8ww
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+ARG UID_SASLAUNTH=987 \
+    UID_ONDEMAND_NGINX=986
+
+RUN \
+  dnf -y install \
+      kernel-modules-$(uname -r) \
+      dnf-plugins-core \
+      epel-release \
+      http://repos.openhpc.community/OpenHPC/2/CentOS_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm \
+      https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm \
+  \
+  && dnf config-manager --set-enabled powertools \
+  \
+  && dnf module enable -y ruby:2.7 nodejs:14 \
+  \
+  && dnf install -y \
+       ondemand \
+       mod_auth_openidc \
+       mod_authnz_pam \
+       nano \
+       ohpc-base-compute chrony munge \
+  \
+  # Config PAM
+  && cp /etc/pam.d/sshd /etc/pam.d/ood \
+  && chmod 640 /etc/shadow && chgrp apache /etc/shadow \
+  && echo "LoadModule authnz_pam_module modules/mod_authnz_pam.so" \
+                                        > /etc/httpd/conf.modules.d/55-authnz_pam.conf \
+  \
+  && usermod -u $UID_SASLAUNTH saslauth \
+  && usermod -u $UID_ONDEMAND_NGINX ondemand-nginx \
+  \
+  && mkdir -p /etc/ood/config/clusters.d \
+  \
+  && dnf -y clean all \
+  \
+  && systemctl enable httpd \
+  && systemctl enable munge \
+  \
+  # Hide desktop app
+  && tar cvf /var/www/ood/apps/sys/bc_desktop.tar.gz /var/www/ood/apps/sys/bc_desktop \
+  && rm -fR /var/www/ood/apps/sys/bc_desktop
