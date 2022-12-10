@@ -52,7 +52,7 @@ function config_warewulf() {
 	cp -a /var/lib/warewulf/overlays/wwinit{,.ood}
 	curl -Lo /var/lib/warewulf/overlays/wwinit.ood/etc/fstab.ww \
 		https://raw.githubusercontent.com/luvres/hpc/master/config/fstab.ood.ww
-	sed -i "s/nfs_server/$nfs_server/g" //var/lib/warewulf/overlays/wwinit.ood/etc/fstab.ww
+	sed -i "s/nfs_server/$nfs_server/g" /var/lib/warewulf/overlays/wwinit.ood/etc/fstab.ww
 	# -----------
 	echo "external nfs server in computenodes fstab to mount /home"
 	curl -Lo /var/lib/warewulf/overlays/wwinit/etc/fstab.ww \
