@@ -4,11 +4,17 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 ARG UID_XDMOD=987 \
     UID_NGINX=986
     
+COPY xdmod.sql /tmp/xdmod.sql
+    
 RUN \
   dnf -y install epel-release \
   && dnf -y install \
       NetworkManager bash-completion nano \
       https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
+      \
+      mariadb-server \
+  \
+  && echo "sql_mode=" >>/etc/my.cnf.d/mariadb-server.cnf \
   \
   && dnf -y clean all \
   \
@@ -16,4 +22,8 @@ RUN \
   && usermod -u $UID_NGINX nginx \
   \
   # Apache
-  && systemctl enable httpd
+  && systemctl enable httpd \
+  # MariaDB
+  && systemctl enable --now mariadb \
+  && mysql < /tmp/xdmod.sql \
+  && rm /tmp/xdmod.sql
