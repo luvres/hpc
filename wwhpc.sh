@@ -299,6 +299,9 @@ function overlays_xdmod() {
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert.pem
 	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/simplesamlphp/cert/xdmod.key \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/tls/certs/cert-key.pem
+	echo "Open XDMoD Dump MariaDB"
+	curl -Lo /var/lib/warewulf/overlays/oxdmod/etc/xdmod/db.sh \
+		    https://raw.githubusercontent.com/luvres/hpc/master/config/xdmod/db.sh
 }
 
 function overlay_httpd_auth_pam() {
