@@ -1,0 +1,11 @@
+Bootstrap:docker
+From: tensorflow/tensorflow:1.15.5-gpu-py3
+
+%post
+  pip --no-cache-dir install --upgrade pip
+  pip install --no-cache-dir \
+      pandas \
+      pyrouge \
+      tabulate \
+      nvidia-pyindex \
+      horovod

@@ -5,6 +5,10 @@
 ```docker push izone/hpc:tf1.15.5-gpu-py3```
 
 # Apptainer
+### build
+```apptainer build ./tensorflow-summarization.sif ./tensorflow-summarization.def```
+
+### build from docker image
 ```apptainer pull tensorflow-summarization.sif docker://izone/hpc:tf1.15.5-gpu-py3```
 
 # Run
