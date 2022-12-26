@@ -344,6 +344,8 @@ function addnodes() {
 
 	wwctl node delete $ood --yes &>/dev/null
 	wwctl node add $ood
+	
+	wwctl node delete xdmod --yes &>/dev/null
 	wwctl node add xdmod
 
 	# Config nodes
