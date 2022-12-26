@@ -47,6 +47,7 @@ function config_warewulf() {
 	sed -i "s/192.168.200.99/$range_end/" /etc/warewulf/warewulf.conf
 
 	bash -c 'echo >/etc/hosts'
+	df -a
 	
 	echo "copy fstab before including external mounts"
 	cp -a /var/lib/warewulf/overlays/wwinit{,.ood}
