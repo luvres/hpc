@@ -144,7 +144,6 @@ function overlays_slurm() {
 	mkdir -p /var/lib/warewulf/overlays/slurm/etc/munge/
 	bash -c "echo '{{Include \"/etc/munge/munge.key\"}}' >/var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww"
 	chown 998:995 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
-#	chown 997:994 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 	chmod 0400 /var/lib/warewulf/overlays/slurm/etc/munge/munge.key.ww
 	# -----------
 #	mkdir -p /var/lib/warewulf/overlays/munge/etc/munge/
