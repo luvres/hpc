@@ -25,7 +25,7 @@ read -ra no_l <<< "$nodes_list"
 # Functions
 function install_warewulf() {
 	echo "Install warewulf"
-	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.3.0/warewulf-4.3.0-1.git_235c23c.el8.x86_64.rpm
+	dnf install -y https://github.com/hpcng/warewulf/releases/download/v4.4.0/warewulf-4.4.0-1.git_afcdb21.el8.x86_64.rpm
 
 	test -f /etc/cloud/templates/hosts.redhat.tmpl.ORIG \
 	|| mv /etc/cloud/templates/hosts.redhat.tmpl{,.ORIG}
