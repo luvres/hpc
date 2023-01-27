@@ -16,8 +16,9 @@ import os
 
 # ... E precisa modificar o path desses diretorios para um lugar onde o container possa armazenar alguns gigas de dados
 
-DATASET_CACHE_DIR = os.environ['HOME'] + "/pytorch-finetune/cache"
-MODEL_OUTPUT_DIR = os.environ['HOME'] + "/pytorch-finetune/output"
+SCRATCH_DIR = "/scratch/" + os.environ['USER']
+DATASET_CACHE_DIR = SCRATCH_DIR + "/pytorch-finetune/cache"
+MODEL_OUTPUT_DIR = SCRATCH_DIR + "/pytorch-finetune/output"
 
 # Se tudo der certo vai legar algum tempo o treinamento do modelo e no final vai aparecer uma mensagem "Fine-tuning Finished!" no console
 

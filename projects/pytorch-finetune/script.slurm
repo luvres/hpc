@@ -7,4 +7,6 @@
 #SBATCH --output=./logs/slurm.log  # Standard output and error log
 #SBATCH --error=./logs/slurm.log
 
-apptainer run --nv $HOME/huggingsound.sif python -u finetune_cv.py
+export CONTAINER_FILE="/opt/images/huggingsound.sif"
+
+apptainer run --nv ${CONTAINER_FILE} python -u finetune_cv.py
