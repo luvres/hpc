@@ -12,7 +12,10 @@ RUN \
       http://repos.openhpc.community/OpenHPC/2/CentOS_8/$(uname -m)/ohpc-release-2-1.el8.$(uname -m).rpm \
   \
   && dnf config-manager --set-enabled powertools \
-  && dnf -y install ohpc-base-compute ohpc-slurm-client slurm-libpmi-ohpc lmod-ohpc chrony hwloc-libs \
+  \
+  && dnf install -y --nobest ohpc-base-compute \
+  && dnf install -y ohpc-slurm-client slurm-libpmi-ohpc lmod-ohpc chrony hwloc-libs \
+  \
   && mkdir -p /var/spool/slurm \
   \
   # Install Apptainer

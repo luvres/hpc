@@ -1,0 +1,17 @@
+FROM python:3.9-slim
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
+RUN \
+  pip --no-cache-dir install --upgrade pip \
+  \
+  && pip --no-cache-dir install \
+       gensim \
+       imblearn \
+       nltk \
+       pandas \
+       scikit-learn \
+       spacy \
+       umap-learn \
+       unidecode \
+  \
+  && python -m spacy download pt

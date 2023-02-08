@@ -1,0 +1,15 @@
+Bootstrap:docker
+From: python:3.9-slim
+
+%post
+  pip --no-cache-dir install --upgrade pip
+  pip install --no-cache-dir \
+      gensim \
+      imblearn \
+      nltk \
+      pandas \
+      scikit-learn \
+      spacy \
+      umap-learn \
+      unidecode
+  python -m spacy download pt
