@@ -5,7 +5,7 @@
 ``docker build -t izone/hpc:r8ww-slurm -f ./Dockerfile.r8ww-slurm .``
 
 #### Build NVIDIA Driver with Slurm
-``docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 12.0
+``docker build -t izone/hpc:r8ww-nv-slurm -f ./Dockerfile.r8ww-nv-slurm .``: CUDA Version: 12.1
 
 #### Build Open OnDemand
 ``docker build -t izone/hpc:r8ww-ood -f ./Dockerfile.r8ww-ood .``
