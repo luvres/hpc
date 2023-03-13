@@ -15,8 +15,6 @@
 
 ```apptainer run --nv ultralytics.sif python -c "import ultralytics;ultralytics.checks()"```
 
------
-
 ## Ultralytics YOLOv8 models:
 - YOLOv8n (Nano)
 - YOLOv8s (Small)
