@@ -17,15 +17,15 @@
 
 -----
 
-* Ultralytics YOLOv8 models:
+** Ultralytics YOLOv8 models:
 * YOLOv8n (Nano)
 * YOLOv8s (Small)
 * YOLOv8m (Medium)
 * YOLOv8l (Large)
 * YOLOv8x (Extra Large)
 
-#Shared Files on [Google Drive](https://drive.google.com/drive/folders/1pI0ImWiFNpSqaKXAqbDXXV30EueF3LGP)
-#Sample code on [Google Colab](https://colab.research.google.com/drive/1QMHip0FLNbRvbP6PXyslwBsfhyDlixZ0?usp=sharing)
+Shared Files on [Google Drive](https://drive.google.com/drive/folders/1pI0ImWiFNpSqaKXAqbDXXV30EueF3LGP)
+Sample code on [Google Colab](https://colab.research.google.com/drive/1QMHip0FLNbRvbP6PXyslwBsfhyDlixZ0?usp=sharing)
 -----
 
 ## YOLO on CLI
