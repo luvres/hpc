@@ -18,6 +18,7 @@
 -----
 
 ** Ultralytics YOLOv8 models: **
+
 * YOLOv8n (Nano)
 * YOLOv8s (Small)
 * YOLOv8m (Medium)
