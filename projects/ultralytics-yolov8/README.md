@@ -39,13 +39,15 @@ yolo task=detect mode=train data={path_file.yaml} epochs=10
 
 #### Load model
 ```
+import os
 from ultralytics import YOLO
-model = YOLO('yolov8n.pt')
+model = YOLO(os.environ['PWD']+'/yolov8n.pt')
 ```
 #### Load image
 ```
+import os
 import cv2
-img = cv2.imread('image.png')
+img = cv2.imread(os.environ['PWD']+'/image.png')
 #img = cv2.imread(os.environ['HOME']+'/Music/YOLOv8/cachorros.jpg')
 ```
 #### Predict
@@ -61,9 +63,10 @@ result = funcoes_desenho.desenha_caixas(img, results[0].boxes.boxes)
 ```
 #### Save Image from array
 ```
+import os
 from PIL import Image
 im = Image.fromarray(result)
-im.save('dogs.png')
+im.save(os.environ['PWD']+'/dogs.png')
 ```
 #### Train
 ```
@@ -82,6 +85,6 @@ import os
 root_path='/content/'
 config_file = os.path.join(root_path, 'model.yaml')
 
-model = YOLO('yolov8n.yaml')
+model = YOLO(os.environ['PWD']+'/yolov8n.yaml')
 results = model.train(data=config_file, epochs=10, imgsz=640, name='yoloc8n_model', device='0,1')
 ```
