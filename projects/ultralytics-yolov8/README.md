@@ -29,6 +29,8 @@ Sample code on [Google Colab](https://colab.research.google.com/drive/1QMHip0FLN
 ## YOLO on CLI
 ```yolo task=detect mode=predict model=yolov8n.pt conf=0.25 source='image.png' save=True```
 
+```yolo task=segment mode=predict model=yolov8n-seg.pt conf=0.25 source='image.png' save=True```
+
 ## YOLO on Python
 ```
 from ultralytics import YOLO
