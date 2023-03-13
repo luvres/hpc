@@ -27,9 +27,13 @@ Shared Files on [Google Drive](https://drive.google.com/drive/folders/1pI0ImWiFN
 Sample code on [Google Colab](https://colab.research.google.com/drive/1QMHip0FLNbRvbP6PXyslwBsfhyDlixZ0?usp=sharing)
 
 ## YOLO on CLI
-```yolo task=detect mode=predict model=yolov8n.pt conf=0.25 source='image.png' save=True```
+```
+yolo task=detect mode=predict model=yolov8n.pt conf=0.25 source='image.png' save=True
 
-```yolo task=segment mode=predict model=yolov8n-seg.pt conf=0.25 source='image.png' save=True```
+yolo task=segment mode=predict model=yolov8n-seg.pt conf=0.25 source='image.png' save=True
+
+yolo task=detect mode=train data={path_file.yaml} epochs=10
+```
 
 ## YOLO on Python
 ```
