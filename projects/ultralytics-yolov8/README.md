@@ -36,14 +36,27 @@ yolo task=detect mode=train data={path_file.yaml} epochs=10
 ```
 
 ## YOLO on Python
+
+#### Load model
 ```
 from ultralytics import YOLO
 model = YOLO('yolov8n.pt')
+```
+#### Load image
+```
+import cv2
 img = cv2.imread('image.png')
 #img = cv2.imread(os.environ['HOME']+'/Music/YOLOv8/cachorros.jpg')
+```
+#### Predict
+```
 results = model.predict(source=img, conf=0.6)
 [ r.boxes.boxes for r in results ] #for r in results: print(r.boxes.boxes)
 [ r.boxes.conf for r in results ] #for r in results: print(r.boxes.conf)
+```
+#### Draw bounding boxes on the image
+```
+import funcoes_desenho
 result = funcoes_desenho.desenha_caixas(img, results[0].boxes.boxes)
 ```
 #### Save Image from array
