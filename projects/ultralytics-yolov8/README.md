@@ -46,13 +46,13 @@ results = model.predict(source=img, conf=0.6)
 [ r.boxes.conf for r in results ] #for r in results: print(r.boxes.conf)
 result = funcoes_desenho.desenha_caixas(img, results[0].boxes.boxes)
 ```
-### Save Image from array
+#### Save Image from array
 ```
 from PIL import Image
 im = Image.fromarray(result)
 im.save('dogs.png')
 ```
-### Train
+#### Train
 ```
 tee model.yaml <<EoF
 path: '/content/dataset/'
