@@ -17,12 +17,12 @@
 
 -----
 
-*** Ultralytics YOLOv8 models: ***
-* YOLOv8n (Nano)
-* YOLOv8s (Small)
-* YOLOv8m (Medium)
-* YOLOv8l (Large)
-* YOLOv8x (Extra Large)
+## Ultralytics YOLOv8 models:
+- YOLOv8n (Nano)
+- YOLOv8s (Small)
+- YOLOv8m (Medium)
+- YOLOv8l (Large)
+- YOLOv8x (Extra Large)
 
 #### Shared Files on [Google Drive](https://drive.google.com/drive/folders/1pI0ImWiFNpSqaKXAqbDXXV30EueF3LGP)
 
