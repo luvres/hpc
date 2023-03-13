@@ -12,3 +12,7 @@
 
 ### Run
 ```apptainer run --nv ultralytics.sif python -c "import torch;print(torch.cuda.is_available())"```
+
+```apptainer run --nv ultralytics.sif python -c "import torch;print(torch.cuda.is_available())"```
+
+
