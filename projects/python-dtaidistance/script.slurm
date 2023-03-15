@@ -1,4 +1,3 @@
-### Slurm ###
 #!/bin/bash
 #SBATCH --partition=gpu-titan-xp      # -p
 #SBATCH --nodes=1                     # -N | node count, 1 nodes reserved
