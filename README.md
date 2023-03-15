@@ -4,6 +4,7 @@
 - Apptainer
 - Open OnDemand
 - Keycloak
+- Open XDMoD
 
 ``curl -LO https://raw.githubusercontent.com/luvres/hpc/master/variables.txt``
 
