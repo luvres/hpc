@@ -12,7 +12,7 @@ Slurm, NVIDIA Driver, Apptainer, Open OnDemand, Keycloak
 ``sudo bash wwhpc.sh config $(<variables.txt)``: only configure if it was installed
 
 ### Configure nodes
-``sudo wwctl node set cn81 -n default -N eth0 -M 255.255.255.224 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes``
+```sudo wwctl node set cn81.hpcc.eu.org n default -N eth0 -M 255.255.255.224 -I 40.6.18.81 -H fa:ce:40:06:18:81 -R generic,chrony,slurm -C r8-nv-slurm --yes```
 
 ``sudo wwctl configure --all``
 
@@ -26,8 +26,8 @@ Slurm, NVIDIA Driver, Apptainer, Open OnDemand, Keycloak
 
 ``srun --gres=gpu:1 --mem=4G --cpus-per-gpu=1 --nodes=2 nvidia-smi``
 
-### Configure Open OnDemand node (beta)
-``sudo wwctl node set oondemand -n default -N eth0 -M 255.255.255.224 -I 40.6.18.65 -H fa:ce:40:06:18:65 -R generic,chrony,slurm,oondemand -C r8-ood --yes``
+### Configure Open OnDemand node
+``sudo wwctl node set ood33 n default -N eth0 -M 255.255.255.224 -I 10.6.8.33 -H fa:ce:10:06:08:33 -R generic,chrony,slurm,oondemand -O wwinit.ood -C r8-ood --yes``
 
 ``sudo wwctl configure --all``
 
