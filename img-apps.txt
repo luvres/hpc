@@ -9,6 +9,7 @@ From: python:3.11-slim
   apt-get update
   apt-get install -y curl git
   apt-get clean
+  pip install --upgrade --no-cache-dir pip 
   curl -fsSL https://code-server.dev/install.sh | sh
 
 %runscript
