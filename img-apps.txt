@@ -1,0 +1,70 @@
+###################
+# (*) Code-Server #
+###################
+tee code-server.def <<EoF
+Bootstrap:docker
+From: python:3.11-slim
+
+%post
+  apt-get update
+  apt-get install -y curl git
+  apt-get clean
+  curl -fsSL https://code-server.dev/install.sh | sh
+
+%runscript
+code-server "\$@"
+EoF
+# -----------
+# build
+apptainer build ./code-server.sif ./code-server.def
+sudo mv ./code-server.sif /opt/img-apps/
+
+
+############################
+# (*) Jupyter Notebook App #
+############################
+apptainer pull ./datascience-notebook.sif docker://jupyter/datascience-notebook:latest
+sudo mv ./datascience-notebook.sif /opt/img-apps/
+
+
+###############
+# (*) RStudio #
+###############
+#apptainer pull ./rstudio-verse.sif docker://rocker/verse:4.2.2
+#sudo mv ./rstudio-verse.sif /home/
+# -----------
+#apptainer pull docker://izone/rstudio:4.2.2
+#sudo mv ./rstudio_4.2.2.sif /home/
+# -----------
+apptainer pull ./rstudio-verse.sif docker://izone/rstudio:verse_4.2.2
+sudo mv ./rstudio-verse.sif /opt/img-apps/
+
+
+###########################
+# (*) IJulia Notebook App #
+###########################
+apptainer pull ./ijulia.sif docker://izone/julia:latest
+sudo mv ./ijulia.sif /opt/img-apps/
+## -----------
+#sudo nano /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/bc_jupyter/template/script.sh.erb
+#apptainer exec $HOME/minimal-notebook.sif jupyter notebook \
+#--ip="0.0.0.0" \
+#--config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+
+
+#################################
+#################################
+# sync /opt (bakup)
+sudo mount 10.6.8.34:/var/nfs/headnode/opt /mnt
+# -----------
+#sudo chown root. /opt/images/*
+#sudo chmod 644 /opt/images/*
+#sudo rsync -avz --delete --progress /opt/images/ /mnt/images
+# -----------
+sudo chown root. /opt/img-apps/*
+sudo chmod 644 /opt/img-apps/*
+sudo rsync -avz --delete --progress /opt/img-apps/ /mnt/img-apps
+######################
+sudo umount /mnt
+
+
