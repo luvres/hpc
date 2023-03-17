@@ -3,13 +3,15 @@
 ###################
 tee code-server.def <<EoF
 Bootstrap:docker
-From: python:3.11-slim
+From: ubuntu:jammy
 
 %post
+  export DEBIAN_FRONTEND=noninteractive
   apt-get update
-  apt-get install -y curl git
+  apt-get install --yes \
+      curl git \
+      tk-dev libssl-dev libsqlite3-dev liblzma-dev libbz2-dev libreadline-dev libffi-dev
   apt-get clean
-  pip install --upgrade --no-cache-dir pip 
   curl -fsSL https://code-server.dev/install.sh | sh
 
 %runscript
@@ -67,5 +69,51 @@ sudo chmod 644 /opt/img-apps/*
 sudo rsync -avz --delete --progress /opt/img-apps/ /mnt/img-apps
 ######################
 sudo umount /mnt
+#################################
+#################################
 
+
+########
+# ASDF #
+########
+https://asdf-vm.com/guide/getting-started.html#plugin-dependencies
+# Plugins
+https://github.com/asdf-vm/asdf-plugins
+#
+# Install
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.3
+echo '. "$HOME/.asdf/asdf.sh"' >>~/.bashrc
+echo '. "$HOME/.asdf/completions/asdf.bash"' >>~/.bashrc
+source ~/.bashrc
+#
+# Go
+asdf plugin-add golang https://github.com/kennyp/asdf-golang.git
+asdf list-all golang
+asdf install golang 1.20.2
+asdf global golang 1.20.2
+# Node
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf list-all nodejs
+asdf install nodejs lts
+asdf global nodejs lts
+# OpenJDK
+asdf plugin-add java https://github.com/halcyon/asdf-java.git
+asdf list-all java
+asdf install java openjdk-17.0.2
+asdf global java openjdk-17.0.2
+# Maven
+asdf plugin-add maven
+asdf list-all maven
+asdf install maven 3.9.0
+asdf global maven 3.9.0
+# Python
+asdf plugin-add python
+asdf list-all python
+asdf install python 3.11.2
+asdf global python 3.11.2
+# kubectl
+asdf plugin-add kubectl https://github.com/asdf-community/asdf-kubectl.git
+asdf list-all kubectl 
+asdf install kubectl 1.26.2
+asdf global kubectl 1.26.2
 
