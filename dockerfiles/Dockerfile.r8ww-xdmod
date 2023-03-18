@@ -12,6 +12,13 @@ RUN \
       NetworkManager bash-completion nano \
       https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
       \
+      # Install MongoDB
+      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-tools-3.4.24-1.el8.x86_64.rpm \
+      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-shell-3.4.24-1.el8.x86_64.rpm \
+      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-mongos-3.4.24-1.el8.x86_64.rpm \
+      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-3.4.24-1.el8.x86_64.rpm \
+      \
+      # Install MariaDB
       mariadb-server \
   \
   && echo "sql_mode=" >>/etc/my.cnf.d/mariadb-server.cnf \
