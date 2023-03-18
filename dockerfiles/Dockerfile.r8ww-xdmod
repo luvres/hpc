@@ -2,8 +2,7 @@ FROM izone/hpc:r8ww
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ARG UID_XDMOD=987 \
-    UID_NGINX=986 \
-    UID_MONGOD=990
+    UID_NGINX=986
 
 COPY xdmod.sql /var/db/
 
@@ -21,7 +20,6 @@ RUN \
   \
   && usermod -u $UID_XDMOD xdmod \
   && usermod -u $UID_NGINX nginx \
-  && usermod -u $UID_MONGOD mongod \
   \
   # Apache
   && systemctl enable httpd \
