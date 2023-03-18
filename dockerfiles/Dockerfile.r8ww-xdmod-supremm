@@ -7,11 +7,25 @@ ARG UID_XDMOD=987 \
 COPY xdmod.sql /var/db/
 
 RUN \
-  dnf -y install epel-release \
+  # Add MongoDB repo
+  {\
+    echo '[mongodb-org-3.4]'; \
+    echo 'name=MongoDB Repository'; \
+    echo 'baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/'; \
+    echo 'gpgcheck=1'; \
+    echo 'enabled=1'; \
+    echo 'gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc'; \
+  } > /etc/yum.repos.d/mongodb-org-3.4.repo \
+  \
+  && dnf -y install epel-release \
   && dnf -y install \
       NetworkManager bash-completion nano \
       https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
       \
+      # Install MongoDB
+      mongodb-org \
+      \
+      # Install MariaDB
       mariadb-server \
   \
   && echo "sql_mode=" >>/etc/my.cnf.d/mariadb-server.cnf \
@@ -25,6 +39,8 @@ RUN \
   && systemctl enable httpd \
   # MariaDB
   && systemctl enable mariadb \
+  # MongoDB
+  && systemctl enable mongod \
   # Dump MariaDB
   && {\
     echo '[Unit]'; \
