@@ -16,7 +16,7 @@ RUN \
       https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-tools-3.4.24-1.el8.x86_64.rpm \
       https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-shell-3.4.24-1.el8.x86_64.rpm \
       https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-mongos-3.4.24-1.el8.x86_64.rpm \
-      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-3.4.24-1.el8.x86_64.rpm \
+      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-server-3.4.24-1.el8.x86_64.rpm \
       \
       # Install MariaDB
       mariadb-server \
@@ -32,6 +32,8 @@ RUN \
   && systemctl enable httpd \
   # MariaDB
   && systemctl enable mariadb \
+  # MongoDB
+  && systemctl enable mongod \
   # Dump MariaDB
   && {\
     echo '[Unit]'; \
