@@ -7,16 +7,23 @@ ARG UID_XDMOD=987 \
 COPY xdmod.sql /var/db/
 
 RUN \
-  dnf -y install epel-release \
+  # Add MongoDB repo
+  {\
+    echo '[mongodb-org-3.4]'; \
+    echo 'name=MongoDB Repository'; \
+    echo 'baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/3.4/x86_64/'; \
+    echo 'gpgcheck=1'; \
+    echo 'enabled=1'; \
+    echo 'gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc'; \
+  } > /etc/yum.repos.d/mongodb-org-3.4.repo \
+  \
+  && dnf -y install epel-release \
   && dnf -y install \
       NetworkManager bash-completion nano \
       https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
       \
       # Install MongoDB
-      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-tools-3.4.24-1.el8.x86_64.rpm \
-      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-shell-3.4.24-1.el8.x86_64.rpm \
-      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-mongos-3.4.24-1.el8.x86_64.rpm \
-      https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/3.4/x86_64/RPMS/mongodb-org-server-3.4.24-1.el8.x86_64.rpm \
+      mongodb-org \
       \
       # Install MariaDB
       mariadb-server \
