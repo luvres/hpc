@@ -15,9 +15,9 @@ RUN \
     echo 'gpgcheck=1'; \
     echo 'enabled=1'; \
     echo 'gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc'; \
-  } > /etc/yum.repos.d/mongodb-org-3.4.repo 
-#  \
-#  && dnf -y install epel-release \
+  } > /etc/yum.repos.d/mongodb-org-3.4.repo \
+  \
+  && dnf -y install epel-release 
 #  && dnf -y install \
 #      NetworkManager bash-completion nano \
 #      https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
