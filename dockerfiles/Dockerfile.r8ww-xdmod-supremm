@@ -22,6 +22,7 @@ RUN \
   && dnf -y install \
       NetworkManager bash-completion nano \
       https://github.com/ubccr/xdmod/releases/download/v10.0.0-beta5-el8/xdmod-10.0.0-1.5.beta5.el8.noarch.rpm \
+      https://github.com/ubccr/xdmod-supremm/releases/download/v10.0.0-beta4-el8/xdmod-supremm-10.0.0-1.4.beta4.el8.noarch.rpm \
       \
       # Install MongoDB
       mongodb-org \
