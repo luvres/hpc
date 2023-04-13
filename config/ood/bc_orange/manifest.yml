@@ -1,7 +1,0 @@
----
-name: Orange
-category: Interactive Apps
-subcategory: Servers
-role: batch_connect
-description: |
-  This app will launch a Orange Data Mining on a compute node.
