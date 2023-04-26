@@ -1,18 +1,18 @@
-# Build on docker
+### Build on docker
 ```
 docker build -t izone/pytorch:deque -f Dockerfile .
 ```
 
-# Build on Apptainer
+### Build on Apptainer
 ```
 apptainer build ./pytorch-deque.sif ./pytorch-deque.def
 ```
-# From docker
+### From docker
 ```
 apptainer pull pytorch-deque.sif docker://izone/pytorch:deque
 ```
 
-# Run
+### Run
 ```
 mkdir cache output logs
 
