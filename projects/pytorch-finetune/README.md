@@ -1,14 +1,21 @@
-# Build
+### Build
+```
 docker build -t izone/hpc:huggingsound -f Dockerfile .
+```
 
-# Push
+### Push
+```
 docker push izone/hpc:huggingsound
+```
 
-# Apptainer
+### Apptainer
+```
 apptainer pull huggingsound.sif docker://izone/hpc:huggingsound
+```
 
-# Run
+### Run
+```
 mkdir cache output logs
 
 sbatch script.slurm
-
+```
