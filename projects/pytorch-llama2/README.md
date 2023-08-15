@@ -38,6 +38,8 @@ srun --partition=gpu-rtx3090 nvidia-smi
 ```
 ssh cn51.exacta.eu.org
 
+apptainer run --nv /opt/images/llama2.sif python -c "import torch;print(torch.__version__)"
+
 apptainer run --nv /opt/images/llama2.sif python -c "import torch;print(torch.cuda.is_available())"
 ```
 
