@@ -31,15 +31,17 @@ mkdir cache output logs
 sbatch script.slurm
 ```
 
-
+### Tests
+```
 srun --partition=gpu-rtx3090 nvidia-smi
+```
+```
+ssh cn51.exacta.eu.org
 
-apptainer run --nv /opt/images/bc23.sif python -c "import torch;print(torch.cuda.is_available())"
+apptainer run --nv /opt/images/llama2.sif python -c "import torch;print(torch.cuda.is_available())"
+```
 
-
-srun --partition=gpu-rtx3090 ./llama2.sif python -c "import torch;print(torch.cuda.is_available())"
-
-
+-----
 # Open-source vector similarity search for Postgres
 
 Project [Github](https://github.com/pgvector/pgvector)
