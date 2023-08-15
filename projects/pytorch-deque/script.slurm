@@ -13,7 +13,7 @@ export CONTAINER_FILE="/opt/images/pytorch-deque.sif"
 ## nano configs/train_config.yml
 # python precompute_knns.py
 #
-## nano configs/eval_config.yml 
+## nano configs/eval_config.yml
 #python train_segmentation.py
 #
 ## SEGUNDO

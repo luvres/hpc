@@ -1,0 +1,14 @@
+Bootstrap:docker
+From: pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+
+%post
+  apt-get update && apt-get install --yes --no-install-recommends git
+  pip install --no-cache-dir --upgrade pip
+  pip install --no-cache-dir \
+        git+https://github.com/huggingface/accelerate.git \
+        git+https://github.com/huggingface/transformers.git \
+        git+https://github.com/huggingface/peft.git \
+        git+https://github.com/lvwerra/trl.git \
+        bitsandbytes \
+        scipy \
+        datasets==2.13.1

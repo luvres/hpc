@@ -10,6 +10,9 @@ docker push izone/hpc:huggingsound
 
 ### Apptainer
 ```
+apptainer build huggingsound.sif huggingsound.def
+```
+```
 apptainer pull huggingsound.sif docker://izone/hpc:huggingsound
 ```
 
