@@ -20,14 +20,14 @@ EoF
 # -----------
 # build
 apptainer build ./code-server.sif ./code-server.def
-sudo mv ./code-server.sif /opt/img-apps/
+sudo mv ./code-server.sif /scratch/img-apps/
 
 
 ############################
 # (*) Jupyter Notebook App #
 ############################
 apptainer pull ./datascience-notebook.sif docker://jupyter/datascience-notebook:latest
-sudo mv ./datascience-notebook.sif /opt/img-apps/
+sudo mv ./datascience-notebook.sif /scratch/img-apps/
 
 
 ###############
@@ -40,19 +40,71 @@ sudo mv ./datascience-notebook.sif /opt/img-apps/
 #sudo mv ./rstudio_4.2.2.sif /home/
 # -----------
 apptainer pull ./rstudio-verse.sif docker://izone/rstudio:verse_4.2.2
-sudo mv ./rstudio-verse.sif /opt/img-apps/
+sudo mv ./rstudio-verse.sif /scratch/img-apps/
 
 
 ###########################
 # (*) IJulia Notebook App #
 ###########################
 apptainer pull ./ijulia.sif docker://izone/julia:latest
-sudo mv ./ijulia.sif /opt/img-apps/
+sudo mv ./ijulia.sif /scratch/img-apps/
 ## -----------
 #sudo nano /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/bc_jupyter/template/script.sh.erb
 #apptainer exec $HOME/minimal-notebook.sif jupyter notebook \
 #--ip="0.0.0.0" \
 #--config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+
+
+##############
+# (*) Orange #
+##############
+tee orange.def <<EoF
+Bootstrap: docker
+From: rockylinux:8.8
+
+%environment
+  PATH=$PATH:/opt/miniconda/bin
+
+%post   
+  dnf install -y epel-release 
+  dnf install -y xorg-x11-server-Xorg xfwm4 xfce4-session xauth xkbcomp procps-ng xfce4-settings wmctrl
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/python3-websockify-0.10.0-1.el8.noarch.rpm
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/turbovnc-2.2.5-1.el8.x86_64.rpm
+  dnf clean all
+  
+  { echo '[Desktop Entry]';
+    echo 'Type=Application';
+    echo 'Name=Orange Canvas';
+    echo 'Comment=Orange Data Mining';
+    echo 'Exec=bash -c "python3.9 -m Orange.canvas & sleep 3 && wmctrl -r Orange -b add,maximized_vert,maximized_horz"';
+    echo 'OnlyShowIn=XFCE;';
+  } > /etc/xdg/autostart/orange.desktop
+EoF
+# -----------
+# build
+apptainer build ./orange.sif ./orange.def
+sudo mv ./orange.sif /scratch/img-apps/
+
+
+####################
+# (*) Desktop XFCE #
+####################
+tee code-server.def <<EoF
+Bootstrap: docker
+From: rockylinux:8.7
+
+%post   
+  dnf install -y epel-release
+  dnf groupinstall -y 'Xfce'
+  pip3 install ts
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/python3-websockify-0.10.0-1.el8.noarch.rpm
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/turbovnc-2.2.5-1.el8.x86_64.rpm
+  dnf clean all
+EoF
+# -----------
+# build
+apptainer build ./xfce.sif ./xfce.def
+sudo mv ./xfce.sif /scratch/img-apps/
 
 
 #################################
@@ -64,9 +116,9 @@ sudo mount 10.6.8.34:/var/nfs/headnode/opt /mnt
 #sudo chmod 644 /opt/images/*
 #sudo rsync -avz --delete --progress /opt/images/ /mnt/images
 # -----------
-sudo chown root. /opt/img-apps/*
-sudo chmod 644 /opt/img-apps/*
-sudo rsync -avz --delete --progress /opt/img-apps/ /mnt/img-apps
+sudo chown root. /scratch/img-apps/*
+sudo chmod 644 /scratch/img-apps/*
+sudo rsync -avz --delete --progress /scratch/img-apps/ /mnt/img-apps
 ######################
 sudo umount /mnt
 #################################

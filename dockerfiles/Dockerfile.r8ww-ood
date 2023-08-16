@@ -1,5 +1,5 @@
 FROM izone/hpc:r8ww-slurm
-MAINTAINER Leonardo Loures <luvres@hotmail.com>
+LABEL mantainer="Leonardo Loures <luvres@hotmail.com>"
 
 ARG UID_SASLAUNTH=987 \
     UID_ONDEMAND_NGINX=986
