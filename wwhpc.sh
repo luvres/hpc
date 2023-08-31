@@ -197,6 +197,11 @@ function overlays_oondemand() {
 	curl -Lo /var/lib/warewulf/overlays/oondemand/etc/ood/config/ondemand.d/ondemand.yml \
 		    https://raw.githubusercontent.com/luvres/hpc/master/config/ood/ondemand.yml
 		    
+	echo "Open OnDemand CodeServer overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_codeserver.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+
 	echo "Open OnDemand Jupyter overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_jupyter.tar.gz \
@@ -206,24 +211,24 @@ function overlays_oondemand() {
 #	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_k8s_jupyter.tar.gz \
 #		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    
-	echo "Open OnDemand Tensorboard overlay"
+	echo "Open OnDemand Huggingface overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.gz \
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_huggingface.tar.gz \
 			  | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-
+			  
 	echo "Open OnDemand IJulia overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_ijulia.tar.gz \
+			  | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+
+	echo "Open OnDemand Tensorboard overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_tensorboard.tar.gz \
 			  | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    	    
 	echo "Open OnDemand RStudio overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_rstudio.tar.gz \
-		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
-		    
-	echo "Open OnDemand CodeServer overlay"
-	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
-	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_codeserver.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    
 	echo "Open OnDemand Orange Data Mining overlay"
