@@ -1,0 +1,7 @@
+---
+name: Huggingface
+category: Interactive Apps
+subcategory: Servers
+role: batch_connect
+description: |
+  This app will launch a Jupyter on a compute node GPU.

@@ -21,6 +21,7 @@ EoF
 # build
 apptainer build ./code-server.sif ./code-server.def
 sudo mv ./code-server.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/code-server.sif /opt/img-apps/
 
 
 ############################
@@ -28,6 +29,50 @@ sudo mv ./code-server.sif /scratch/img-apps/
 ############################
 apptainer pull ./datascience-notebook.sif docker://jupyter/datascience-notebook:latest
 sudo mv ./datascience-notebook.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/datascience-notebook.sif /opt/img-apps/
+
+
+######################################
+# (*) Huggingface (Jupyter Notebook) #
+######################################
+tee orange.def <<EoF
+Bootstrap:docker
+From: nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+
+%post
+  apt update && apt install --yes --no-install-recommends python3-pip git
+  rm -rf /var/lib/apt/lists/*
+  ln -s /usr/bin/python3 /usr/bin/python
+  pip3 --no-cache-dir install --upgrade pip
+  pip install --no-cache-dir \
+        jupyter \
+        matplotlib
+  pip install --no-cache-dir \
+    --extra-index-url https://download.pytorch.org/whl/nightly/cu118 \
+        torch torchvision torchaudio 
+        # --pre 'torch>=2.1.0dev'
+  pip install --no-cache-dir \
+        git+https://github.com/huggingface/transformers.git \
+        git+https://github.com/huggingface/accelerate.git \
+        git+https://github.com/huggingface/peft.git \
+        git+https://github.com/lvwerra/trl.git \
+        bitsandbytes \
+        datasets \
+        loralib \
+        sentencepiece \
+        scipy \
+        openai \
+        optimum \
+        auto-gptq \
+        \
+        sentence_transformers \
+        scikit-learn
+EoF
+# -----------
+# build
+apptainer build huggingface.sif huggingface.def
+sudo mv ./huggingface.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/huggingface.sif /opt/img-apps/
 
 
 ###############
@@ -41,6 +86,7 @@ sudo mv ./datascience-notebook.sif /scratch/img-apps/
 # -----------
 apptainer pull ./rstudio-verse.sif docker://izone/rstudio:verse_4.2.2
 sudo mv ./rstudio-verse.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/rstudio-verse.sif /opt/img-apps/
 
 
 ###########################
@@ -48,6 +94,7 @@ sudo mv ./rstudio-verse.sif /scratch/img-apps/
 ###########################
 apptainer pull ./ijulia.sif docker://izone/julia:latest
 sudo mv ./ijulia.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/ijulia.sif /opt/img-apps/
 ## -----------
 #sudo nano /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/bc_jupyter/template/script.sh.erb
 #apptainer exec $HOME/minimal-notebook.sif jupyter notebook \
@@ -84,6 +131,7 @@ EoF
 # build
 apptainer build ./orange.sif ./orange.def
 sudo mv ./orange.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/orange.sif /opt/img-apps/
 
 
 ####################
@@ -105,6 +153,7 @@ EoF
 # build
 apptainer build ./xfce.sif ./xfce.def
 sudo mv ./xfce.sif /scratch/img-apps/
+sudo ln -s /scratch/img-apps/xfce.sif /opt/img-apps/
 
 
 #################################
