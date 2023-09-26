@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --partition=gpu-titan-xp      # -p
+#SBATCH --partition=cpu-128g          # -p
 #SBATCH --nodes=1                     # -N | node count, 1 nodes reserved
 #SBATCH --time=12:00:00               # -t | total run time limit (HH:MM:SS)
 #SBATCH --output=./logs/slurm.log     # Standard output and error log
