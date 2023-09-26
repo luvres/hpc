@@ -20,7 +20,7 @@ RUN \
       scikit-hts[auto_arima] \
   \
   && pip install --no-cache-dir \
-      scikit-hts[prophet]
+      scikit-hts[prophet] \
   \
   && apt remove --yes g++ && apt autoremove --yes
 
