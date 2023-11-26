@@ -2,8 +2,8 @@ FROM izone/hpc:r8ww
 LABEL mantainer="Leonardo Loures <luvres@hotmail.com>"
 
 ARG \
-  APPTAINER_MAJOR="v1.2.2" \
-  APPTAINER_VERSION="1.2.2-1"
+  APPTAINER_MAJOR="v1.2.5" \
+  APPTAINER_VERSION="1.2.5-1"
   
 RUN \
   dnf -y install \
