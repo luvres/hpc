@@ -11,7 +11,8 @@ pinned_apps:
 #  - sys/bc_rstudio
 #  - sys/bc_orange
   - sys/bc_huggingface
-  - sys/bc_ijulia
+#  - sys/bc_ijulia
+  - sys/bc_deeplabcut
 
 #pinned_apps_menu_length: 6
 #pinned_apps_group_by: 'category'

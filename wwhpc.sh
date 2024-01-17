@@ -236,6 +236,11 @@ function overlays_oondemand() {
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_orange.tar.gz \
 		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
 		    
+	echo "Open OnDemand DeepLabCut overlay"
+	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
+	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_deeplabcut.tar.gz \
+		    | tar -xf - -C /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys/
+		    
 	echo "Open OnDemand DESKTOP Xfce overlay"
 	mkdir -p /var/lib/warewulf/overlays/oondemand/var/www/ood/apps/sys
 	curl -L https://github.com/luvres/hpc/raw/master/config/ood/bc_desktop.tar.gz \
