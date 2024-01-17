@@ -1,0 +1,21 @@
+Bootstrap: docker
+From: rockylinux:8.7
+
+%environment
+  PATH=$PATH:/opt/miniconda/bin
+
+%post   
+  dnf install -y epel-release 
+  dnf install -y xorg-x11-server-Xorg xfwm4 xfce4-session xauth xkbcomp procps-ng xfce4-settings wmctrl
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/python3-websockify-0.10.0-1.el8.noarch.rpm
+  dnf install -y https://yum.osc.edu/ondemand/3.0/compute/el8Server/x86_64/turbovnc-2.2.5-1.el8.x86_64.rpm
+  dnf clean all
+  
+  { echo '[Desktop Entry]';
+    echo 'Type=Application';
+    echo 'Name=Orange Canvas';
+    echo 'Comment=Orange Data Mining';
+    echo 'Exec=bash -c "python3.9 -m Orange.canvas & sleep 3 && wmctrl -r Orange -b add,maximized_vert,maximized_horz"';
+    echo 'OnlyShowIn=XFCE;';
+  } > /etc/xdg/autostart/orange.desktop
+

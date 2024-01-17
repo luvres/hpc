@@ -1,0 +1,29 @@
+<%
+  # your image location will differ
+  image="/opt/img-apps/deeplabcut.sif"
+%>
+---
+script:
+  queue_name: "huggingface"
+  native:
+    - "--job-name=deeplabcut"
+<%#    - "--mem=2G"%>
+#  template: "vnc"
+
+batch_connect:
+  template: "vnc"
+  websockify_cmd: '/usr/bin/websockify'
+  header: |
+    #!/bin/bash
+    . ~/.bashrc
+  script_wrapper: |
+    cat << "CTRSCRIPT" > container.sh
+    export PATH="$PATH:/opt/TurboVNC/bin"
+    %s
+    CTRSCRIPT
+
+    mkdir -p /tmp/$USER
+    export APPTAINER_BIND="/var,/run,/scratch/$USER"
+    
+    # your bindpath will differ
+    apptainer exec --nv <%= image %> /bin/bash container.sh
