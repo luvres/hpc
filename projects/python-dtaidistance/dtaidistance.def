@@ -1,5 +1,5 @@
 Bootstrap:docker
-From: python:3.7.17-slim
+From: python:3.8.18-slim
 
 %labels
   Author Leonardo Loures
@@ -10,6 +10,6 @@ From: python:3.7.17-slim
   pip install --no-cache-dir --upgrade pip
   pip install --no-cache-dir \
       numpy convertdate dtaidistance lunarcalendar holidays==0.24 plotly psutil lightgbm pystan==2.19.1.1 scikit-hts[auto_arima] statsforecast tslearn h5py \
-      scikit-image imageio[pyav] memory_profiler pyclustering d3graph openpyxl xlrd
+      scikit-image imageio[pyav] memory_profiler pyclustering d3graph openpyxl xlrd pickle5
   pip install --no-cache-dir scikit-hts[prophet]
   apt remove --yes g++ && apt autoremove --yes
