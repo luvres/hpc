@@ -1,0 +1,22 @@
+# Export the module function if it exists
+[[ $(type -t module) == "function" ]] && export -f module
+
+# Find available port to run server on
+export port=$(find_port ${host})
+
+# Export compute node the script is running on
+export host="${host}"
+
+# Generate SHA1 encrypted password (requires OpenSSL installed)
+export password="$(create_passwd 16)"
+
+# Exports the PS1 variable so that child shells use it
+export PS1="${PS1}"
+
+# Container
+export CONTAINER_FILE="/opt/img-apps/code-server.sif"
+# Install extensions in the user's home
+apptainer exec ${CONTAINER_FILE} code-server --install-extension continue.continue
+apptainer exec ${CONTAINER_FILE} code-server --install-extension saoudrizwan.claude-dev
+apptainer exec ${CONTAINER_FILE} code-server --install-extension ms-python.python
+apptainer exec ${CONTAINER_FILE} code-server --install-extension ms-toolsai.jupyter

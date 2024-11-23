@@ -1,0 +1,11 @@
+---
+batch_connect:
+  template: "basic"
+
+script:
+#  queue_name: "apps"
+  queue_name: "gpu-titan-v"
+  native:
+    - "--job-name=vscode"
+    - "--mem=2G"
+

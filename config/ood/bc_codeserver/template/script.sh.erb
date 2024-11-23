@@ -1,0 +1,26 @@
+#!/usr/bin/bash -l
+
+CODE_SERVER_DATAROOT="$HOME/.local/share/code-server"
+#mkdir -p "$CODE_SERVER_DATAROOT/extensions"
+
+# Expose the password to the server.
+export PASSWORD="$password"
+
+# Print compute node.
+echo "$(date): Running on compute node ${compute_node}:$port"
+
+#
+# Start Code Server.
+#
+export APPTAINER_BIND="/scratch/$USER"
+export CONTAINER_FILE="/opt/img-apps/code-server.sif"
+#
+echo "$(date): Started code-server"
+echo ""
+
+apptainer run ${CONTAINER_FILE} \
+    --auth="none" \
+    --bind-addr="0.0.0.0:${port}" \
+    --disable-telemetry \
+    --user-data-dir="$CODE_SERVER_DATAROOT" \
+    --log debug
